@@ -3,7 +3,7 @@ name: Generate changelog
 on:
     push:
         branches:
-            - master
+            - main
     schedule:
         - cron: '* */6 * * *'
 
