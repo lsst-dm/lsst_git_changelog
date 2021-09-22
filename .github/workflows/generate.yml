@@ -47,7 +47,6 @@ jobs:
               with:
                 target_branch: gh-pages
                 build_dir: output
-                fqdn: rubin-pipelines-changelog.swinbank.org
                 jekyll: false
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
