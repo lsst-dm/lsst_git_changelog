@@ -1,7 +1,7 @@
 import logging
 import re
 
-from collections import Mapping
+from collections.abc import Mapping
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from subprocess import CalledProcessError
