@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Mapping, Set
 
 from .eups import EupsTag
@@ -42,7 +42,7 @@ def print_changelog(changelog: Changelog, product_names: Set[str]):
     print("<head>")
     print("<title>Rubin Science Pipelines Changelog</title>")
     print("<style>.old-date {color: red;}</style>")
-    gen_date = datetime.utcnow()
+    gen_date = datetime.now(timezone.utc)
     print("<script>")
     print("const MAX_DIFF = 1.0;")  # days
     # Javascript may fail to parse date unless it exactly conforms to ISO
