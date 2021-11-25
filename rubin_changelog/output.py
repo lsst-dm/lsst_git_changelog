@@ -44,8 +44,8 @@ def print_changelog(changelog: Changelog, product_names: Set[str]):
     print("</head>")
     print("<body>")
     print("<h1>Rubin Science Pipelines Changelog</h1>")
-    gen_date = datetime.utcnow().strftime("%Y-%m-%d %H:%M +00:00")
-    print(f"<p>Generated at {gen_date}.</p>")
+    gen_date = datetime.utcnow()
+    print(f"<p>Generated at {gen_date.strftime('%Y-%m-%d %H:%M +00:00')}.</p>")
 
     for tag, values in changelog.items():
         print_tag(tag, **values)
