@@ -41,11 +41,24 @@ def print_changelog(changelog: Changelog, product_names: Set[str]):
     print("<html>")
     print("<head>")
     print("<title>Rubin Science Pipelines Changelog</title>")
-    print("</head>")
-    print("<body>")
-    print("<h1>Rubin Science Pipelines Changelog</h1>")
+    print("<style>.old-date {color: red;}</style>")
     gen_date = datetime.utcnow()
-    print(f"<p>Generated at {gen_date.strftime('%Y-%m-%d %H:%M +00:00')}.</p>")
+    print("<script>")
+    print("const MAX_DIFF = 1.0;")  # days
+    # Javascript may fail to parse date unless it exactly conforms to ISO
+    print(f"const TIMESTAMP = Date.parse('{gen_date.strftime('%Y-%m-%dT%H:%M:%SZ')}');")
+    print("function checkDate() {")
+    print("  const MS_PER_DAY = 24 * 3600 * 1000.0;")
+    print("  let load_time = Date.now();")
+    print("  if (load_time - TIMESTAMP > MAX_DIFF * MS_PER_DAY) {")
+    print("      document.getElementById('timestamp').className = 'old-date';")
+    print("  }")
+    print("}")
+    print("</script>")
+    print("</head>")
+    print("<body onload=\"checkDate();\">")
+    print("<h1>Rubin Science Pipelines Changelog</h1>")
+    print(f"<p id=\"timestamp\">Generated at {gen_date.strftime('%Y-%m-%d %H:%M +00:00')}.</p>")
 
     for tag, values in changelog.items():
         print_tag(tag, **values)
