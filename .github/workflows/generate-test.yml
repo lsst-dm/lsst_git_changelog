@@ -3,7 +3,7 @@ name: Test changelog generation
 on:
     push:
         branches-ignore:
-            - master
+            - main
     pull_request:
 
 jobs:

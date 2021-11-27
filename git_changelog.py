@@ -24,7 +24,7 @@ def get_merges_for_product(
         old_ref_name = f"refs/tags/{old_tag_name}"
         new_ref_name = (
             f"refs/tags/{new_tag_name}"
-            if new_tag_name != "master"
+            if new_tag_name != "main"
             else product.branch_name
         )
         merges = product.merges_between(old_ref_name, new_ref_name)
@@ -39,7 +39,7 @@ def generate_changelog(eups: Eups) -> Changelog:
     tags = sorted(eups.values(), reverse=True)
     tags.insert(
         0,
-        EupsTag("master", datetime(1, 1, 1), [(p, "dummy") for p in tags[0].products]),
+        EupsTag("main", datetime(1, 1, 1), [(p, "dummy") for p in tags[0].products]),
     )
     changelog: Changelog = {}
     for new_tag, old_tag in zip(tags, tags[1:]):

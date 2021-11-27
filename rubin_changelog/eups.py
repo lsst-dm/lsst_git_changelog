@@ -55,7 +55,7 @@ class EupsTag(object):
         from .products import products
         with ThreadPoolExecutor() as executor:
             for (product_name, product_version) in product_list:
-                if self.name == "master":
+                if self.name == "main":
                     continue
                 executor.submit(tag_product, products, product_name, self.name, product_version, self.date)
 

@@ -19,7 +19,7 @@ def call_git(*args: str, cwd: str, git_exec: str = "/usr/bin/git") -> str:
 
 
 class Repository(object):
-    def __init__(self, path: str, *, branch_name: str = "master"):
+    def __init__(self, path: str, *, branch_name: str = "main"):
         self.path = path
         self.branch_name = branch_name
         self._tags: Set[str] = set()  # populated on demand.
@@ -88,7 +88,7 @@ class Repository(object):
 
     @classmethod
     def materialize(
-        cls, url: str, target_dir: str, *, branch_name: str = "master"
+        cls, url: str, target_dir: str, *, branch_name: str = "main"
     ) -> "Repository":
         # Try to re-use an on disk repository. However, if it's corrupted,
         # blow it away and clone a fresh copy.

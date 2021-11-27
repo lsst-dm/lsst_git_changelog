@@ -15,7 +15,7 @@ class Products(object):
             self._products[product_name] = Repository.materialize(
                 self._repos_yaml[product_name]["url"],
                 TARGET_DIR,
-                branch_name=self._repos_yaml[product_name].get("ref", "master"),
+                branch_name=self._repos_yaml[product_name].get("ref", "main"),
             )
         return self._products[product_name]
 

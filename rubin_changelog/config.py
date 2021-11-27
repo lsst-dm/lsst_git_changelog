@@ -3,7 +3,7 @@ import datetime
 
 JIRA_API_URL = "https://jira.lsstcorp.org/rest/api/2"
 EUPS_PKGROOT = "https://eups.lsst.codes/stack/src/"
-REPOS_YAML = "https://raw.githubusercontent.com/lsst/repos/master/etc/repos.yaml"
+REPOS_YAML = "https://raw.githubusercontent.com/lsst/repos/main/etc/repos.yaml"
 
 # Location in which we'll store (bare) repositories.
 # Should match the cached location in GitHub Actions.
