@@ -62,3 +62,4 @@ html_js_files = [
     'https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js',
     'main.js',
 ]
+

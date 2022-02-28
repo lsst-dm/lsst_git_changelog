@@ -11,9 +11,3 @@ Rubin Release ChangeLog
 
 - :doc:`weekly/index`
 - :doc:`releases/index`
-
-
-   
-   
-
-
