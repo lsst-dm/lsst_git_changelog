@@ -1,0 +1,36 @@
+name: Generate changelog
+
+on:
+    push:
+        branches:
+            - main
+    schedule:
+        - cron: '15 * * * *'
+
+jobs:
+    generate:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-python@v2
+              with:
+                python-version: 3.8
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                python -m pip install -r requirements.txt 
+            - name: Create Changelog
+              run: |
+                python git_changelog.py -n 1
+                make html
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Deploy to GitHub Pages
+              if: success()
+              uses: crazy-max/ghaction-github-pages@v2
+              with:
+                target_branch: gh-pages
+                build_dir: build/html
+                jekyll: false
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
