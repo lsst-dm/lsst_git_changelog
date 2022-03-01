@@ -1,8 +1,30 @@
+#
+# Developed for the LSST Data Management System.
+# This product includes software developed by the LSST Project
+# (https://www.lsst.org).
+# See the COPYRIGHT file at the top-level directory of this distribution
+# for details of code ownership.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import concurrent
 import datetime
 import logging
+import re
 from concurrent.futures.thread import ThreadPoolExecutor
 from copy import deepcopy
+from typing import Dict
 
 from dateutil.parser import parse
 from sortedcontainers import SortedDict, SortedList
@@ -11,7 +33,7 @@ from .eups import EupsData
 from .github import GitHubData
 from .jira import JiraData
 from .rst import Writer
-from .tag import *
+from .tag import Tag, ReleaseType, matches_release
 
 log = logging.getLogger("changelog")
 
@@ -23,6 +45,12 @@ class ChangeLog:
 
     @staticmethod
     def get_package_diff(release: ReleaseType) -> SortedDict:
+        """
+        Retrieve added/removed products
+        :param release: `ReleaseType`
+        :return: `SortedDict`
+
+        """
         eups = EupsData()
         eups_data = eups.get_releases(release)
         result = SortedDict()
@@ -39,7 +67,7 @@ class ChangeLog:
         return result
 
     @staticmethod
-    def _fetch(repo: str) -> dict:
+    def _fetch(repo: str) -> Dict:
         log.info("Fetching %s", repo)
         gh = GitHubData()
         result = dict()
@@ -77,6 +105,12 @@ class ChangeLog:
         return result
 
     def get_package_repos(self, products: SortedList, release: ReleaseType) -> SortedDict:
+        """
+        Retrieves tag and pull information from GitHub
+        :param products: list of GitHub repos
+        :param release: release filter
+        :return:
+        """
         if self._github_cache is None:
             self._github_cache = self._get_package_repos(products)
         else:
@@ -105,13 +139,18 @@ class ChangeLog:
                 ticket = res[0]
         return ticket
 
-    def get_merged_tickets(self, repos) -> SortedDict:
+    def get_merged_tickets(self, repos: Dict) -> SortedDict:
+        """
+        Process all repo data and create a merged ticket dict
+        :param repos: `Dict`
+        :return: `SortedDict`
+        """
         pull_list = repos['pulls']
         tag_list = repos['tags']
         result = SortedDict()
         last_tag_date = None
         for pkg in tag_list:
-            log.info("processing %s" % pkg)
+            log.info("Processing %s", pkg)
             pulls = pull_list[pkg]
             tags = tag_list[pkg]
             # skip packages that only have one release tag
@@ -160,7 +199,12 @@ class ChangeLog:
                     })
         return result
 
-    def create_changelog(self, release: ReleaseType):
+    def create_changelog(self, release: ReleaseType) -> None:
+        """
+        Process data sources and Write RST changelog files
+        :param release: `ReleaseType`
+            Release type: WEEKLY or REGULAR
+        """
         log.info("Fetching EUPS data")
         eups = EupsData()
         eups_data = eups.get_releases(release)
@@ -179,4 +223,4 @@ class ChangeLog:
             outputdir = 'source/weekly'
         writer = Writer(outputdir)
         writer.write_products(products)
-        writer.write_releaes(jira_data, repo_data, package_diff)
+        writer.write_releases(jira_data, repo_data, package_diff)

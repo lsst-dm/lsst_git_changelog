@@ -1,26 +1,46 @@
+#
+# Developed for the LSST Data Management System.
+# This product includes software developed by the LSST Project
+# (https://www.lsst.org).
+# See the COPYRIGHT file at the top-level directory of this distribution
+# for details of code ownership.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import concurrent
+import logging
 from concurrent.futures.thread import ThreadPoolExecutor
+from typing import List, Dict
 
 import requests
 import urllib3
 from bs4 import BeautifulSoup
 from sortedcontainers import SortedDict, SortedList
 
-from .tag import *
-
-import logging
+from .tag import ReleaseType, Tag, matches_release
 
 log = logging.getLogger(__name__)
 
 
 class EupsData:
     def __init__(self, connections: int = 10):
-        self._url = f'https://eups.lsst.codes/stack/src/tags/'
+        self._url = 'https://eups.lsst.codes/stack/src/tags/'
         self._connection_mgr = urllib3.PoolManager(maxsize=connections)
         self._connections = connections
 
     @staticmethod
-    def _process_list(data):
+    def _process_list(data) -> List[Dict[str, str]]:
         lines = data.split(b"\n")
         result = list()
         for line in lines:
@@ -39,14 +59,14 @@ class EupsData:
                            })
         return result
 
-    def _get_url_paths(self):
+    def _get_url_paths(self) -> List[str]:
         ext = '.list'
         params = {}
         response = requests.get(self._url, params=params)
         if response.ok:
             response_text = response.text
         else:
-            return response.raise_for_status()
+            return []
         soup = BeautifulSoup(response_text, 'html.parser')
         parent = [self._url + node.get('href')
                   for node in soup.find_all('a') if node.get('href').endswith(ext)]
@@ -63,7 +83,7 @@ class EupsData:
         else:
             return SortedDict()
 
-    def get_releases(self, release: ReleaseType):
+    def get_releases(self, release: ReleaseType) -> SortedDict:
         urls = self._get_url_paths()
         result = SortedDict()
         release_list = SortedDict()
@@ -71,7 +91,7 @@ class EupsData:
         url_list = list()
         for url in urls:
             name = url.split('/')[-1]
-            name = name.replace('.list','')
+            name = name.replace('.list', '')
             rtag = Tag(name)
             if not rtag.is_valid():
                 continue
@@ -85,7 +105,7 @@ class EupsData:
             for future in concurrent.futures.as_completed(futures):
                 try:
                     data = future.result()
-                except Exception as exc:
+                except Exception:
                     log.error("Failed")
                 else:
                     if 'name' in data:

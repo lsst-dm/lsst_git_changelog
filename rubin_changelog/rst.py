@@ -1,9 +1,31 @@
+#
+# Developed for the LSST Data Management System.
+# This product includes software developed by the LSST Project
+# (https://www.lsst.org).
+# See the COPYRIGHT file at the top-level directory of this distribution
+# for details of code ownership.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import logging
+from typing import List
 
 from rstcloth import RstCloth
+
 from rstcloth.rstcloth import Table
 from sortedcontainers import SortedDict, SortedList
-from .tag import *
+from .tag import Tag
 from dateutil.parser import parse
 
 log = logging.getLogger(__name__)
@@ -17,8 +39,8 @@ class Writer:
         products_len = len(products)
         url = 'https://github.com/lsst/'
         cols = list()
-        for i in range(products_len // ncols +
-                       (products_len % ncols) // ncols):
+        r = products_len // ncols + (products_len % ncols) // ncols
+        for i in range(r):
             rows = list()
             for j in range(ncols):
                 index = i * ncols + j
@@ -37,7 +59,7 @@ class Writer:
 
     # this is a workaround for the broken indent in rstcloth tables
     @staticmethod
-    def _write_table(doc: RstCloth, header, data, indent=0):
+    def _write_table(doc: RstCloth, header: List, data: List, indent=0) -> None:
         doc.directive('table', indent=indent)
         doc.field('class', 'datatable', indent + 3)
         doc.newline()
@@ -45,7 +67,7 @@ class Writer:
         for line in table.render().split('\n'):
             doc.content(line, indent + 3, False)
 
-    def write_releaes(self, jira: dict, tags: SortedDict, eups_diff: SortedDict) -> None:
+    def write_releases(self, jira: dict, tags: SortedDict, eups_diff: SortedDict) -> None:
         index = SortedList()
         weekly_flag = False
         summary = RstCloth(line_width=80)
