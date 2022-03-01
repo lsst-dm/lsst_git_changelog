@@ -45,9 +45,9 @@ class JiraData(object):
         url = self._url
         results = dict()
         while True:
-            req_url = "".join([f"{url}?jql=project=DM&startAt={start_at}",
-                               f"&maxResults={per_page}",
-                               "&fields=key,summary"])
+            req_url = (f"{url}?jql=project=DM&startAt={start_at}"
+                       f"&maxResults={per_page}"
+                       "&fields=key,summary")
             res = requests.get(req_url, headers=self._headers)
             res_json = res.json()
             total = res_json['total']

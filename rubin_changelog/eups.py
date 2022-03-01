@@ -34,13 +34,27 @@ log = logging.getLogger(__name__)
 
 
 class EupsData:
+    """Retrieve EUPS release data"""
+
     def __init__(self, connections: int = 10):
+        """
+        :param connections: `int`
+            number of parallel URL requests
+        """
         self._url = 'https://eups.lsst.codes/stack/src/tags/'
         self._connection_mgr = urllib3.PoolManager(maxsize=connections)
         self._connections = connections
 
     @staticmethod
-    def _process_list(data) -> List[Dict[str, str]]:
+    def _process_list(data: bytes) -> List[Dict[str, str]]:
+        """
+        process a EUPS data file
+        :param data: `bytes`
+            data from URL response
+        :return:
+            List of EUPS product dicts
+            { 'package': package, 'flavor': flavor, 'version': version }
+        """
         lines = data.split(b"\n")
         result = list()
         for line in lines:
@@ -60,6 +74,11 @@ class EupsData:
         return result
 
     def _get_url_paths(self) -> List[str]:
+        """
+        get list with url of .list files
+        :return: `List[str]`
+            List of URLs
+        """
         ext = '.list'
         params = {}
         response = requests.get(self._url, params=params)
@@ -73,6 +92,11 @@ class EupsData:
         return parent
 
     def _download(self, url: str) -> SortedDict:
+        """
+        download EUPS .list files
+        :param url: `str` URL
+        :return: `SortedDict`
+        """
         response = self._connection_mgr.request('GET', url)
         name = url.split('/')[-1].split('.')[0]
         rtag = Tag(name)
@@ -84,6 +108,13 @@ class EupsData:
             return SortedDict()
 
     def get_releases(self, release: ReleaseType) -> SortedDict:
+        """
+        Retrieve release information from EUPS
+        :param release: `ReleaseType`
+            filter by WEEKLY or REGULAR
+        :return: `SortedDict`
+            EUPS release data
+        """
         urls = self._get_url_paths()
         result = SortedDict()
         release_list = SortedDict()
