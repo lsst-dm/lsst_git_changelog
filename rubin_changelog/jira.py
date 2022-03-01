@@ -36,7 +36,7 @@ class JiraData(object):
 
     def get_tickets(self) -> Dict[str, str]:
         """
-        Get all DM-XXXXXX JIRA tickets and summary mmeesay
+        Get all DM-XXXXXX JIRA tickets and summary messages
         :return: `Dict[str, str]`
              returns a dictionary DM-XXXXXX : summary message
         """

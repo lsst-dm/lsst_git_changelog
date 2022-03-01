@@ -38,6 +38,13 @@ class Writer:
         self._outputdir = outputdir
 
     def write_products(self, products: SortedList, ncols: int = 5) -> None:
+        """
+        writes an RST file with a table of EUPS products
+        :param products: `SortedList`
+            list of EUPS products
+        :param ncols: `int`
+            table columns
+        """
         products_len = len(products)
         url = 'https://github.com/lsst/'
         cols = list()
@@ -62,6 +69,17 @@ class Writer:
     # this is a workaround for the broken indent in rstcloth tables
     @staticmethod
     def _write_table(doc: RstCloth, header: List, data: List, indent=0) -> None:
+        """
+        help function to write an RST table
+        :param doc: `RstCloth`
+            document handle
+        :param header: `List`
+            table column headers
+        :param data: `List`
+            table data
+        :param indent: `int`
+            indent level
+        """
         doc.directive('table', indent=indent)
         doc.field('class', 'datatable', indent + 3)
         doc.newline()
@@ -70,6 +88,15 @@ class Writer:
             doc.content(line, indent + 3, False)
 
     def write_releases(self, jira: dict, tags: SortedDict, eups_diff: SortedDict) -> None:
+        """
+        Write release information into an RST file
+        :param jira: `dict`
+            JIRA data
+        :param tags: `SortedDict`
+            tag list
+        :param eups_diff: `SortedDict`
+            added/removed EUPS product by tag
+        """
         index = SortedList()
         weekly_flag = False
         summary = RstCloth(line_width=80)

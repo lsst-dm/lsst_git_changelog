@@ -98,7 +98,7 @@ class GitHubData:
 
     def get_repos(self) -> List[str]:
         """
-        Retrieve list of repos ownded by lsst
+        Retrieve list of repos owned by lsst
         :return: `List[str]`
             List of repo names
         """
