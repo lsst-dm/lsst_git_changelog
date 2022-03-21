@@ -39,16 +39,24 @@ log = logging.getLogger("changelog")
 
 
 class ChangeLog:
+    """class to retrieve and store changelog data"""
     def __init__(self, max_workers: int = 5):
         self._github_cache = None
         self._max_workers = max_workers
 
     @staticmethod
     def get_package_diff(release: ReleaseType) -> SortedDict:
-        """
-        Retrieve added/removed products
-        :param release: `ReleaseType`
-        :return: `SortedDict`
+        """Retrieve added/removed products
+
+        Parameters
+        ----------
+        release: `ReleaseType`
+            release type: WEEKLY or REGULAR
+
+        Returns
+        -------
+        packages: `SortedDict`
+            sorted dict of release name with lists of added and removed packages
 
         """
         eups = EupsData()
@@ -68,6 +76,19 @@ class ChangeLog:
 
     @staticmethod
     def _fetch(repo: str) -> Dict:
+        """helper function to fetch repo data
+
+        Parameters
+        ----------
+        repo: `str`
+            name of GitHub repo
+
+        Returns
+        -------
+        _fetch: `Dict`
+            dictionary with pulls and tags of a given repo
+
+        """
         log.info("Fetching %s", repo)
         gh = GitHubData()
         result = dict()
@@ -80,6 +101,19 @@ class ChangeLog:
         return result
 
     def _get_package_repos(self, products: SortedList) -> SortedDict:
+        """retrieve repos for a list of products
+
+        Parameters
+        ----------
+        products: `SortedList`
+            sorted list of products
+
+        Returns
+        -------
+        repos: `SortedDict`
+            package repo data
+
+        """
         result = SortedDict()
         result['pulls'] = SortedDict()
         result["tags"] = SortedDict()
@@ -105,11 +139,20 @@ class ChangeLog:
         return result
 
     def get_package_repos(self, products: SortedList, release: ReleaseType) -> SortedDict:
-        """
-        Retrieves tag and pull information from GitHub
-        :param products: list of GitHub repos
-        :param release: release filter
-        :return:
+        """Retrieves tag and pull information from GitHub
+
+        Parameters
+        ----------
+        products : `SortedList`
+            list of GitHub repos
+        release : `ReleaseType`
+            release type WEEKLY or REGULAR
+
+        Returns
+        -------
+        repos: `SortedDict`
+            sorted dictionary with the release name as key containing all tags and pulls
+
         """
         if self._github_cache is None:
             self._github_cache = self._get_package_repos(products)
@@ -131,6 +174,19 @@ class ChangeLog:
 
     @staticmethod
     def _ticket_number(title: str) -> int:
+        """helper function to map a JIRA ticket string to an integer
+
+        Parameters
+        ----------
+        title: `str`
+            JIRA ticket string, DM-XXXXXX
+
+        Returns
+        -------
+            ticket number : `int`
+                numeric part of DM-XXXXXX
+
+        """
         match = re.search(r'DM[\s*|-]\d+', title.upper())
         ticket = None
         if match:
@@ -139,11 +195,21 @@ class ChangeLog:
                 ticket = res[0]
         return ticket
 
-    def get_merged_tickets(self, repos: Dict) -> SortedDict:
-        """
-        Process all repo data and create a merged ticket dict
-        :param repos: `Dict`
-        :return: `SortedDict`
+    def get_merged_tickets(self, repos: Dict, package_diff: SortedDict) -> SortedDict:
+        """Process all repo data and create a merged ticket dict
+
+        Parameters
+        ----------
+        repos : `Dict`
+            repo dictionary
+        package_diff : `SortedDict`
+            added/removed by release
+
+        Returns
+        -------
+        merged tickets : `SortedDict`
+            sorted dictionary of merged tickets
+
         """
         pull_list = repos['pulls']
         tag_list = repos['tags']
@@ -153,10 +219,6 @@ class ChangeLog:
             log.info("Processing %s", pkg)
             pulls = pull_list[pkg]
             tags = tag_list[pkg]
-            # skip packages that only have one release tag
-            # just added releases cam have only old merges
-            if len(tags) <= 1:
-                continue
             for tag in tags:
                 rtag = Tag(tag['name'])
                 name = rtag.rel_name()
@@ -179,9 +241,11 @@ class ChangeLog:
                     if pull_date <= tag_date:
                         ticket = self._ticket_number(title)
                         del pulls[merged_at]
-                        result[name]['tickets'].append({
-                            'product': pkg, 'title': title, 'date': merged_at, 'ticket': ticket
-                        })
+                        # skip all pulls before package was added
+                        if not(rtag in package_diff and pkg in package_diff[rtag]["added"]):
+                            result[name]['tickets'].append({
+                                'product': pkg, 'title': title, 'date': merged_at, 'ticket': ticket
+                            })
                     else:
                         break
             for merged_at in pulls:
@@ -200,10 +264,16 @@ class ChangeLog:
         return result
 
     def create_changelog(self, release: ReleaseType) -> None:
-        """
-        Process data sources and Write RST changelog files
-        :param release: `ReleaseType`
-            Release type: WEEKLY or REGULAR
+        """Process data sources and Write RST changelog files
+
+        Parameters
+        ----------
+        release: `ReleaseType`
+            release type: WEEKLY or REGULAR
+
+        Returns
+        -------
+
         """
         log.info("Fetching EUPS data")
         eups = EupsData()
@@ -216,7 +286,7 @@ class ChangeLog:
         log.info("Fetching GitHub repo data")
         repos = self.get_package_repos(products, release)
         log.info("Processing changelog data")
-        repo_data = self.get_merged_tickets(repos)
+        repo_data = self.get_merged_tickets(repos, package_diff)
         log.info("Writing RST files")
         outputdir = 'source/releases'
         if release == ReleaseType.WEEKLY:

@@ -37,14 +37,21 @@ class GitHubData:
         self._cached_tags = None
 
     def _query(self, query: gql, what: List[str]) -> List:
-        """
-        Execute a gql quert
-        :param query: `gql`
+        """Execute a gql query
+
+        Parameters
+        ----------
+        query : `gql`
             gql query string
-        :param what: `List[str]`
+
+        what : `List[str]`
             list of nested query result keywords
-        :return: `List`
+
+        Returns
+        -------
+        query : `List`
             List of query results
+
         """
         result = list()
         next_cursor = None
@@ -62,12 +69,18 @@ class GitHubData:
         return result
 
     def get_pull_requests(self, repo: str) -> SortedDict:
-        """
-        Get all pull requests for a GitHub repo sorted byb merge date
-        :param repo: `str`
+        """Get all pull requests for a GitHub repo sorted byb merge date
+
+        Parameters
+        ----------
+        repo : `str`
             repo name
-        :return: `SortedDict`
+
+        Returns
+        -------
+        pull requests : `SortedDict`
             Returns sorted dict mapping 'merge date' : 'merge title'
+
         """
         query = gql(
             """
@@ -96,10 +109,16 @@ class GitHubData:
         return pull_requests
 
     def get_repos(self) -> List[str]:
-        """
-        Retrieve list of repos ownded by lsst
-        :return: `List[str]`
+        """Retrieve list of repos owned by lsst
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        repos : `List[str]`
             List of repo names
+
         """
         result = list()
         query = gql(
@@ -122,12 +141,18 @@ class GitHubData:
         return result
 
     def get_tags(self, repo: str) -> List[str]:
-        """
-        Retrieve list of all repo tags
-        :param repo: `str`
+        """Retrieve list of all repo tags
+
+        Parameters
+        ----------
+        repo : `str`
             repo name
-        :return: `List[str]`
-           List of tag names
+
+        Returns
+        -------
+        tags : `List[str]`
+            List of tag names
+
         """
         query = gql(
             """

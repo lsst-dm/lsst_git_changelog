@@ -35,10 +35,16 @@ class JiraData(object):
         self._perPage = 5000
 
     def get_tickets(self) -> Dict[str, str]:
-        """
-        Get all DM-XXXXXX JIRA tickets and summary mmeesay
-        :return: `Dict[str, str]`
-             returns a dictionary DM-XXXXXX : summary message
+        """Get all DM-XXXXXX JIRA tickets and summary messages
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        tickets : `Dict[str, str]`
+            returns a dictionary DM-XXXXXX : summary message
+
         """
         start_at = 0
         per_page = self._perPage

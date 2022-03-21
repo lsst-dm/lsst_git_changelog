@@ -33,8 +33,12 @@ class Tag:
 
     def __init__(self, name: str):
         """
-        :param name: `str`
-            tag name
+
+        Parameters
+        ----------
+        name: `str`
+            name of tag
+
         """
         self._name = name
         self._valid = False
@@ -55,7 +59,6 @@ class Tag:
         return self._name
 
     def _weekly(self):
-        """helper to check for weekly tag"""
         match = re.search(r'^w[.|_](\d{4})[_|.](\d{2})$', self._name)
         if match is None:
             return
@@ -66,13 +69,28 @@ class Tag:
         self._valid = True
 
     def is_weekly(self) -> bool:
+        """check for weekly release tag
+
+        Returns
+        -------
+        weekly release : `bool`
+            true if week release tag, false for main and regular release tag
+
+        """
         return self._is_main or self._is_weekly
 
     def is_regular(self) -> bool:
+        """check for regular release tag
+
+        Returns
+        -------
+        regular release : `bool`
+            true if a regular release tag or main
+
+        """
         return not self._is_weekly or self._is_main
 
     def _regular(self):
-        """help to check for regular release tag"""
         match = re.search(r'^[v]?(\d{1,2})([_|.]\d{1,2)([_|.]\d{1,2)?([_|.]rc(\d{1,2}))?$', self._name)
         if not match:
             return
@@ -99,11 +117,14 @@ class Tag:
         self._valid = True
 
     def rel_name(self) -> str:
-        """
-        Get canonical release name
-        :return: `str`
-             returns w_XXXX_XX for weekly tags
+        """Get canonical release name
+
+        Returns
+        -------
+        release name : `str`
+            returns w_XXXX_XX for weekly tags
                      v_XX_XX[_XX}[_rcXX] fpr release tags
+
         """
         if self._is_main:
             return 'main'
@@ -139,11 +160,20 @@ class Tag:
 
 
 def matches_release(tag: Tag, release: ReleaseType) -> bool:
-    """
-    Check if a tag matches a given release type
-    :param tag: `Tag`
-    :param release: `ReleaseType`
-    :return: `bool`
+    """Check if a tag matches a given release type
+
+    Parameters
+    ----------
+    tag: `Tag`
+        tag class
+    release: `Release Type`
+        release type WEEKLY or REGULAR
+
+    Returns
+    -------
+    matches release: `bool`
+        returns true if tag matches the release type
+
     """
     if tag.is_weekly() and release == ReleaseType.WEEKLY:
         return True

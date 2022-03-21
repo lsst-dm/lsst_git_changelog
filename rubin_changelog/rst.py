@@ -32,10 +32,25 @@ log = logging.getLogger(__name__)
 
 
 class Writer:
+    """class to write RST files"""
     def __init__(self, outputdir: str):
         self._outputdir = outputdir
 
     def write_products(self, products: SortedList, ncols: int = 5) -> None:
+        """write a list of all eups products into a table
+
+        Parameters
+        ----------
+        products: `SortedList[str]`
+            sorted list of product names
+        ncols: `int`
+             (Default value = 5)
+             number of table rows
+
+        Returns
+        -------
+
+        """
         products_len = len(products)
         url = 'https://github.com/lsst/'
         cols = list()
@@ -60,6 +75,24 @@ class Writer:
     # this is a workaround for the broken indent in rstcloth tables
     @staticmethod
     def _write_table(doc: RstCloth, header: List, data: List, indent=0) -> None:
+        """helper function to write RstCloth tables with indentation
+
+        Parameters
+        ----------
+        doc : `RstCloth`
+            RST document to write to
+        header : `List[str]`
+            list of table headers
+        data : `List[list[str]]`
+            row/col data of table
+        indent : `int`
+             (Default value = 0)
+             indent level
+
+        Returns
+        -------
+
+        """
         doc.directive('table', indent=indent)
         doc.field('class', 'datatable', indent + 3)
         doc.newline()
@@ -68,6 +101,21 @@ class Writer:
             doc.content(line, indent + 3, False)
 
     def write_releases(self, jira: dict, tags: SortedDict, eups_diff: SortedDict) -> None:
+        """write RST file with a table of release information
+
+        Parameters
+        ----------
+        jira: `Dict`
+            dictionary with JIRA tickets
+        tags: `SortedDict`
+            sorted dictionary with tqg data
+        eups_diff: `SortedDict` :
+            sorted dictionary with added/removed eups packages
+
+        Returns
+        -------
+
+        """
         index = SortedList()
         weekly_flag = False
         summary = RstCloth(line_width=80)
