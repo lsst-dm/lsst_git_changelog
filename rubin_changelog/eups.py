@@ -34,15 +34,20 @@ log = logging.getLogger(__name__)
 
 
 class EupsData:
-    """class to describe data from the EUPS server"""
+    """Retrieve EUPS release data"""
+
     def __init__(self, connections: int = 10):
+        """
+        :param connections: `int`
+            number of parallel URL requests
+        """
         self._url = 'https://eups.lsst.codes/stack/src/tags/'
         self._connection_mgr = urllib3.PoolManager(maxsize=connections)
         self._connections = connections
 
     @staticmethod
     def _process_list(data) -> List[Dict[str, str]]:
-        """
+        """prpcess EUPS .list files and retrieve content
 
         Parameters
         ----------

@@ -17,6 +17,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 from typing import List
 
 from gql import Client, gql
@@ -117,7 +118,7 @@ class GitHubData:
         Returns
         -------
         repos : `List[str]`
-            List of repo names
+            list of lsst repos
 
         """
         result = list()

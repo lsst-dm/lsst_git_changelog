@@ -32,7 +32,8 @@ log = logging.getLogger(__name__)
 
 
 class Writer:
-    """class to write RST files"""
+    """Create RST output files"""
+
     def __init__(self, outputdir: str):
         self._outputdir = outputdir
 

@@ -40,7 +40,12 @@ log = logging.getLogger("changelog")
 
 class ChangeLog:
     """class to retrieve and store changelog data"""
+
     def __init__(self, max_workers: int = 5):
+        """
+        :param max_workers: `int`
+            max number of parallel worker threads to query GitHub data
+        """
         self._github_cache = None
         self._max_workers = max_workers
 
@@ -187,12 +192,10 @@ class ChangeLog:
                 numeric part of DM-XXXXXX
 
         """
-        match = re.search(r'DM[\s*|-]\d+', title.upper())
+        match = re.search(r'DM[\s*|-](\d+)', title.upper())
         ticket = None
         if match:
-            res = re.findall(r"DM[\s|-]*(\d+)", match[0])
-            if len(res) == 1:
-                ticket = res[0]
+            ticket = int(match[1])
         return ticket
 
     def get_merged_tickets(self, repos: Dict, package_diff: SortedDict) -> SortedDict:
