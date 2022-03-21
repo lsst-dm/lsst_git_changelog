@@ -61,7 +61,8 @@ class ChangeLog:
         Returns
         -------
         packages: `SortedDict`
-            sorted dict of release name with lists of added and removed packages
+            sorted dict of release name with lists of
+            added and removed packages
 
         """
         eups = EupsData()
@@ -156,7 +157,8 @@ class ChangeLog:
         Returns
         -------
         repos: `SortedDict`
-            sorted dictionary with the release name as key containing all tags and pulls
+            sorted dictionary with the release name
+            as key containing all tags and pulls
 
         """
         if self._github_cache is None:
