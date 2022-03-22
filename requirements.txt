@@ -1,0 +1,11 @@
+beautifulsoup4
+aiohttp
+gql
+requests
+urllib3
+rstcloth
+Sphinx
+sphinx-rtd-theme
+sortedcontainers
+python-dateutil
+flake8

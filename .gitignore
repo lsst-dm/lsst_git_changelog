@@ -1,0 +1,7 @@
+source/weekly/
+source/releases/
+venv
+build
+__pycache__
+*.pyc
+.idea
