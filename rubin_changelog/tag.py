@@ -91,9 +91,10 @@ class Tag:
         return not self._is_weekly or self._is_main
 
     def _regular(self):
-        match = re.search(r'^[v]?(\d{1,2})([_|.]\d{1,2)([_|.]\d{1,2)?([_|.]rc(\d{1,2}))?$', self._name)
+        match = re.search(r'^[v]?(\d+)([_|.]\d+)([_|.]\d+)?([_|.]rc(\d+))?$', self._name)
         if not match:
             return
+
         g = list(match.groups())
         g[1] = g[1].replace('.', '')
         g[1] = g[1].replace('_', '')
@@ -177,6 +178,6 @@ def matches_release(tag: Tag, release: ReleaseType) -> bool:
     """
     if tag.is_weekly() and release == ReleaseType.WEEKLY:
         return True
-    if not tag.is_regular() and release == ReleaseType.REGULAR:
+    if tag.is_regular() and release == ReleaseType.REGULAR:
         return True
     return False
