@@ -98,11 +98,12 @@ class ChangeLog:
         log.info("Fetching %s", repo)
         gh = GitHubData()
         result = dict()
-        pulls = gh.get_pull_requests(repo)
+        pulls, branches = gh.get_pull_requests(repo)
         tags = gh.get_tags(repo)
         result["repo"] = repo
         result["pulls"] = pulls
         result["tags"] = tags
+        result['branches'] = branches
         del gh
         return result
 
@@ -123,6 +124,7 @@ class ChangeLog:
         result = SortedDict()
         result['pulls'] = SortedDict()
         result["tags"] = SortedDict()
+        result['branches'] = SortedDict()
         gh = GitHubData()
         repos = gh.get_repos()
         del gh
@@ -142,6 +144,7 @@ class ChangeLog:
                     repo = data["repo"]
                     result["pulls"][repo] = data["pulls"]
                     result["tags"][repo] = data["tags"]
+                    result["branches"][repo] = data['branches']
         return result
 
     def get_package_repos(self, products: SortedList, release: ReleaseType) -> SortedDict:
@@ -169,13 +172,25 @@ class ChangeLog:
         result = SortedDict()
         result["tags"] = SortedDict()
         result['pulls'] = cache['pulls']
+        result['branches'] = cache['branches']
         repo_result = SortedDict()
         for repo in cache['tags']:
-            repo_result[repo] = list()
+            repo_result[repo] = SortedDict()
             for tag in cache['tags'][repo]:
                 rtag = Tag(tag["name"])
                 if rtag.is_valid() and matches_release(rtag, release):
-                    repo_result[repo].append(tag)
+                    target = tag["target"]
+                    if 'tagger' in target:
+                        tag_date = target['tagger']['date']
+                    else:
+                        tag_date = target['committedDate']
+                    if 'target' in target:
+                        last_commit = target['target']['committedDate']
+                    else:
+                        # handling special case like w.2016.32
+                        last_commit = tag_date
+
+                    repo_result[repo][rtag] = {'tag_date': tag_date, 'last_commit': last_commit}
         result["tags"] = repo_result
         return result
 
@@ -218,43 +233,57 @@ class ChangeLog:
         """
         pull_list = repos['pulls']
         tag_list = repos['tags']
+        branch_list = repos['branches']
         result = SortedDict()
         last_tag_date = None
+        last_tag = None
         for pkg in tag_list:
             log.info("Processing %s", pkg)
             pulls = pull_list[pkg]
             tags = tag_list[pkg]
+            branches = branch_list[pkg]
+            last_branch = 'main'
             for tag in tags:
-                rtag = Tag(tag['name'])
+                rtag = tag
+                last_tag = rtag
                 name = rtag.rel_name()
                 if name not in result:
                     result[name] = dict()
                     result[name]['tickets'] = list()
-                target = tag["target"]
-                if 'tagger' in target:
-                    date = target['tagger']['date']
-                else:
-                    date = target['authoredDate']
-                tag_date = parse(date)
-                if last_tag_date is None or tag_date > last_tag_date:
-                    last_tag_date = tag_date
-                result[name]['date'] = date
+                last_commit = tags[tag]['last_commit']
+                tag_date = tags[tag]['tag_date']
+                commit_date = parse(last_commit)
+                if last_tag_date is None or commit_date > last_tag_date:
+                    last_tag_date = commit_date
+                tag_branch = tag.tag_branch()
+                result[name]['date'] = tag_date
                 current_pulls = deepcopy(pulls)
+                is_first = tag.is_first_release_tag()
+                is_branched = tag_branch in branches or 'v'+tag_branch in branches
+                # fix for packages with no pull requests like autograd
                 for merged_at in current_pulls:
                     pull_date = parse(merged_at)
-                    title = pulls[merged_at]
-                    if pull_date <= tag_date:
+                    title = pulls[merged_at]['title']
+                    branch = pulls[merged_at]['branch'].replace('v', '')
+                    ticket = self._ticket_number(title)
+                    if pull_date <= commit_date:
                         ticket = self._ticket_number(title)
                         del pulls[merged_at]
                         # skip all pulls before package was added
-                        if not(rtag in package_diff and pkg in package_diff[rtag]["added"]):
-                            result[name]['tickets'].append({
-                                'product': pkg, 'title': title, 'date': merged_at, 'ticket': ticket
-                            })
+                        if not (rtag in package_diff and pkg in package_diff[rtag]["added"]):
+                            if last_branch == branch:
+                                result[name]['tickets'].append({
+                                    'product': pkg, 'title': title,
+                                    'date': merged_at, 'ticket': ticket})
                     else:
                         break
+                if is_first and is_branched:
+                    last_branch = tag_branch
+            # skip main sections for releases
+            if last_tag.is_regular():
+                continue
             for merged_at in pulls:
-                title = pulls[merged_at]
+                title = pulls[merged_at]['title']
                 date = datetime.datetime.now().isoformat()
                 ticket = self._ticket_number(title)
                 # use ~main for sorting to put it after any other tag
@@ -264,7 +293,8 @@ class ChangeLog:
                     result['~main']["date"] = date
                 if parse(merged_at) > last_tag_date:
                     result['~main']['tickets'].append({
-                        'product': pkg, 'title': title, 'date': merged_at, 'ticket': ticket
+                        'product': pkg, 'title': title,
+                        'date': merged_at, 'ticket': ticket
                     })
         return result
 

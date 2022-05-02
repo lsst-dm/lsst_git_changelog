@@ -45,6 +45,10 @@ class Tag:
         self._is_weekly = False
         self._is_main = False
         self._hash = -1
+        self._major = -1
+        self._minor = -1
+        self._patch = -1
+        self._rc = -1
         if name.endswith("main"):
             self._hash = 9999999999
             self._valid = True
@@ -115,6 +119,10 @@ class Tag:
         if major < 9 or major > 1000:
             return
         self._hash = major * 1000000 + minor * 10000 + patch * 100 + rc
+        self._major = major
+        self._minor = minor
+        self._patch = patch
+        self._rc = rc
         self._valid = True
 
     def rel_name(self) -> str:
@@ -158,6 +166,34 @@ class Tag:
 
     def __hash__(self) -> int:
         return self._hash
+
+    def tag_branch(self) -> str:
+        """Tag branch string of a tag
+
+        Returns
+        -------
+        tag_branch: `str`
+            branch of tag <major>.<minor>.x
+
+        """
+        result = ""
+        if self.is_regular():
+            result = "%d.%d.x" % (self._major, self._minor)
+        return result
+
+    def is_first_release_tag(self) -> bool:
+        """Tag is the first tag in a releaase series
+
+        Returns
+        -------
+        result: `bool`
+            True for tags like 23.0.0.rc1
+
+        """
+        result = False
+        if self.is_regular():
+            result = self._minor == 0 and self._patch == 0 and self._rc == 1
+        return result
 
 
 def matches_release(tag: Tag, release: ReleaseType) -> bool:

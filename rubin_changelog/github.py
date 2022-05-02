@@ -30,7 +30,7 @@ class GitHubData:
     """Query GitHub repo data"""
 
     def __init__(self):
-        token = os.getenv('GITHUB_TOKEN')
+        token = os.getenv('AUTH_TOKEN')
         headers = {"Authorization": f"Bearer {token}"}
         transport = AIOHTTPTransport(
             url='https://api.github.com/graphql', headers=headers)
@@ -103,11 +103,16 @@ class GitHubData:
             """ % repo)
         pull_requests = SortedDict()
         result = self._query(query, ["repository", "pullRequests"])
+        branches = list()
         for r in result:
-            if r["mergedAt"] is not None \
-                    and r['baseRefName'] in ["main", "master"]:
-                pull_requests[r['mergedAt']] = r['title']
-        return pull_requests
+            branch = r['baseRefName']
+            if branch == 'master':
+                branch = 'main'
+            if branch not in branches:
+                branches.append(branch)
+            if r["mergedAt"] is not None:
+                pull_requests[r['mergedAt']] = {'title': r['title'], 'branch': branch}
+        return pull_requests, branches
 
     def get_repos(self) -> List[str]:
         """Retrieve list of repos owned by lsst
@@ -169,13 +174,10 @@ class GitHubData:
                     name
                     target {
                       ... on Tag {
-                        tagger {
-                          date
-                        }
+                        tagger { date }
+                        target { ... on Commit {committedDate}}
                       }
-                      ... on Commit {
-                          authoredDate
-                      }
+                      ... on Commit {committedDate}
                     }
                   }
                 }
