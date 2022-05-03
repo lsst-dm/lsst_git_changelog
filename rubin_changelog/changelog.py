@@ -233,7 +233,13 @@ class ChangeLog:
         """
         pull_list = repos['pulls']
         tag_list = repos['tags']
-        branch_list = repos['branches']
+        # create a list of branches from all repos
+        branches = list()
+        for pkg in repos['branches']:
+            branch_list = repos["branches"][pkg]
+            for b in branch_list:
+                if b not in branches:
+                    branches.append(b)
         result = SortedDict()
         last_tag_date = None
         last_tag = None
@@ -241,7 +247,6 @@ class ChangeLog:
             log.info("Processing %s", pkg)
             pulls = pull_list[pkg]
             tags = tag_list[pkg]
-            branches = branch_list[pkg]
             last_branch = 'main'
             for tag in tags:
                 rtag = tag
@@ -259,43 +264,43 @@ class ChangeLog:
                 result[name]['date'] = tag_date
                 current_pulls = deepcopy(pulls)
                 is_first = tag.is_first_release_tag()
-                is_branched = tag_branch in branches or 'v'+tag_branch in branches
+                release_is_branched = tag_branch in branches
                 # fix for packages with no pull requests like autograd
-                for merged_at in current_pulls:
-                    pull_date = parse(merged_at)
-                    title = pulls[merged_at]['title']
-                    branch = pulls[merged_at]['branch'].replace('v', '')
-                    ticket = self._ticket_number(title)
-                    if pull_date <= commit_date:
+                if last_branch in current_pulls:
+                    for merged_at in current_pulls[last_branch]:
+                        pull_date = parse(merged_at)
+                        title = pulls[last_branch][merged_at]
                         ticket = self._ticket_number(title)
-                        del pulls[merged_at]
-                        # skip all pulls before package was added
-                        if not (rtag in package_diff and pkg in package_diff[rtag]["added"]):
-                            if last_branch == branch:
+                        if pull_date <= parse(tag_date):
+                            del pulls[last_branch][merged_at]
+                            # skip all pulls before package was added
+                            if not (rtag in package_diff and pkg in package_diff[rtag]["added"]):
                                 result[name]['tickets'].append({
                                     'product': pkg, 'title': title,
                                     'date': merged_at, 'ticket': ticket})
-                    else:
-                        break
-                if is_first and is_branched:
+                        else:
+                            break
+                if is_first and release_is_branched:
                     last_branch = tag_branch
+
             # skip main sections for releases
             if last_tag.is_regular():
                 continue
-            for merged_at in pulls:
-                title = pulls[merged_at]['title']
-                date = datetime.datetime.now().isoformat()
-                ticket = self._ticket_number(title)
-                # use ~main for sorting to put it after any other tag
-                if '~main' not in result:
-                    result['~main'] = dict()
-                    result['~main']['tickets'] = list()
-                    result['~main']["date"] = date
-                if parse(merged_at) > last_tag_date:
-                    result['~main']['tickets'].append({
-                        'product': pkg, 'title': title,
-                        'date': merged_at, 'ticket': ticket
-                    })
+            if 'main' in pulls:
+                for merged_at in pulls['main']:
+                    title = pulls['main'][merged_at]
+                    date = datetime.datetime.now().isoformat()
+                    ticket = self._ticket_number(title)
+                    # use ~main for sorting to put it after any other tag
+                    if '~main' not in result:
+                        result['~main'] = dict()
+                        result['~main']['tickets'] = list()
+                        result['~main']["date"] = date
+                    if parse(merged_at) > last_tag_date:
+                        result['~main']['tickets'].append({
+                            'product': pkg, 'title': title,
+                            'date': merged_at, 'ticket': ticket
+                        })
         return result
 
     def create_changelog(self, release: ReleaseType) -> None:

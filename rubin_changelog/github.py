@@ -18,12 +18,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import os
 from typing import List
 
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from sortedcontainers import SortedDict
-import os
 
 
 class GitHubData:
@@ -108,10 +108,16 @@ class GitHubData:
             branch = r['baseRefName']
             if branch == 'master':
                 branch = 'main'
+            if branch.startswith('v'):
+                branch = branch.replace('v', '')
             if branch not in branches:
                 branches.append(branch)
+            if branch not in pull_requests:
+                pull_requests[branch] = SortedDict()
+            mergedAt = r['mergedAt']
+            title = r['title']
             if r["mergedAt"] is not None:
-                pull_requests[r['mergedAt']] = {'title': r['title'], 'branch': branch}
+                pull_requests[branch][mergedAt] = title
         return pull_requests, branches
 
     def get_repos(self) -> List[str]:
