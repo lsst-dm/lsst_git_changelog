@@ -241,7 +241,7 @@ class ChangeLog:
                 if b not in branches:
                     branches.append(b)
         result = SortedDict()
-        last_tag_date = None
+        last_commit_date = None
         last_tag = None
         for pkg in tag_list:
             log.info("Processing %s", pkg)
@@ -258,8 +258,8 @@ class ChangeLog:
                 last_commit = tags[tag]['last_commit']
                 tag_date = tags[tag]['tag_date']
                 commit_date = parse(last_commit)
-                if last_tag_date is None or commit_date > last_tag_date:
-                    last_tag_date = commit_date
+                if last_commit_date is None or commit_date > last_commit_date:
+                    last_commit_date = commit_date
                 tag_branch = tag.tag_branch()
                 result[name]['date'] = tag_date
                 current_pulls = deepcopy(pulls)
@@ -296,7 +296,7 @@ class ChangeLog:
                         result['~main'] = dict()
                         result['~main']['tickets'] = list()
                         result['~main']["date"] = date
-                    if parse(merged_at) > last_tag_date:
+                    if parse(merged_at) > last_commit_date:
                         result['~main']['tickets'].append({
                             'product': pkg, 'title': title,
                             'date': merged_at, 'ticket': ticket

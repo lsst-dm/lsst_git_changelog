@@ -4,7 +4,7 @@ gql
 requests
 urllib3
 rstcloth
-Jinja2<3.1
+Jinja2
 Sphinx
 sphinx-rtd-theme
 sortedcontainers
