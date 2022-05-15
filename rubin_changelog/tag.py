@@ -44,9 +44,13 @@ class Tag:
         self._valid = False
         self._is_weekly = False
         self._is_main = False
-        self._hash = -1
+        self._major = -1
+        self._minor = -1
+        self._patch = -1
+        self._rc = -1
+        self._week = -1
+        self._year = -1
         if name.endswith("main"):
-            self._hash = 9999999999
             self._valid = True
             self._is_main = True
             return
@@ -62,10 +66,9 @@ class Tag:
         match = re.search(r'^w[.|_](\d{4})[_|.](\d{2})$', self._name)
         if match is None:
             return
-        year = int(match[1])
-        week = int(match[2])
+        self._year = int(match[1])
+        self._week = int(match[2])
         self._is_weekly = True
-        self._hash = year * 100 + week
         self._valid = True
 
     def is_weekly(self) -> bool:
@@ -106,15 +109,14 @@ class Tag:
         if g[4] is None:
             g[4] = 99
         try:
-            major = int(g[0])
-            minor = int(g[1])
-            patch = int(g[2])
-            rc = int(g[4])
+            self._major = int(g[0])
+            self._minor = int(g[1])
+            self._patch = int(g[2])
+            self._rc = int(g[4])
         except ValueError:
             return
-        if major < 9 or major > 1000:
+        if self._major < 9 or self._major > 1000:
             return
-        self._hash = major * 1000000 + minor * 10000 + patch * 100 + rc
         self._valid = True
 
     def rel_name(self) -> str:
@@ -139,25 +141,58 @@ class Tag:
         return self._valid
 
     def __eq__(self, other) -> bool:
-        return self._hash == other.__hash__()
+        return self.__hash__() == other.__hash__()
 
     def __ge__(self, other) -> bool:
-        return self._hash >= other.__hash__()
+        return self.__hash__() >= other.__hash__()
 
     def __gt__(self, other) -> bool:
-        return self._hash > other.__hash__()
+        return self.__hash__() > other.__hash__()
 
     def __le__(self, other) -> bool:
-        return self._hash <= other.__hash__()
+        return self.__hash__() <= other.__hash__()
 
     def __lt__(self, other) -> bool:
-        return self._hash < other.__hash__()
+        return self.__hash__() < other.__hash__()
 
     def __repr__(self) -> str:
         return self._name
 
     def __hash__(self) -> int:
-        return self._hash
+        if self._is_main:
+            return 9999999999
+        if self.is_weekly():
+            return self._year * 100 + self._week
+        else:
+            return self._major * 1000000 + self._minor * 10000 + self._patch * 100 + self._rc
+
+    def tag_branch(self) -> str:
+        """Tag branch string of a tag
+
+        Returns
+        -------
+        tag_branch: `str`
+            branch of tag <major>.<minor>.x
+
+        """
+        result = ""
+        if self.is_regular():
+            result = "%d.%d.x" % (self._major, self._minor)
+        return result
+
+    def is_first_release_tag(self) -> bool:
+        """Tag is the first tag in a release series
+
+        Returns
+        -------
+        result: `bool`
+            True for tags like 23.0.0.rc1
+
+        """
+        result = False
+        if self.is_regular():
+            result = self._minor == 0 and self._patch == 0 and self._rc == 1
+        return result
 
 
 def matches_release(tag: Tag, release: ReleaseType) -> bool:
