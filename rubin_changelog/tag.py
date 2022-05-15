@@ -49,7 +49,7 @@ class Tag:
         self._patch = -1
         self._rc = -1
         self._week = -1
-        self._yaer = -1
+        self._year = -1
         if name.endswith("main"):
             self._valid = True
             self._is_main = True
@@ -109,15 +109,14 @@ class Tag:
         if g[4] is None:
             g[4] = 99
         try:
-            self.major = int(g[0])
-            self.minor = int(g[1])
-            self.patch = int(g[2])
-            self.rc = int(g[4])
+            self._major = int(g[0])
+            self._minor = int(g[1])
+            self._patch = int(g[2])
+            self._rc = int(g[4])
         except ValueError:
             return
-        if self.major < 9 or self.major > 1000:
+        if self._major < 9 or self._major > 1000:
             return
-        self._hash = self.major * 1000000 + self.minor * 10000 + self.patch * 100 + self.rc
         self._valid = True
 
     def rel_name(self) -> str:
@@ -162,7 +161,7 @@ class Tag:
     def __hash__(self) -> int:
         if self._is_main:
             return 9999999999
-        if self.is_regular():
+        if self.is_weekly():
             return self._year * 100 + self._week
         else:
             return self._major * 1000000 + self._minor * 10000 + self._patch * 100 + self._rc
@@ -172,7 +171,6 @@ class Tag:
 
         Returns
         -------
-
         tag_branch: `str`
             branch of tag <major>.<minor>.x
 
