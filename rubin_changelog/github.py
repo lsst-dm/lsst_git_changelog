@@ -94,6 +94,7 @@ class GitHubData:
                         }
                         nodes {
                             baseRefName
+                            headRefName
                             title
                             mergedAt
                         }
@@ -115,9 +116,11 @@ class GitHubData:
             if branch not in pull_requests:
                 pull_requests[branch] = SortedDict()
             mergedAt = r['mergedAt']
-            title = r['title']
+            mergedBranch = r['headRefName']
+            if mergedBranch.startswith('tickets/'):
+                mergedBranch = mergedBranch.split('/')[1]
             if r["mergedAt"] is not None:
-                pull_requests[branch][mergedAt] = title
+                pull_requests[branch][mergedAt] = mergedBranch
         return pull_requests, branches
 
     def get_repos(self) -> List[str]:
