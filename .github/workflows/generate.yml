@@ -6,6 +6,9 @@ on:
             - new_changelog
     schedule:
         - cron: '15 */2 * * *'
+    workflow_dispatch:
+
+
 
 jobs:
     generate:
