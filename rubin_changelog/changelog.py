@@ -129,9 +129,12 @@ class ChangeLog:
         repos = gh.get_repos()
         del gh
         repo_list = SortedList()
-        for product in products:
-            if product in repos:
-                repo_list.add(product)
+        # create a lowercase list for GitHub/EUPS package comparison
+        # GitHub will be used for the package name
+        products_lower = [k.lower() for k in products]
+        for repo in repos:
+            if repo.lower() in products_lower:
+                repo_list.add(repo)
         with ThreadPoolExecutor(
                 max_workers=self._max_workers) as executor:
             futures = {executor.submit(self._fetch, repo): repo for repo in repo_list}
