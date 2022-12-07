@@ -130,6 +130,8 @@ class Writer:
                 index.add(rtag)
         for rtag in reversed(index):
             tag_name = rtag.name()
+            if tags[tag_name]['date'] is None:
+                continue
             date = parse(tags[tag_name]['date']).strftime("%Y-%m-%d %H:%M")
             doc = RstCloth(line_width=80)
             name = rtag.rel_name()
@@ -174,22 +176,23 @@ class Writer:
                 number = ticket['ticket']
                 date = ticket['date'][:-4] + 'Z'
                 key = 'DM-' + str(number)
+                branch = ticket['branch']
                 if key not in jira:
                     continue
                 msg = jira[key]
                 product = ticket['product']
                 if number not in ticket_dict:
-                    ticket_dict[number] = (msg, date, [product])
+                    ticket_dict[number] = (msg, date, branch, [product])
                 else:
-                    ticket_dict[number][2].append(product)
+                    ticket_dict[number][3].append(product)
             for number in ticket_dict:
                 entry = ticket_dict[number]
                 link = f"`DM-{number} <https://jira.lsstcorp.org/browse/DM-{number}>`_"
-                row.append([link, entry[0], entry[1], ', '.join(entry[2])])
+                row.append([link, entry[0], entry[1], entry[2], ', '.join(entry[3])])
             if len(row) > 0:
-                self._write_table(doc, ["Ticket", "Description", 'Last Merge', "Product"], row)
+                self._write_table(doc, ["Ticket", "Description", 'Last Merge', "Branch", "Product"], row)
                 doc.newline()
-                self._write_table(summary, ["Ticket", "Description", 'Last Merge', "Product"], row)
+                self._write_table(summary, ["Ticket", "Description", 'Last Merge', "Branch", "Product"], row)
                 summary.newline()
             else:
                 doc.content("No changes in this tag")

@@ -19,15 +19,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import concurrent
-import datetime
+import json
 import logging
+import os
 import re
 from concurrent.futures.thread import ThreadPoolExecutor
-from copy import deepcopy
 from typing import Dict
 
 from dateutil.parser import parse
-from sortedcontainers import SortedDict, SortedList
+from sortedcontainers import SortedDict, SortedList, SortedSet
 
 from .eups import EupsData
 from .github import GitHubData
@@ -36,6 +36,73 @@ from .rst import Writer
 from .tag import Tag, ReleaseType, matches_release
 
 log = logging.getLogger("changelog")
+
+
+def process_package_repos(products: SortedList, all_repos: dict, release: ReleaseType) -> SortedDict:
+    """Retrieves tag and pull information from GitHub
+
+    Parameters
+    ----------
+    products : `SortedList`
+        list of GitHub repos
+    all_repos : `dict`
+        list of all repos from github
+    release : `ReleaseType`
+        release type WEEKLY or REGULAR
+
+    Returns
+    -------
+    repos: `SortedDict`
+        sorted dictionary with the release name
+        as key containing all tags and pulls
+
+    """
+    cache = dict()
+    cache["pulls"] = SortedDict()
+    cache["branches"] = SortedDict()
+    cache["tags"] = SortedDict()
+    for p in products:
+        if p in all_repos["pulls"]:
+            cache["pulls"][p] = all_repos["pulls"][p]
+            cache["branches"][p] = all_repos["branches"][p]
+            cache["tags"][p] = all_repos["tags"][p]
+    result = SortedDict()
+    result["tags"] = SortedDict()
+    result['pulls'] = cache['pulls']
+    result['branches'] = cache['branches']
+    repo_result = SortedDict()
+    for repo in cache['tags']:
+        repo_result[repo] = SortedDict()
+        for tag in cache['tags'][repo]:
+            rtag = Tag(tag["name"])
+            if rtag.is_valid() and matches_release(rtag, release):
+                target = tag["target"]
+                if 'target' in target:
+                    last_commit = target['target']['committedDate']
+                else:
+                    # handle special case like w.2016.34
+                    last_commit = target['committedDate']
+                tag_date = last_commit
+                if 'tagger' in target:
+                    tag_date = target['tagger']['date']
+                repo_result[repo][rtag] = {'tag_date': tag_date, 'last_commit': last_commit}
+    result["tags"] = repo_result
+    return result
+
+
+def _create_tag_list(repos: Dict):
+    # find all tags
+    result = SortedDict()
+    tag_list = repos['tags']
+    for p in tag_list:
+        tags = tag_list[p]
+        for tag in tags:
+            if tag.is_regular():
+                tag_base = tag.base_name()
+                if tag_base not in result:
+                    result[tag_base] = SortedSet()
+                result[tag_base].add(tag)
+    return result
 
 
 class ChangeLog:
@@ -48,6 +115,7 @@ class ChangeLog:
         """
         self._github_cache = None
         self._max_workers = max_workers
+        self._debug = False
 
     @staticmethod
     def get_package_diff(release: ReleaseType) -> SortedDict:
@@ -107,7 +175,7 @@ class ChangeLog:
         del gh
         return result
 
-    def _get_package_repos(self, products: SortedList) -> SortedDict:
+    def _get_package_repos(self, products: SortedList) -> dict:
         """retrieve repos for a list of products
 
         Parameters
@@ -121,12 +189,23 @@ class ChangeLog:
             package repo data
 
         """
-        result = SortedDict()
+        result = dict()
         result['pulls'] = SortedDict()
         result["tags"] = SortedDict()
         result['branches'] = SortedDict()
+        result["repos"] = list()
+
+        if self._debug and os.path.exists("github_debug.json"):
+            f = open('github_debug.json')
+            data = json.load(f)
+            result['pulls'] = SortedDict(data["pulls"])
+            result["tags"] = SortedDict(data["tags"])
+            result['branches'] = SortedDict(data["branches"])
+            result["repos"] = list(data["repos"])
+            return result
         gh = GitHubData()
         repos = gh.get_repos()
+        result["repos"] = repos
         del gh
         repo_list = SortedList()
         # create a lowercase list for GitHub/EUPS package comparison
@@ -148,53 +227,9 @@ class ChangeLog:
                     result["pulls"][repo] = data["pulls"]
                     result["tags"][repo] = data["tags"]
                     result["branches"][repo] = data['branches']
-        return result
-
-    def get_package_repos(self, products: SortedList, release: ReleaseType) -> SortedDict:
-        """Retrieves tag and pull information from GitHub
-
-        Parameters
-        ----------
-        products : `SortedList`
-            list of GitHub repos
-        release : `ReleaseType`
-            release type WEEKLY or REGULAR
-
-        Returns
-        -------
-        repos: `SortedDict`
-            sorted dictionary with the release name
-            as key containing all tags and pulls
-
-        """
-        if self._github_cache is None:
-            self._github_cache = self._get_package_repos(products)
-        else:
-            log.info("Using cached github data")
-        cache = self._github_cache
-        result = SortedDict()
-        result["tags"] = SortedDict()
-        result['pulls'] = cache['pulls']
-        result['branches'] = cache['branches']
-        repo_result = SortedDict()
-        for repo in cache['tags']:
-            repo_result[repo] = SortedDict()
-            for tag in cache['tags'][repo]:
-                rtag = Tag(tag["name"])
-                if rtag.is_valid() and matches_release(rtag, release):
-                    target = tag["target"]
-                    if 'tagger' in target:
-                        tag_date = target['tagger']['date']
-                    else:
-                        tag_date = target['committedDate']
-                    if 'target' in target:
-                        last_commit = target['target']['committedDate']
-                    else:
-                        # handling special case like w.2016.32
-                        last_commit = tag_date
-
-                    repo_result[repo][rtag] = {'tag_date': tag_date, 'last_commit': last_commit}
-        result["tags"] = repo_result
+        if self._debug:
+            with open("github_debug.json", "w") as outfile:
+                outfile.write(json.dumps(result))
         return result
 
     @staticmethod
@@ -234,77 +269,107 @@ class ChangeLog:
             sorted dictionary of merged tickets
 
         """
-        pull_list = repos['pulls']
-        tag_list = repos['tags']
-        # create a list of branches from all repos
-        branches = list()
-        for pkg in repos['branches']:
-            branch_list = repos["branches"][pkg]
-            for b in branch_list:
-                if b not in branches:
-                    branches.append(b)
+        # find all tags
         result = SortedDict()
-        last_commit_date = None
-        last_tag = None
-        for pkg in tag_list:
-            log.info("Processing %s", pkg)
-            pulls = pull_list[pkg]
-            tags = tag_list[pkg]
-            last_branch = 'main'
+        releases = SortedDict()
+        tag_list = repos['tags']
+        for p in tag_list:
+            tags = tag_list[p]
             for tag in tags:
-                rtag = tag
-                last_tag = rtag
-                name = rtag.rel_name()
-                if name not in result:
-                    result[name] = dict()
-                    result[name]['tickets'] = list()
-                last_commit = tags[tag]['last_commit']
-                tag_date = tags[tag]['tag_date']
-                commit_date = parse(last_commit)
-                if last_commit_date is None or commit_date > last_commit_date:
-                    last_commit_date = commit_date
-                tag_branch = tag.tag_branch()
-                result[name]['date'] = tag_date
-                current_pulls = deepcopy(pulls)
-                is_first = tag.is_first_release_tag()
-                release_is_branched = tag_branch in branches
-                # fix for packages with no pull requests like autograd
-                if last_branch in current_pulls:
-                    for merged_at in current_pulls[last_branch]:
-                        pull_date = parse(merged_at)
-                        title = pulls[last_branch][merged_at]
-                        ticket = self._ticket_number(title)
-                        if pull_date <= parse(tag_date):
-                            del pulls[last_branch][merged_at]
-                            # skip all pulls before package was added
-                            if not (rtag in package_diff and pkg in package_diff[rtag]["added"]):
-                                result[name]['tickets'].append({
-                                    'product': pkg, 'title': title,
-                                    'date': merged_at, 'ticket': ticket})
-                        else:
-                            break
-                if is_first and release_is_branched:
-                    last_branch = tag_branch
+                tag_base = tag.base_name()
+                rtag = Tag(tag_base)
+                if rtag not in releases:
+                    releases[rtag] = dict()
+                    releases[rtag]['included'] = SortedSet()
+                    releases[rtag]['removed'] = SortedSet()
+                    releases[rtag]['added'] = SortedSet()
+                    releases[rtag]['branches'] = SortedDict()
+                releases[rtag]['included'].add(tag)
 
-            # skip main sections for releases
-            if last_tag.is_regular():
-                continue
-            if 'main' in pulls:
-                for merged_at in pulls['main']:
-                    title = pulls['main'][merged_at]
-                    date = datetime.datetime.now().isoformat()
-                    ticket = self._ticket_number(title)
-                    # use ~main for sorting to put it after any other tag
-                    if '~main' not in result:
-                        result['~main'] = dict()
-                        result['~main']['tickets'] = list()
-                        result['~main']["date"] = date
-                    if parse(merged_at) > last_commit_date:
-                        result['~main']['tickets'].append({
-                            'product': pkg, 'title': title,
-                            'date': merged_at, 'ticket': ticket
-                        })
+        previous = None
+        for rtag in releases:
+            included = releases[rtag]['included']
+            for tag in included:
+                eups_tag = Tag(tag.eups_tag())
+                if eups_tag in package_diff:
+                    releases[rtag]['added'] |= package_diff[eups_tag]['added']
+                    releases[rtag]['removed'] |= package_diff[eups_tag]['removed']
+            last_tag = included[-1]
+            first_tag = included[0]
+            releases[rtag]["last_tag"] = last_tag
+            tag_type, ver = rtag.desc()
+            releases[rtag]['previous'] = previous
+            if tag_type == 'weekly':
+                releases[rtag]['branches']['main'] = [previous, last_tag]
+            elif tag_type == 'regular':
+                branch_name = rtag.tag_branch()
+                previous_name = None
+                if previous in releases:
+                    previous_name = releases[previous]["last_tag"]
+                # releases pre 23 don't branch
+                if ver[0] < 23:
+                    releases[rtag]['branches']['main'] = [previous_name, last_tag]
+                else:
+                    # releases 23 and higher
+                    # first release with patch number = 0 (e.g. 23.0.0)
+                    if ver[2] == 0:
+                        base = Tag(previous.first_name())
+                        pname = None
+                        if base in releases:
+                            pname = releases[base]['branches']['main'][-1]
+                        # special case for release 23
+                        if ver[0] == 23:
+                            pname = previous_name
+                        releases[rtag]['branches']['main'] = [pname, first_tag]
+                        if (len(included)) > 1:
+                            releases[rtag]['branches'][branch_name] = [first_tag, included[-1]]
+                    # patch releases can have commits only in release branches
+                    else:
+                        releases[rtag]['branches'][branch_name] = [previous_name, included[-1]]
+            previous = rtag
+
+        tag_list = repos["tags"]
+        pulls_list = repos["pulls"]
+        for rtag in releases:
+            log.info("Processing tag %s", rtag)
+            branches = releases[rtag]['branches']
+            last_tag = releases[rtag]['last_tag']  # this is the original EUPS tag name
+            name = last_tag.name()
+            if name not in result:
+                result[name] = dict()
+                result[name]['tickets'] = list()
+                result[name]['date'] = None
+            for branch in branches:
+                if not (branch.endswith('.x') or branch == 'main'):
+                    continue
+                first, last = branches[branch]
+                for pkg in tag_list:
+                    tags = tag_list[pkg]
+                    pulls = pulls_list[pkg]
+                    if not (first in tags and last in tags):
+                        continue
+                    first_commit_date = parse(tags[first]['last_commit'])
+                    last_commit_date = parse(tags[last]['last_commit'])
+                    first_tag_date = tags[first]['tag_date']
+                    last_tag_date = tags[last]['tag_date']
+                    if last_tag_date is None:
+                        last_tag_date = '2014-01-01T00:00:00:05:00Z'
+                    result[name]['date'] = last_tag_date
+                    if first_commit_date == last_commit_date:
+                        continue
+                    if branch not in pulls:
+                        continue
+                    for merge_date, title in pulls[branch].items():
+                        ticket = self._ticket_number(title)
+                        pull_date = parse(merge_date)
+                        if (pull_date > parse(first_tag_date)) and (pull_date <= parse(last_tag_date)):
+                            result[name]['tickets'].append({
+                                'product': pkg, 'title': title,
+                                'date': merge_date, 'ticket': ticket, 'branch': branch})
         return result
+
+    def set_debug(self):
+        self._debug = True
 
     def create_changelog(self, release: ReleaseType) -> None:
         """Process data sources and Write RST changelog files
@@ -319,21 +384,34 @@ class ChangeLog:
 
         """
         log.info("Fetching EUPS data")
+        releases = [release]
+        if release == ReleaseType.ALL:
+            releases = [ReleaseType.REGULAR, ReleaseType.WEEKLY]
         eups = EupsData()
-        eups_data = eups.get_releases(release)
-        package_diff = self.get_package_diff(release)
-        products = eups_data['products']
+        eups_data = dict()
+        package_diff = dict()
+        products = dict()
+        all_products = set()
+        for r in releases:
+            eups_data[r] = eups.get_releases(r)
+            package_diff[r] = self.get_package_diff(r)
+            products[r] = eups_data[r]['products']
+            all_products |= set(products[r])
         log.info("Fetching JIRA ticket data")
         jira = JiraData()
         jira_data = jira.get_tickets()
         log.info("Fetching GitHub repo data")
-        repos = self.get_package_repos(products, release)
-        log.info("Processing changelog data")
-        repo_data = self.get_merged_tickets(repos, package_diff)
-        log.info("Writing RST files")
-        outputdir = 'source/releases'
-        if release == ReleaseType.WEEKLY:
-            outputdir = 'source/weekly'
-        writer = Writer(outputdir)
-        writer.write_products(products)
-        writer.write_releases(jira_data, repo_data, package_diff)
+        all_repos = self._get_package_repos(SortedList(all_products))
+        for r in releases:
+            repos = process_package_repos(products[r], all_repos, r)
+            log.info("Processing changelog data")
+            # repo_data = self.get_merged_tickets_old(repos, package_diff[r])
+            repo_data = self.get_merged_tickets(repos, package_diff[r])
+            log.info("Writing RST files")
+            outputdir = 'source/releases'
+            if r == ReleaseType.WEEKLY:
+                outputdir = 'source/weekly'
+            writer = Writer(outputdir)
+            writer.write_products(products[r])
+            writer.write_products(products[r])
+            writer.write_releases(jira_data, repo_data, package_diff[r])

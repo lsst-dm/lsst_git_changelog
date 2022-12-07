@@ -19,7 +19,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import os
-from typing import List
+from typing import List, Tuple, Union, Any
 
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
@@ -35,7 +35,6 @@ class GitHubData:
         transport = AIOHTTPTransport(
             url='https://api.github.com/graphql', headers=headers)
         self._client = Client(transport=transport)
-        self._cached_tags = None
 
     def _query(self, query: gql, what: List[str]) -> List:
         """Execute a gql query
@@ -69,7 +68,7 @@ class GitHubData:
                 break
         return result
 
-    def get_pull_requests(self, repo: str) -> SortedDict:
+    def get_pull_requests(self, repo: str) -> Tuple[SortedDict, List[Union[str, Any]]]:
         """Get all pull requests for a GitHub repo sorted byb merge date
 
         Parameters
@@ -93,6 +92,7 @@ class GitHubData:
                             endCursor
                         }
                         nodes {
+                            baseRefOid
                             baseRefName
                             headRefName
                             title
@@ -117,6 +117,7 @@ class GitHubData:
                 pull_requests[branch] = SortedDict()
             mergedAt = r['mergedAt']
             mergedBranch = r['headRefName']
+            baseRefOid = r['baseRefOid']
             if mergedBranch.startswith('tickets/'):
                 mergedBranch = mergedBranch.split('/')[1]
             if r["mergedAt"] is not None:
@@ -179,14 +180,15 @@ class GitHubData:
                         hasNextPage
                         endCursor
                       }
-                  nodes {
+                   nodes {
                     name
                     target {
                       ... on Tag {
-                        tagger { date }
-                        target { ... on Commit {committedDate}}
+                      tagger {date}
+                        target {
+                        ... on Commit {committedDate}
+                        }
                       }
-                      ... on Commit {committedDate}
                     }
                   }
                 }
