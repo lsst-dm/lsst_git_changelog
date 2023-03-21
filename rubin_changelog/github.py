@@ -4,6 +4,7 @@
 # (https://www.lsst.org).
 # See the COPYRIGHT file at the top-level directory of this distribution
 # for details of code ownership.
+# for details of code ownership.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -97,6 +98,8 @@ class GitHubData:
                             headRefName
                             title
                             mergedAt
+                            url
+                            mergeCommit {oid} 
                         }
                     }
                 }
@@ -118,10 +121,15 @@ class GitHubData:
             mergedAt = r['mergedAt']
             mergedBranch = r['headRefName']
             baseRefOid = r['baseRefOid']
+            mergeCommit = r['mergeCommit']
+            url = r['url']
+            oid = None
+            if mergeCommit:
+                oid = mergeCommit['oid']
             if mergedBranch.startswith('tickets/'):
                 mergedBranch = mergedBranch.split('/')[1]
             if r["mergedAt"] is not None:
-                pull_requests[branch][mergedAt] = mergedBranch
+                pull_requests[branch][mergedAt] = mergedBranch, oid, url
         return pull_requests, branches
 
     def get_repos(self) -> List[str]:
@@ -186,7 +194,7 @@ class GitHubData:
                       ... on Tag {
                       tagger {date}
                         target {
-                        ... on Commit {committedDate}
+                        ... on Commit {committedDate oid}
                         }
                       }
                     }

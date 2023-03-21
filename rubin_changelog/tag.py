@@ -94,6 +94,17 @@ class Tag:
         """
         return not self._is_weekly or self._is_main
 
+    def is_release(self) -> bool:
+        """check for final release tag
+
+        Returns
+        -------
+        final release : `bool`
+            true if a final release tag
+
+        """
+        return self._rc == 99
+
     def _regular(self):
         match = re.search(r'^[v]?(\d+)([_|.]\d+)([_|.]\d+)?([_|.]rc(\d+))?$', self._name)
         if not match:
@@ -219,7 +230,7 @@ class Tag:
         """
         result = False
         if self.is_regular():
-            result = self._rc == 1
+            result = self._rc == 99
         return result
 
 

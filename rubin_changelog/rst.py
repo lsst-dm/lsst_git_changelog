@@ -19,207 +19,257 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import logging
-from typing import List
+import textwrap
+from pprint import pprint
 
-from rstcloth import RstCloth
-
-from rstcloth.rstcloth import Table
-from sortedcontainers import SortedDict, SortedList
-from .tag import Tag
-from dateutil.parser import parse
+from sortedcontainers import SortedList
+from .tag import Tag, ReleaseType
+import sys
 
 log = logging.getLogger(__name__)
 
 
-class Writer:
-    """Create RST output files"""
+def make_link(name, url, anon=False):
+    trail = '_'
+    if anon:
+        trail = '__'
+    return f"`{name} <{url}>`{trail}"
 
-    def __init__(self, outputdir: str):
-        self._outputdir = outputdir
 
-    def write_products(self, products: SortedList, ncols: int = 5) -> None:
-        """write a list of all eups products into a table
+class RstBase:
+    def __init__(self, file):
+        self.file = file
 
-        Parameters
-        ----------
-        products: `SortedList[str]`
-            sorted list of product names
-        ncols: `int`
-             (Default value = 5)
-             number of table rows
+    def _print(self, output):
+        print(output, end='', file=self.file)
 
-        Returns
-        -------
+    def _println(self, output):
+        print(output, file=self.file)
 
-        """
-        products_len = len(products)
-        url = 'https://github.com/lsst/'
-        cols = list()
-        r = products_len // ncols + (products_len % ncols) // ncols
-        for i in range(r):
-            rows = list()
-            for j in range(ncols):
-                index = i * ncols + j
-                if index < products_len:
-                    product = products[index]
-                    link = f'`{product} <{url}{product}>`_'
-                    rows.append(link)
+    def _indent(self, indent):
+        self._print(' ' * indent)
+
+    def header(self, output, sep):
+        self._println(output)
+        self._println(sep * len(output))
+
+    def write(self, output):
+        self._print(output)
+
+    def writeln(self, output):
+        self._println(output)
+
+    def nl(self, n=1):
+        for i in range(n):
+            self._println('')
+
+
+class RstTable(RstBase):
+    def __init__(self, rows, headers, indent=0, file=sys.stdout):
+        super().__init__(file)
+        self.rows = rows
+        self.indent = indent
+        self.headers = headers
+        self.cols = len(headers)
+        self.col_len = [0] * self.cols
+        for row in rows + [headers]:
+            for i in range(self.cols):
+                col = row[i]
+                length = 0
+                if type(col) == list:
+                    for c in col:
+                        if len(c) > length:
+                            length = len(c)
                 else:
-                    rows.append('')
-            cols.append(rows)
-        doc = RstCloth(line_width=80)
-        doc.h2('Products')
-        doc.newline()
-        doc.table(['Products', '', '', '', ''], data=cols)
-        doc.write(self._outputdir + '/products.rst')
+                    length = len(col)
+                if length > self.col_len[i]:
+                    self.col_len[i] = length
 
-    # this is a workaround for the broken indent in rstcloth tables
-    @staticmethod
-    def _write_table(doc: RstCloth, header: List, data: List, indent=0) -> None:
-        """helper function to write RstCloth tables with indentation
+    def _write_table_header(self, line, sep):
+        self._indent(self.indent)
+        for i in range(self.cols):
+            self._print(sep)
+            self._print(line * self.col_len[i])
+        self._println(sep)
 
-        Parameters
-        ----------
-        doc : `RstCloth`
-            RST document to write to
-        header : `List[str]`
-            list of table headers
-        data : `List[list[str]]`
-            row/col data of table
-        indent : `int`
-             (Default value = 0)
-             indent level
-
-        Returns
-        -------
-
-        """
-        doc.directive('table', indent=indent)
-        doc.field('class', 'datatable', indent + 3)
-        doc.newline()
-        table = Table(header, data)
-        for line in table.render().split('\n'):
-            doc.content(line, indent + 3, False)
-
-    def write_releases(self, jira: dict, tags: SortedDict, eups_diff: SortedDict) -> None:
-        """write RST file with a table of release information
-
-        Parameters
-        ----------
-        jira: `Dict`
-            dictionary with JIRA tickets
-        tags: `SortedDict`
-            sorted dictionary with tqg data
-        eups_diff: `SortedDict` :
-            sorted dictionary with added/removed eups packages
-
-        Returns
-        -------
-
-        """
-        index = SortedList()
-        weekly_flag = False
-        summary = RstCloth(line_width=80)
-        summary.h2("Summary")
-        summary.newline()
-        for tag in tags:
-            rtag = Tag(tag)
-            if rtag in eups_diff \
-                    or rtag.rel_name() == 'main' \
-                    or rtag.is_weekly():
-                index.add(rtag)
-        for rtag in reversed(index):
-            tag_name = rtag.name()
-            if tags[tag_name]['date'] is None:
-                continue
-            date = parse(tags[tag_name]['date']).strftime("%Y-%m-%d %H:%M")
-            doc = RstCloth(line_width=80)
-            name = rtag.rel_name()
-            weekly_flag = rtag.is_weekly()
-            # always add weekly tag and main
-            pkg_table = list()
-            doc.h2(name)
-            doc.newline()
-            doc.content("Released at %s" % date)
-            doc.newline()
-            summary.h3(name)
-            summary.newline()
-            summary.content("Released at %s" % date)
-            summary.newline()
-            if rtag in eups_diff:
-                removed_pkg = eups_diff[rtag]["removed"]
-                added_pkg = eups_diff[rtag]["added"]
-                removed_len = len(removed_pkg)
-                added_len = len(added_pkg)
-                max_len = max(removed_len, added_len)
-                for i in range(max_len):
-                    entry1 = ''
-                    entry2 = ''
-                    if i < added_len:
-                        entry1 = added_pkg[i]
-                    if i < removed_len:
-                        entry2 = removed_pkg[i]
-                    pkg_table.append([entry1, entry2])
-                if len(pkg_table) > 0:
-                    doc.table(["Added Product(s)", "Removed Products(s)"], data=pkg_table)
-                    summary.table(["Added Product(s)", "Removed Products(s)"], data=pkg_table)
-                else:
-                    doc.content("No products added/removed in this tag")
-                    summary.content("No products added/removed in this tag")
-                doc.newline()
-                summary.newline()
-            log.info("Writing %s" % name)
-            tickets = tags[tag_name]['tickets']
-            ticket_dict = SortedDict()
-            row = list()
-            for ticket in tickets:
-                number = ticket['ticket']
-                date = ticket['date'][:-4] + 'Z'
-                key = 'DM-' + str(number)
-                branch = ticket['branch']
-                if key not in jira:
-                    continue
-                msg = jira[key]
-                product = ticket['product']
-                if number not in ticket_dict:
-                    ticket_dict[number] = (msg, date, branch, [product])
-                else:
-                    ticket_dict[number][3].append(product)
-            for number in ticket_dict:
-                entry = ticket_dict[number]
-                link = f"`DM-{number} <https://jira.lsstcorp.org/browse/DM-{number}>`_"
-                row.append([link, entry[0], entry[1], entry[2], ', '.join(entry[3])])
-            if len(row) > 0:
-                self._write_table(doc, ["Ticket", "Description", 'Last Merge', "Branch", "Product"], row)
-                doc.newline()
-                self._write_table(summary, ["Ticket", "Description", 'Last Merge', "Branch", "Product"], row)
-                summary.newline()
+    def _write_row(self, row, sep):
+        multilines = 0
+        for i in range(self.cols):
+            line = row[i]
+            if type(row[i]) == list:
+                length = len(line)
             else:
-                doc.content("No changes in this tag")
-                doc.newline()
-                summary.content("No changes in this tag")
-                summary.newline()
-            doc.write(self._outputdir + '/' + name + '.rst')
-        summary.write(self._outputdir + '/summary.rst')
-        title = 'Releases'
-        if weekly_flag:
-            title = "Weekly Releases"
-        doc = RstCloth()
-        doc.h2(title)
-        doc.newline()
-        doc.directive('toctree')
-        doc.field("caption", title, 3)
-        doc.field("maxdepth", '1', 3)
-        doc.field('hidden', '', 3)
-        doc.newline()
-        doc.content('summary', 3)
-        doc.content('products', 3)
-        for i in reversed(index):
-            doc.content(i.rel_name(), 3)
-        doc.newline()
-        doc.content('- :doc:`summary`')
-        doc.content('- :doc:`products`')
-        for i in reversed(index):
-            rel = i.rel_name()
-            doc.content(f'- :doc:`{rel}`')
-        doc.write(self._outputdir + '/' + '/index.rst')
+                length = 1
+            if length > multilines:
+                multilines = length
+        for m in range(multilines):
+            self._indent(self.indent)
+            for j in range(self.cols):
+                line = row[j]
+                if type(row[j]) == list and len(row[j]) > m:
+                    line = row[j][m]
+                elif m >= 1:
+                    line = ''
+                self._print(sep)
+                self._print(line)
+                self._print(' ' * (self.col_len[j] - len(line)))
+            self._println(sep)
+            if multilines > 1 and m < multilines - 1:
+                self._indent(self.indent)
+                for j in range(self.cols):
+                    self._print(sep)
+                    self._print(' ' * self.col_len[j])
+                self._println(sep)
+
+    def write_table(self):
+        self._print(
+            '.. table::\n'
+            '   :class: datatable\n')
+        self.nl()
+        self._write_table_header('-', '+')
+        self._write_row(self.headers, '|')
+        self._write_table_header('=', '+')
+        for row in self.rows:
+            self._write_row(row, '|')
+            self._write_table_header('-', '+')
+
+
+class RstRelease:
+    def __init__(self, release_type, release_data, products):
+        self.products = products
+        self.release_data = release_data
+        self.release_type = release_type
+        self.subdir = 'weekly'
+        if release_type == ReleaseType.REGULAR:
+            self.subdir = 'releases'
+        self.releases = SortedList()
+        for r in self.release_data.keys():
+            self.releases.add(Tag(r))
+
+    @staticmethod
+    def _escape(string: str):
+        result = string
+        for c in ['*', '`', '_']:
+            result = result.replace(c, f'\\{c}')
+        return result
+
+    def make_table(self, release):
+        result = list()
+        for t, branches in release.items():
+            if t is None:
+                continue
+            ticket = int(t)
+            name = make_link(f"DM-{ticket:6d}", f"https://jira.lsstcorp.org/browse/DM-{ticket}")
+            for b, c in branches.items():
+                wrap = textwrap.TextWrapper(width=60)
+                desc = wrap.wrap(self._escape(c[0]))
+                wrap = textwrap.TextWrapper(width=60)
+                pkg_names = list()
+                for p in c[1]:
+                    pkg_names.append(p[0])
+                pkg = wrap.wrap(', '.join(pkg_names))
+                merge_date = c[2]
+                n = 0
+                pkg_links = list()
+                for i in range(len(pkg)):
+                    temp = list()
+                    for j in range(len(pkg[i].split(', '))):
+                        link = make_link(c[1][n][0], c[1][n][1], anon=True)
+                        temp.append(link)
+                        n = n + 1
+                    pkg_links.append(', '.join(temp))
+                result.append([name, desc, merge_date, b, pkg_links])
+        return result
+
+    def write_products(self):
+        file = open(f'source/{self.subdir}/products.rst', 'w')
+        rst = RstBase(file)
+        rst.header("Products", '-')
+        rst.nl(2)
+        ncol = 4
+        product_list = list()
+        i = 0
+        headers = [''] * ncol
+        headers[0] = 'Products'
+        for el in self.products[self.release_type]:
+            if i % ncol == 0:
+                product_list.append([''] * ncol)
+            product_list[-1][i % ncol] = el
+            i = i + 1
+        table = RstTable(product_list, headers, 3, file)
+        table.write_table()
+        file.close()
+
+    def write_index(self):
+        file = open(f'source/{self.subdir}/index.rst', 'w')
+        rst = RstBase(file)
+        body = (
+            'Releases\n'
+            '--------\n'
+            '\n'
+            '.. toctree::\n'
+            '   :caption: Releases\n'
+            '   :maxdepth: 1\n'
+            '   :hidden:\n'
+            '\n'
+            '   summary\n'
+            '   products\n')
+        rst.write(body)
+        for r in reversed(self.releases):
+            name = r.name()
+            eups_name = r.rel_name()
+            if name == "~untagged":
+                continue
+            rst.writeln(f"   {eups_name}")
+        rst.nl()
+        rst.write(
+            '- :doc:`summary`\n'
+            '- :doc:`products`\n'
+        )
+        for r in reversed(self.releases):
+            name = r.name()
+            eups_name = r.rel_name()
+            if name == "~untagged":
+                continue
+            rst.writeln(f"- :doc:`{eups_name}`")
+        file.close()
+
+    def write_releases(self):
+        summary_file = open(f'source/{self.subdir}/summary.rst', 'w')
+        summary = RstBase(summary_file)
+        summary.header('Summary', '-')
+        summary.nl()
+
+        for r in reversed(self.releases):
+            name = r.name()
+            eups_name = r.rel_name()
+            if name == '~untagged':
+                continue
+
+            file = open(f'source/{self.subdir}/{eups_name}.rst', 'w')
+            rst = RstBase(file)
+            rst.header(eups_name, '-')
+            rst.nl()
+            summary.header(eups_name, '-')
+            summary.nl()
+            release_text = "Releases at "
+            rst.writeln(release_text)
+            rst.nl()
+            summary.writeln(release_text)
+            summary.nl()
+            rel = self.make_table(self.release_data[name])
+            headers = ['Ticket', 'Description', "Last Merge", "Branch", "Packages"]
+            table1 = RstTable(rel, headers, indent=3, file=summary_file)
+            table2 = RstTable(rel, headers, indent=3, file=file)
+            table1.write_table()
+            table2.write_table()
+            rst.nl()
+            summary.nl()
+            file.close()
+
+        summary_file.close()
+
+    def write(self):
+        self.write_products()
+        self.write_index()
+        self.write_releases()

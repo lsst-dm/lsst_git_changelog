@@ -20,6 +20,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from .changelog import ChangeLog
-from .tag import ReleaseType
+from .tag import ReleaseType, Tag, matches_release
+from .rst import *
 
 __all__ = [ChangeLog, ReleaseType]

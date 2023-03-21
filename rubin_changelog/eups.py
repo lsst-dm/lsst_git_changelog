@@ -122,7 +122,7 @@ class EupsData:
         else:
             return SortedDict()
 
-    def get_releases(self, release: ReleaseType) -> SortedDict:
+    def get_release(self, release: ReleaseType) -> SortedDict:
         """get all releases for a specific release type
 
         Parameters
@@ -171,3 +171,46 @@ class EupsData:
                     product_list.add(name)
         result["products"] = product_list
         return result
+
+    @staticmethod
+    def get_package_diff(eups_data, release: ReleaseType) -> SortedDict:
+        """Retrieve added/removed products
+
+        Parameters
+        ----------
+        release: `ReleaseType`
+            release type: WEEKLY or REGULAR
+
+        Returns
+        -------
+        packages: `SortedDict`
+            sorted dict of release name with lists of
+            added and removed packages
+
+        """
+        result = SortedDict()
+        releases = eups_data['releases']
+        last_release = None
+        for r in releases:
+            if last_release is not None:
+                previous_pkgs = [sub['package'] for sub in last_release]
+                pkgs = [sub['package'] for sub in releases[r]]
+                removed = SortedList(set(previous_pkgs) - set(pkgs))
+                added = SortedList(set(pkgs) - set(previous_pkgs))
+                result[r] = {'added': added, 'removed': removed, 'pkgs': pkgs}
+            last_release = releases[r]
+        return result
+    def get_releases(self, release):
+        releases = [release]
+        if release == ReleaseType.ALL:
+            releases = [ReleaseType.REGULAR, ReleaseType.WEEKLY]
+        eups_data = dict()
+        package_diff = dict()
+        products = dict()
+        all_products = set()
+        for r in releases:
+            eups_data[r] = self.get_release(r)
+            package_diff[r] = self.get_package_diff(eups_data[r], r)
+            products[r] = eups_data[r]['products']
+            all_products |= set(products[r])
+        return eups_data, package_diff, products,all_products

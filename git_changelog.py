@@ -26,11 +26,20 @@ from rubin_changelog import ChangeLog, ReleaseType
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-n', type=int, default=5, dest='workers', help="Number of connection workers")
+parser.add_argument('-d', dest='debug', default=False, action='store_true', help="Enable debug mode")
+parser.add_argument('-w', dest='weekly', default=False, action='store_true', help="Create only weekly changelog")
+parser.add_argument('-r', dest='release', default=False, action='store_true', help="Create only regular release changelog")
 args = parser.parse_args()
 
 logging.basicConfig(format='[%(asctime)s] %(message)s', datefmt='%Y-%m-%dT%H:%M:%S%z')
 log = logging.getLogger("changelog")
 log.setLevel(logging.INFO)
 changelog = ChangeLog(args.workers)
-changelog.set_debug()
-changelog.create_changelog(ReleaseType.ALL)
+if args.debug:
+    changelog.set_debug()
+release = ReleaseType.ALL
+if args.release:
+    release = ReleaseType.REGULAR
+elif args.weekly:
+    release = ReleaseType.WEEKLY
+changelog.create_changelog(release)
