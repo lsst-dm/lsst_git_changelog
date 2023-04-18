@@ -20,11 +20,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import os
+import re
 from typing import List, Tuple, Union, Any
 
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from sortedcontainers import SortedDict
+
+import yaml
+import requests
 
 
 class GitHubData:
@@ -69,11 +73,13 @@ class GitHubData:
                 break
         return result
 
-    def get_pull_requests(self, repo: str) -> Tuple[SortedDict, List[Union[str, Any]]]:
+    def get_pull_requests(self, owner: str, repo: str) -> Tuple[SortedDict, List[Union[str, Any]]]:
         """Get all pull requests for a GitHub repo sorted byb merge date
 
         Parameters
         ----------
+        owner : `str`
+            repo owner
         repo : `str`
             repo name
 
@@ -86,14 +92,13 @@ class GitHubData:
         query = gql(
             """
             query pull_list($cursor: String) {
-                repository(owner: "lsst", name: "%s") {
+                repository(owner: "%s", name: "%s") {
                     pullRequests(first: 100, after: $cursor) {
                         pageInfo {
                             hasNextPage
                             endCursor
                         }
                         nodes {
-                            baseRefOid
                             baseRefName
                             headRefName
                             title
@@ -104,7 +109,7 @@ class GitHubData:
                     }
                 }
             }
-            """ % repo)
+            """ % (owner, repo))
         pull_requests = SortedDict()
         result = self._query(query, ["repository", "pullRequests"])
         branches = list()
@@ -120,8 +125,8 @@ class GitHubData:
                 pull_requests[branch] = SortedDict()
             mergedAt = r['mergedAt']
             mergedBranch = r['headRefName']
-            baseRefOid = r['baseRefOid']
             mergeCommit = r['mergeCommit']
+            title = r['title']
             url = r['url']
             oid = None
             if mergeCommit:
@@ -129,7 +134,7 @@ class GitHubData:
             if mergedBranch.startswith('tickets/'):
                 mergedBranch = mergedBranch.split('/')[1]
             if r["mergedAt"] is not None:
-                pull_requests[branch][mergedAt] = mergedBranch, oid, url
+                pull_requests[branch][mergedAt] = mergedBranch, oid, url, title
         return pull_requests, branches
 
     def get_repos(self) -> List[str]:
@@ -164,11 +169,13 @@ class GitHubData:
             result.append(r["name"])
         return result
 
-    def get_tags(self, repo: str) -> List[str]:
+    def get_tags(self, owner: str, repo: str) -> List[str]:
         """Retrieve list of all repo tags
 
         Parameters
         ----------
+        owner : `str`
+            repo owner
         repo : `str`
             repo name
 
@@ -182,7 +189,7 @@ class GitHubData:
             """
             query tag_list($cursor: String)
             {
-              repository(owner: "lsst", name: "%s") {
+              repository(owner: "%s", name: "%s") {
                 refs(first: 90, after: $cursor, refPrefix: "refs/tags/") {
                   pageInfo {
                         hasNextPage
@@ -202,9 +209,34 @@ class GitHubData:
                 }
               }
             }
-            """ % repo)
+            """ % (owner, repo))
         tags = list()
         result = self._query(query, ["repository", "refs"])
         for r in result:
             tags.append(r)
         return tags
+
+    @staticmethod
+    def get_repo_yaml():
+        result = dict()
+        reverse_lookup = dict()
+        url = 'https://raw.githubusercontent.com/lsst/repos/main/etc/repos.yaml'
+        response = requests.get(url)
+        content = response.content.decode("utf-8")
+        repo_list = yaml.safe_load(content)
+        for key, value in repo_list.items():
+            url = value
+            ref = 'main'
+            lfs = False
+            if isinstance(value, dict) and 'url' in value:
+                url = value['url']
+                if 'ref' in value:
+                    ref = value['ref']
+                if 'lfs' in value:
+                    lfs = value['lfs']
+            match = re.search(r"https://github.com/([\w\-]+)/([\w\-]+)(.git)*", url)
+            org = match.groups()[0]
+            repo = match.groups()[1]
+            result[key] = (org, repo, ref, lfs)
+            reverse_lookup[repo] = key
+        return result, reverse_lookup

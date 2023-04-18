@@ -19,21 +19,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import logging
+import sys
 import textwrap
-from pprint import pprint
 
 from sortedcontainers import SortedList
+
 from .tag import Tag, ReleaseType
-import sys
 
 log = logging.getLogger(__name__)
-
-
-def make_link(name, url, anon=False):
-    trail = '_'
-    if anon:
-        trail = '__'
-    return f"`{name} <{url}>`{trail}"
 
 
 class RstBase:
@@ -135,16 +128,28 @@ class RstTable(RstBase):
 
 
 class RstRelease:
-    def __init__(self, release_type, release_data, products):
+    def __init__(self, release_type, release_data, repo_data, repo_map, products):
         self.products = products
-        self.release_data = release_data
+        self.repo_data = repo_data
+        self.repo_map = repo_map
+        self.release_data = release_data[0]
+        self.tag_date = release_data[1]
         self.release_type = release_type
         self.subdir = 'weekly'
+        self.caption = 'Weekly'
         if release_type == ReleaseType.REGULAR:
             self.subdir = 'releases'
+            self.caption = "Releases"
         self.releases = SortedList()
         for r in self.release_data.keys():
             self.releases.add(Tag(r))
+
+    @staticmethod
+    def make_link(name, url, anon=False):
+        trail = '_'
+        if anon:
+            trail = '__'
+        return f"`{name} <{url}>`{trail}"
 
     @staticmethod
     def _escape(string: str):
@@ -159,14 +164,14 @@ class RstRelease:
             if t is None:
                 continue
             ticket = int(t)
-            name = make_link(f"DM-{ticket:6d}", f"https://jira.lsstcorp.org/browse/DM-{ticket}")
+            name = self.make_link(f"DM-{ticket:6d}", f"https://jira.lsstcorp.org/browse/DM-{ticket}")
             for b, c in branches.items():
                 wrap = textwrap.TextWrapper(width=60)
                 desc = wrap.wrap(self._escape(c[0]))
                 wrap = textwrap.TextWrapper(width=60)
                 pkg_names = list()
                 for p in c[1]:
-                    pkg_names.append(p[0])
+                    pkg_names.append(self.repo_map[p[0]])
                 pkg = wrap.wrap(', '.join(pkg_names))
                 merge_date = c[2]
                 n = 0
@@ -174,7 +179,8 @@ class RstRelease:
                 for i in range(len(pkg)):
                     temp = list()
                     for j in range(len(pkg[i].split(', '))):
-                        link = make_link(c[1][n][0], c[1][n][1], anon=True)
+                        link_name = self.repo_map[c[1][n][0]]
+                        link = self.make_link(link_name, c[1][n][1], anon=True)
                         temp.append(link)
                         n = n + 1
                     pkg_links.append(', '.join(temp))
@@ -194,7 +200,14 @@ class RstRelease:
         for el in self.products[self.release_type]:
             if i % ncol == 0:
                 product_list.append([''] * ncol)
-            product_list[-1][i % ncol] = el
+            link = el
+            if el in self.repo_data:
+                owner = self.repo_data[el][0]
+                repo = self.repo_data[el][1]
+                link = self.make_link(el, f'https://github.com/{owner}/{repo}')
+            else:
+                logging.warning("Product repository for %s not found", el)
+            product_list[-1][i % ncol] = link
             i = i + 1
         table = RstTable(product_list, headers, 3, file)
         table.write_table()
@@ -203,17 +216,19 @@ class RstRelease:
     def write_index(self):
         file = open(f'source/{self.subdir}/index.rst', 'w')
         rst = RstBase(file)
+        underline = '-' * len(self.caption)
         body = (
-            'Releases\n'
-            '--------\n'
+            f'{self.caption}\n'
+            f'{underline}\n'
             '\n'
             '.. toctree::\n'
-            '   :caption: Releases\n'
+            f'   :caption: {self.caption}\n'
             '   :maxdepth: 1\n'
             '   :hidden:\n'
             '\n'
             '   summary\n'
             '   products\n')
+
         rst.write(body)
         for r in reversed(self.releases):
             name = r.name()
@@ -252,7 +267,8 @@ class RstRelease:
             rst.nl()
             summary.header(eups_name, '-')
             summary.nl()
-            release_text = "Releases at "
+            tag_date = self.tag_date[name][1]
+            release_text = f"Released at {tag_date}"
             rst.writeln(release_text)
             rst.nl()
             summary.writeln(release_text)

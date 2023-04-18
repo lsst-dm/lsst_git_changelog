@@ -9,3 +9,5 @@ sphinx-rtd-theme
 sortedcontainers
 python-dateutil
 flake8
+pytz
+PyYAML

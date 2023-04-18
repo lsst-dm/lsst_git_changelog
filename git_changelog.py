@@ -28,7 +28,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-n', type=int, default=5, dest='workers', help="Number of connection workers")
 parser.add_argument('-d', dest='debug', default=False, action='store_true', help="Enable debug mode")
 parser.add_argument('-w', dest='weekly', default=False, action='store_true', help="Create only weekly changelog")
-parser.add_argument('-r', dest='release', default=False, action='store_true', help="Create only regular release changelog")
+parser.add_argument('-r', dest='release', default=False, action='store_true',
+                    help="Create only regular release changelog")
 args = parser.parse_args()
 
 logging.basicConfig(format='[%(asctime)s] %(message)s', datefmt='%Y-%m-%dT%H:%M:%S%z')

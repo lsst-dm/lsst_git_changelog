@@ -173,13 +173,13 @@ class EupsData:
         return result
 
     @staticmethod
-    def get_package_diff(eups_data, release: ReleaseType) -> SortedDict:
+    def get_package_diff(eups_data) -> SortedDict:
         """Retrieve added/removed products
 
         Parameters
         ----------
-        release: `ReleaseType`
-            release type: WEEKLY or REGULAR
+        eups_data:
+            data retrieved from EUPS
 
         Returns
         -------
@@ -200,6 +200,7 @@ class EupsData:
                 result[r] = {'added': added, 'removed': removed, 'pkgs': pkgs}
             last_release = releases[r]
         return result
+
     def get_releases(self, release):
         releases = [release]
         if release == ReleaseType.ALL:
@@ -210,7 +211,7 @@ class EupsData:
         all_products = set()
         for r in releases:
             eups_data[r] = self.get_release(r)
-            package_diff[r] = self.get_package_diff(eups_data[r], r)
+            package_diff[r] = self.get_package_diff(eups_data[r])
             products[r] = eups_data[r]['products']
             all_products |= set(products[r])
-        return eups_data, package_diff, products,all_products
+        return eups_data, package_diff, products, all_products
