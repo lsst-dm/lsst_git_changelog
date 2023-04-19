@@ -128,12 +128,13 @@ class RstTable(RstBase):
 
 
 class RstRelease:
-    def __init__(self, release_type, release_data, repo_data, repo_map, products):
+    def __init__(self, release_type, release_data, repo_data, repo_map, products, package_diff):
         self.products = products
         self.repo_data = repo_data
         self.repo_map = repo_map
         self.release_data = release_data[0]
         self.tag_date = release_data[1]
+        self.package_diff = package_diff[release_type]
         self.release_type = release_type
         self.subdir = 'weekly'
         self.caption = 'Weekly'
@@ -254,13 +255,14 @@ class RstRelease:
         summary = RstBase(summary_file)
         summary.header('Summary', '-')
         summary.nl()
-
         for r in reversed(self.releases):
             name = r.name()
             eups_name = r.rel_name()
             if name == '~untagged':
                 continue
 
+            if r not in self.package_diff:
+                continue
             file = open(f'source/{self.subdir}/{eups_name}.rst', 'w')
             rst = RstBase(file)
             rst.header(eups_name, '-')
@@ -273,6 +275,33 @@ class RstRelease:
             rst.nl()
             summary.writeln(release_text)
             summary.nl()
+
+            added = self.package_diff[r]["added"]
+            removed = self.package_diff[r]['removed']
+            pkg_table = list()
+            l1 = len(added)
+            l2 = len(removed)
+            for i in range(max(l1, l2)):
+                col = ["", ""]
+                if i < l1:
+                    col[0] = added[i]
+                if i < l2:
+                    col[1] = removed[i]
+                pkg_table.append(col)
+            if (len(pkg_table)) > 0:
+                headers = ['Added', 'Removed']
+                table1 = RstTable(pkg_table, headers, indent=3, file=summary_file)
+                table2 = RstTable(pkg_table, headers, indent=3, file=file)
+                table1.write_table()
+                table2.write_table()
+                rst.nl()
+                summary.nl()
+            else:
+                rst.writeln('No packages added/removed in this release')
+                rst.nl()
+                summary.writeln('No packages added/removed in this release')
+                summary.nl()
+
             rel = self.make_table(self.release_data[name])
             headers = ['Ticket', 'Description', "Last Merge", "Branch", "Packages"]
             table1 = RstTable(rel, headers, indent=3, file=summary_file)

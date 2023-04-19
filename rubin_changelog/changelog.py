@@ -28,7 +28,7 @@ from typing import Dict
 
 import pytz
 from dateutil import parser
-from sortedcontainers import SortedDict, SortedList
+from sortedcontainers import SortedDict, SortedList, SortedSet
 
 from .eups import EupsData
 from .github import GitHubData
@@ -104,6 +104,9 @@ class ChangeLogData:
             if 'target' not in target:
                 continue
             name = t["name"]
+            rtag = Tag(name)
+            if rtag.is_regular() and name.startswith('v'):
+                name = name.replace('v', '')
             tagDate = None
             if 'tagger' in target:
                 tagDate = target['tagger']['date']
@@ -141,10 +144,9 @@ class ChangeLogData:
                 tags = None
                 if oid in tag_dict:
                     tags = tag_dict[oid]
-                # if tags is not None:
-                #    print(tags[0], sort_tags(tags[0]))
+                if tags is not None:
+                    tags[0] = sort_tags(tags[0])
                 result[name][date] = (ticket, tags, url, title)
-        # pprint(result)
         return result, tag_dates
 
     def process(self, releaseType):
@@ -192,7 +194,6 @@ class ChangeLogData:
                     results[current][ticket_nr][branch][1].add((pkg, url))
                     if results[current][ticket_nr][branch][2] < merge_date:
                         results[current][ticket_nr][branch][2] = merge_date
-
         return results, tag_dates
 
 
@@ -313,7 +314,7 @@ class ChangeLog:
                 repo_list.add(repo)
         with ThreadPoolExecutor(
                 max_workers=self._max_workers) as executor:
-            futures = {executor.submit(self._fetch, repos[repo][0],  repos[repo][1]): repo for repo in repo_list}
+            futures = {executor.submit(self._fetch, repos[repo][0], repos[repo][1]): repo for repo in repo_list}
             for future in concurrent.futures.as_completed(futures):
                 try:
                     data = future.result()
@@ -331,6 +332,43 @@ class ChangeLog:
 
     def set_debug(self):
         self._debug = True
+
+    @staticmethod
+    def merge_releases(release_data, package_diff):
+        releases = SortedList()
+        last_rel = dict()
+        result = dict()
+        packages = dict()
+        for tag in release_data[1].keys():
+            releases.add(Tag(tag))
+        for rel in releases:
+            rel_type, version = rel.desc()
+            if rel_type != 'regular' or version[0] < 16:
+                continue
+            last_rel[rel.base_name()] = rel
+        for tag, data in release_data[0].items():
+            rtag = Tag(tag)
+            if not rtag.is_valid() or rtag.desc()[1][0] < 16:
+                continue
+            if data is None:
+                continue
+            name = last_rel[rtag.base_name()]
+            name = name.name()
+            if name not in result:
+                result[name] = dict()
+            result[name].update(data)
+        for tag, data in package_diff[ReleaseType.REGULAR].items():
+            if not tag.is_valid() or tag.desc()[1][0] < 16:
+                continue
+            if tag.base_name() not in last_rel:
+                continue
+            name = last_rel[tag.base_name()]
+            if name not in packages:
+                packages[name] = {"pkgs": SortedSet(), "removed": SortedSet(), "added": SortedSet()}
+            packages[name]["pkgs"].update(data["pkgs"])
+            packages[name]["removed"].update(data["removed"])
+            packages[name]["added"].update(data["added"])
+        return result, packages
 
     def create_changelog(self, release: ReleaseType) -> None:
         """Process data sources and Write RST changelog files
@@ -359,5 +397,9 @@ class ChangeLog:
         changelog = ChangeLogData(data, jira_tickets)
         for r in releases:
             release_data = changelog.process(r)
-            rst = RstRelease(r, release_data, repo_data, repo_map, products)
+            if r == ReleaseType.REGULAR:
+                n = self.merge_releases(release_data, package_diff)
+                release_data = n[0], release_data[1]
+                package_diff[ReleaseType.REGULAR] = n[1]
+            rst = RstRelease(r, release_data, repo_data, repo_map, products, package_diff)
             rst.write()

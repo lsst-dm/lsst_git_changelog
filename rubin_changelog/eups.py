@@ -26,7 +26,7 @@ from typing import List, Dict
 import requests
 import urllib3
 from bs4 import BeautifulSoup
-from sortedcontainers import SortedDict, SortedList
+from sortedcontainers import SortedDict, SortedSet
 
 from .tag import ReleaseType, Tag, matches_release
 
@@ -139,7 +139,7 @@ class EupsData:
         urls = self._get_url_paths()
         result = SortedDict()
         release_list = SortedDict()
-        product_list = SortedList()
+        product_list = SortedSet()
         url_list = list()
         for url in urls:
             name = url.split('/')[-1]
@@ -195,8 +195,8 @@ class EupsData:
             if last_release is not None:
                 previous_pkgs = [sub['package'] for sub in last_release]
                 pkgs = [sub['package'] for sub in releases[r]]
-                removed = SortedList(set(previous_pkgs) - set(pkgs))
-                added = SortedList(set(pkgs) - set(previous_pkgs))
+                removed = SortedSet(set(previous_pkgs) - set(pkgs))
+                added = SortedSet(set(pkgs) - set(previous_pkgs))
                 result[r] = {'added': added, 'removed': removed, 'pkgs': pkgs}
             last_release = releases[r]
         return result
