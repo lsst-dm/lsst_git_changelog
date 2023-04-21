@@ -207,7 +207,7 @@ class RstRelease:
                 repo = self.repo_data[el][1]
                 link = self.make_link(el, f'https://github.com/{owner}/{repo}')
             else:
-                logging.warning("Product repository for %s not found", el)
+                log.warning("Product repository for %s not found", el)
             product_list[-1][i % ncol] = link
             i = i + 1
         table = RstTable(product_list, headers, 3, file)
@@ -250,6 +250,28 @@ class RstRelease:
             rst.writeln(f"- :doc:`{eups_name}`")
         file.close()
 
+    def write_product_table(self, r, rst):
+        added = self.package_diff[r]["added"]
+        removed = self.package_diff[r]['removed']
+        pkg_table = list()
+        l1 = len(added)
+        l2 = len(removed)
+        for i in range(max(l1, l2)):
+            col = ["", ""]
+            if i < l1:
+                col[0] = added[i]
+            if i < l2:
+                col[1] = removed[i]
+            pkg_table.append(col)
+        if (len(pkg_table)) > 0:
+            headers = ['Added', 'Removed']
+            table = RstTable(pkg_table, headers, indent=3, file=rst)
+            table.write_table()
+            rst.nl()
+        else:
+            rst.writeln('No packages added/removed in this release')
+            rst.nl()
+
     def write_releases(self):
         summary_file = open(f'source/{self.subdir}/summary.rst', 'w')
         summary = RstBase(summary_file)
@@ -260,9 +282,7 @@ class RstRelease:
             eups_name = r.rel_name()
             if name == '~untagged':
                 continue
-
-            if r not in self.package_diff:
-                continue
+            log.info("Writing release %s", eups_name)
             file = open(f'source/{self.subdir}/{eups_name}.rst', 'w')
             rst = RstBase(file)
             rst.header(eups_name, '-')
@@ -270,37 +290,17 @@ class RstRelease:
             summary.header(eups_name, '-')
             summary.nl()
             tag_date = self.tag_date[name][1]
-            release_text = f"Released at {tag_date}"
+            if eups_name == 'main':
+                release_text = f"Updated at {tag_date}"
+            else:
+                release_text = f"Released at {tag_date}"
             rst.writeln(release_text)
             rst.nl()
             summary.writeln(release_text)
             summary.nl()
-
-            added = self.package_diff[r]["added"]
-            removed = self.package_diff[r]['removed']
-            pkg_table = list()
-            l1 = len(added)
-            l2 = len(removed)
-            for i in range(max(l1, l2)):
-                col = ["", ""]
-                if i < l1:
-                    col[0] = added[i]
-                if i < l2:
-                    col[1] = removed[i]
-                pkg_table.append(col)
-            if (len(pkg_table)) > 0:
-                headers = ['Added', 'Removed']
-                table1 = RstTable(pkg_table, headers, indent=3, file=summary_file)
-                table2 = RstTable(pkg_table, headers, indent=3, file=file)
-                table1.write_table()
-                table2.write_table()
-                rst.nl()
-                summary.nl()
-            else:
-                rst.writeln('No packages added/removed in this release')
-                rst.nl()
-                summary.writeln('No packages added/removed in this release')
-                summary.nl()
+            if r in self.package_diff:
+                self.write_product_table(r, rst)
+                self.write_product_table(r, summary)
 
             rel = self.make_table(self.release_data[name])
             headers = ['Ticket', 'Description', "Last Merge", "Branch", "Packages"]

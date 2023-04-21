@@ -29,7 +29,7 @@ from typing import Dict
 import pytz
 from dateutil import parser
 from sortedcontainers import SortedDict, SortedList, SortedSet
-
+from datetime import datetime
 from .eups import EupsData
 from .github import GitHubData
 from .jira import JiraData
@@ -37,13 +37,6 @@ from .rst import RstRelease
 from .tag import Tag, ReleaseType, matches_release
 
 log = logging.getLogger("changelog")
-
-
-def valid_branch(name):
-    if name in ("main", "master"):
-        return True
-    match = re.search(r'v?\d+\.\d+\.x', name)
-    return match is not None
 
 
 def valid_ticket(name):
@@ -67,12 +60,15 @@ def sort_tags(tags):
 
 
 class ChangeLogData:
-    def __init__(self, github, jira_tickets):
+    def __init__(self, github, jira_tickets, last_weekly):
         self.github = github
         self.jira_tickets = jira_tickets
         self.github['~untagged'] = dict()
         self.tags = github['tags']
         self.pulls = github['pulls']
+        self.repos = github['repos']
+        self.repo_map = github['repo_map']
+        self.last_weekly = last_weekly
 
     @staticmethod
     def _ticket_number(title: str) -> int:
@@ -95,8 +91,13 @@ class ChangeLogData:
             ticket = int(match[1])
         return ticket
 
-    @staticmethod
-    def _process_tags(tag_list, pull_list, release):
+    def valid_branch(self, name, branch):
+        if name == branch:
+            return True
+        match = re.search(r'v?\d+\.\d+\.x', name)
+        return match is not None
+
+    def _process_tags(self, tag_list, pull_list, release, pkg):
         tag_dict = dict()
         tag_dates = dict()
         for t in tag_list:
@@ -130,7 +131,8 @@ class ChangeLogData:
 
         result = dict()
         for name, pull_branch in pull_list.items():
-            if not valid_branch(name):
+            branch = self.repos[self.repo_map[pkg]][2]
+            if not self.valid_branch(name, branch):
                 continue
             if name not in result:
                 result[name] = SortedDict()
@@ -152,10 +154,11 @@ class ChangeLogData:
     def process(self, releaseType):
         results = dict()
         results['~untagged'] = dict()
+        main = dict()
         tag_dates = dict()
         for pkg, tag in self.tags.items():
             pull = self.pulls[pkg]
-            merges, dates = self._process_tags(tag, pull, releaseType)
+            merges, dates = self._process_tags(tag, pull, releaseType, pkg)
             for rel, date_str in dates.items():
                 date = parser.parse(date_str).astimezone(pytz.utc)
                 if rel not in tag_dates:
@@ -177,7 +180,8 @@ class ChangeLogData:
                         ticket_title = self.jira_tickets[f'DM-{ticket_nr}']
                     tags = item[1]
                     url = item[2]
-
+                    if ticket_nr is None:
+                        continue
                     first_tag = None
                     if tags is not None:
                         first_tag = tags[0][0]
@@ -194,6 +198,31 @@ class ChangeLogData:
                     results[current][ticket_nr][branch][1].add((pkg, url))
                     if results[current][ticket_nr][branch][2] < merge_date:
                         results[current][ticket_nr][branch][2] = merge_date
+                    if not (branch == 'main'
+                           and current == '~untagged'
+                           and releaseType == ReleaseType.WEEKLY):
+                        continue
+                    weekly_date = None
+                    for k, v in dates.items():
+                        if self.last_weekly == k:
+                            weekly_date = v
+                            break
+                    if weekly_date is None or merge_date < weekly_date:
+                        continue
+
+                    if ticket_nr not in main:
+                        main[ticket_nr] = dict()
+                    if branch not in main[ticket_nr]:
+                        main[ticket_nr][branch] = [
+                            None, SortedList(), "1970-01-01T00:00Z", "1970-01-01T00:00Z "]
+                    main[ticket_nr][branch][0] = ticket_title
+                    main[ticket_nr][branch][1].add((pkg, url))
+                    if main[ticket_nr][branch][2] < merge_date:
+                        main[ticket_nr][branch][2] = merge_date
+        if releaseType == ReleaseType.WEEKLY and main:
+            results["~main"] = main
+            current_date = datetime.utcnow()
+            tag_dates['~main'] = (current_date, current_date.strftime("%Y-%m-%dT%H:%M:%SZ"))
         return results, tag_dates
 
 
@@ -384,6 +413,7 @@ class ChangeLog:
         """
         log.info("Fetching JIRA data")
         jira = JiraData()
+        jira = JiraData()
         jira_tickets = jira.get_tickets()
         log.info("Fetching EUPS data")
         releases = [release]
@@ -391,10 +421,11 @@ class ChangeLog:
             releases = [ReleaseType.REGULAR, ReleaseType.WEEKLY]
         eups = EupsData()
         eups_data, package_diff, products, all_products = eups.get_releases(release)
+        last_weekly = eups_data[ReleaseType.WEEKLY]['releases'].keys()[-1].base_name()
         data = self._get_package_repos(all_products)
         repo_data = data['repos']
         repo_map = data['repo_map']
-        changelog = ChangeLogData(data, jira_tickets)
+        changelog = ChangeLogData(data, jira_tickets, last_weekly)
         for r in releases:
             release_data = changelog.process(r)
             if r == ReleaseType.REGULAR:
