@@ -23,6 +23,9 @@ jobs:
                 python -m pip install -r requirements.txt 
             - name: Create Changelog
               run: |
+                mkdir -p source/weekly/
+                mkdir -p source/releases/
+                mkdir -p build/
                 python git_changelog.py -n 1
                 make html
               env:
