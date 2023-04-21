@@ -48,6 +48,7 @@ html_last_updated_fmt = '%Y-%m-%d %H:%M %Z'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinxcontrib.jquery",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

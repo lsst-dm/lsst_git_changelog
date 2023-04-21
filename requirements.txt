@@ -6,6 +6,7 @@ urllib3
 Jinja2<3.1
 Sphinx
 sphinx-rtd-theme
+sphinxcontrib-jquery
 sortedcontainers
 python-dateutil
 flake8
