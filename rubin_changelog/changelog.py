@@ -24,12 +24,14 @@ import logging
 import os
 import re
 from concurrent.futures.thread import ThreadPoolExecutor
+from datetime import datetime
+from pprint import pprint
 from typing import Dict
 
 import pytz
 from dateutil import parser
 from sortedcontainers import SortedDict, SortedList, SortedSet
-from datetime import datetime
+
 from .eups import EupsData
 from .github import GitHubData
 from .jira import JiraData
@@ -91,7 +93,8 @@ class ChangeLogData:
             ticket = int(match[1])
         return ticket
 
-    def valid_branch(self, name, branch):
+    @staticmethod
+    def valid_branch(name, branch):
         if name == branch:
             return True
         match = re.search(r'v?\d+\.\d+\.x', name)
@@ -151,7 +154,7 @@ class ChangeLogData:
                 result[name][date] = (ticket, tags, url, title)
         return result, tag_dates
 
-    def process(self, releaseType):
+    def process(self, releaseType, package_diff):
         results = dict()
         results['~untagged'] = dict()
         main = dict()
@@ -180,8 +183,8 @@ class ChangeLogData:
                         ticket_title = self.jira_tickets[f'DM-{ticket_nr}']
                     tags = item[1]
                     url = item[2]
-                    if ticket_nr is None:
-                        continue
+                    #if ticket_nr is None:
+                    #    continue
                     first_tag = None
                     if tags is not None:
                         first_tag = tags[0][0]
@@ -189,6 +192,11 @@ class ChangeLogData:
                         current = first_tag
                         if current not in results:
                             results[current] = dict()
+                    #if Tag(current) in package_diff and pkg in package_diff[Tag(current)]['added']:
+                    #    print(pkg, current)
+                    #    continue
+                    if ticket_nr is None:
+                        continue
                     if ticket_nr not in results[current]:
                         results[current][ticket_nr] = dict()
                     if branch not in results[current][ticket_nr]:
@@ -199,8 +207,8 @@ class ChangeLogData:
                     if results[current][ticket_nr][branch][2] < merge_date:
                         results[current][ticket_nr][branch][2] = merge_date
                     if not (branch == 'main'
-                           and current == '~untagged'
-                           and releaseType == ReleaseType.WEEKLY):
+                            and current == '~untagged'
+                            and releaseType == ReleaseType.WEEKLY):
                         continue
                     weekly_date = None
                     for k, v in dates.items():
@@ -209,7 +217,6 @@ class ChangeLogData:
                             break
                     if weekly_date is None or merge_date < weekly_date:
                         continue
-
                     if ticket_nr not in main:
                         main[ticket_nr] = dict()
                     if branch not in main[ticket_nr]:
@@ -363,7 +370,7 @@ class ChangeLog:
         self._debug = True
 
     @staticmethod
-    def merge_releases(release_data, package_diff):
+    def merge_releases(release_data, package_diff, mergeFirst: bool = True):
         releases = SortedList()
         last_rel = dict()
         result = dict()
@@ -374,14 +381,20 @@ class ChangeLog:
             rel_type, version = rel.desc()
             if rel_type != 'regular' or version[0] < 16:
                 continue
-            last_rel[rel.base_name()] = rel
+            if rel.is_first_release_tag() and not mergeFirst:
+                last_rel[rel.name()] = rel
+            else:
+                last_rel[rel.base_name()] = rel
         for tag, data in release_data[0].items():
             rtag = Tag(tag)
             if not rtag.is_valid() or rtag.desc()[1][0] < 16:
                 continue
             if data is None:
                 continue
-            name = last_rel[rtag.base_name()]
+            if rtag.is_first_release_tag() and not mergeFirst:
+                name = last_rel[rtag.name()]
+            else:
+                name = last_rel[rtag.base_name()]
             name = name.name()
             if name not in result:
                 result[name] = dict()
@@ -399,7 +412,54 @@ class ChangeLog:
             packages[name]["added"].update(data["added"])
         return result, packages
 
-    def create_changelog(self, release: ReleaseType) -> None:
+    def release_tickets(self, release_data, release_notes):
+        result = SortedDict()
+        for tag, rel_data in release_data[0].items():
+            if not Tag(tag).same_major(release_notes):
+                continue
+            tickets = SortedDict()
+            for ticket in rel_data:
+                for branch, ticket_data in rel_data[ticket].items():
+                    if int(ticket) not in tickets:
+                        tickets[int(ticket)] = (ticket_data[0], ticket_data[1])
+                    else:
+                        prev = tickets[int(ticket)][1]
+                        tickets[int(ticket)] = (ticket_data[0], prev + ticket_data[1])
+                pkg = list()
+                for ticker_data in tickets[int(ticket)][1]:
+                    name = ticker_data[0].replace('legacy-', '')
+                    if name not in pkg:
+                        pkg.append(name)
+                prev = tickets[int(ticket)][0]
+                tickets[int(ticket)] = (prev, pkg)
+            result[Tag(tag)] = tickets
+        count = 0
+        ticket_count = set()
+        for release in reversed(result):
+            release_str = release.name()
+            title = f"Tickets Addressed in Release {release_str}"
+            print('#' * len(title))
+            print(title)
+            print('#' * len(title))
+            print()
+            tickets = result[release]
+            for ticket, data in tickets.items():
+                desc = data[0]
+                for c in ['*', '`']:
+                    desc = desc.replace(c, f'\\{c}')
+                if 'lsst' in data[1] and len(data[1]) == 1:
+                    continue
+                pkgs = ", ".join(data[1])
+                print(f"- `DM-{ticket} <https://jira.lsstcorp.org/browse/DM-{ticket}>`_:  {desc} [{pkgs}]")
+                if not (release.desc()[1][2] == 0 and release.desc()[1][3] == 1):
+                    ticket_count.add(ticket)
+            print()
+        count = len(ticket_count)
+        log.info(f"{count} tickets backported")
+
+    def create_changelog(self, release: ReleaseType,
+                         mergeReleases: bool = True, mergeFirst: bool = True,
+                         release_notes='') -> None:
         """Process data sources and Write RST changelog files
 
         Parameters
@@ -412,7 +472,6 @@ class ChangeLog:
 
         """
         log.info("Fetching JIRA data")
-        jira = JiraData()
         jira = JiraData()
         jira_tickets = jira.get_tickets()
         log.info("Fetching EUPS data")
@@ -427,10 +486,13 @@ class ChangeLog:
         repo_map = data['repo_map']
         changelog = ChangeLogData(data, jira_tickets, last_weekly)
         for r in releases:
-            release_data = changelog.process(r)
-            if r == ReleaseType.REGULAR:
-                n = self.merge_releases(release_data, package_diff)
+            release_data = changelog.process(r, package_diff[r])
+            if r == ReleaseType.REGULAR and mergeReleases:
+                n = self.merge_releases(release_data, package_diff, mergeFirst)
                 release_data = n[0], release_data[1]
                 package_diff[ReleaseType.REGULAR] = n[1]
-            rst = RstRelease(r, release_data, repo_data, repo_map, products, package_diff)
-            rst.write()
+            if release_notes == '':
+                rst = RstRelease(r, release_data, repo_data, repo_map, products, package_diff)
+                rst.write()
+            elif r == ReleaseType.REGULAR:
+                self.release_tickets(release_data, release_notes)

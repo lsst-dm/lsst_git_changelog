@@ -165,7 +165,7 @@ class RstRelease:
             if t is None:
                 continue
             ticket = int(t)
-            name = self.make_link(f"DM-{ticket:6d}", f"https://jira.lsstcorp.org/browse/DM-{ticket}")
+            name = self.make_link(f"DM_{ticket:05d}", f"https://jira.lsstcorp.org/browse/DM-{ticket}")
             for b, c in branches.items():
                 wrap = textwrap.TextWrapper(width=60)
                 desc = wrap.wrap(self._escape(c[0]))

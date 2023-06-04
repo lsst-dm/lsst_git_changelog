@@ -208,6 +208,10 @@ class Tag:
         else:
             return 'main'
 
+    def same_major(self, other: str) -> bool:
+        o = Tag(other).desc()[1]
+        return self.is_regular and self._major == o[0] and self._minor == o[1]
+
     def first_name(self) -> str:
         if self.is_regular():
             return f'{self._major}.{self._minor}.0'
@@ -230,7 +234,7 @@ class Tag:
         """
         result = False
         if self.is_regular():
-            result = self._rc == 99
+            result = self._rc == 1 and self._patch == 0
         return result
 
 

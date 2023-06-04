@@ -104,7 +104,10 @@ class GitHubData:
                             title
                             mergedAt
                             url
-                            mergeCommit {oid} 
+                            mergeCommit {
+                              oid
+                              committedDate
+                            }
                         }
                     }
                 }
@@ -129,12 +132,14 @@ class GitHubData:
             title = r['title']
             url = r['url']
             oid = None
+            committedDate = mergedAt
             if mergeCommit:
                 oid = mergeCommit['oid']
+                committedDate = mergeCommit["committedDate"]
             if mergedBranch.startswith('tickets/'):
                 mergedBranch = mergedBranch.split('/')[1]
-            if r["mergedAt"] is not None:
-                pull_requests[branch][mergedAt] = mergedBranch, oid, url, title
+            if committedDate is not None:
+                pull_requests[branch][committedDate] = mergedBranch, oid, url, title
         return pull_requests, branches
 
     def get_repos(self) -> List[str]:
