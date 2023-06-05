@@ -153,10 +153,12 @@ class RstRelease:
         return f"`{name} <{url}>`{trail}"
 
     @staticmethod
-    def _escape(string: str):
+    def escape(string: str):
         result = string
-        for c in ['*', '`', '_']:
+        for c in ['*', '_']:
             result = result.replace(c, f'\\{c}')
+        result = result.replace('`', '``')
+        result = result.rstrip().lstrip()
         return result
 
     def make_table(self, release):
@@ -168,7 +170,7 @@ class RstRelease:
             name = self.make_link(f"DM_{ticket:05d}", f"https://jira.lsstcorp.org/browse/DM-{ticket}")
             for b, c in branches.items():
                 wrap = textwrap.TextWrapper(width=60)
-                desc = wrap.wrap(self._escape(c[0]))
+                desc = wrap.wrap(self.escape(c[0]))
                 wrap = textwrap.TextWrapper(width=60)
                 pkg_names = list()
                 for p in c[1]:

@@ -25,7 +25,6 @@ import os
 import re
 from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import datetime
-from pprint import pprint
 from typing import Dict
 
 import pytz
@@ -445,12 +444,12 @@ class ChangeLog:
             tickets = result[release]
             for ticket, data in tickets.items():
                 desc = data[0]
-                for c in ['*', '`']:
-                    desc = desc.replace(c, f'\\{c}')
+                desc = RstRelease.escape(desc)
                 if 'lsst' in data[1] and len(data[1]) == 1:
                     continue
                 pkgs = ", ".join(data[1])
-                print(f"- `DM-{ticket} <https://jira.lsstcorp.org/browse/DM-{ticket}>`_:  {desc} [{pkgs}]")
+                pkgs = RstRelease.escape(pkgs)
+                print(f"- `DM-{ticket} <https://jira.lsstcorp.org/browse/DM-{ticket}>`_: {desc} [{pkgs}]")
                 if not (release.desc()[1][2] == 0 and release.desc()[1][3] == 1):
                     ticket_count.add(ticket)
             print()
