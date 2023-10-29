@@ -20,6 +20,10 @@
 
 import re
 from enum import Enum
+from conf import changelog_conf
+
+discard_tag = []
+first_tag = []
 
 
 class ReleaseType(Enum):
@@ -150,7 +154,7 @@ class Tag:
         return name
 
     def is_valid(self) -> bool:
-        return self._valid
+        return self._valid and self.name() not in discard_tag
 
     def __eq__(self, other) -> bool:
         return self.__hash__() == other.__hash__()
@@ -234,7 +238,8 @@ class Tag:
         """
         result = False
         if self.is_regular():
-            result = self._rc == 1 and self._patch == 0
+            result = (self._rc == 1 and self._patch == 0) or \
+                     ((self.name() in first_tag) and (self.name() not in discard_tag))
         return result
 
 
@@ -259,3 +264,10 @@ def matches_release(tag: Tag, release: ReleaseType) -> bool:
     if tag.is_regular() and release == ReleaseType.REGULAR:
         return True
     return False
+
+
+for tag in changelog_conf["discard_tag"]:
+    discard_tag.append(Tag(tag).name())
+
+for tag in changelog_conf["first_tag"]:
+    first_tag.append(Tag(tag).name())
