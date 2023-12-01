@@ -182,8 +182,6 @@ class ChangeLogData:
                         ticket_title = self.jira_tickets[f'DM-{ticket_nr}']
                     tags = item[1]
                     url = item[2]
-                    #if ticket_nr is None:
-                    #    continue
                     first_tag = None
                     if tags is not None:
                         first_tag = tags[0][0]
@@ -191,9 +189,6 @@ class ChangeLogData:
                         current = first_tag
                         if current not in results:
                             results[current] = dict()
-                    #if Tag(current) in package_diff and pkg in package_diff[Tag(current)]['added']:
-                    #    print(pkg, current)
-                    #    continue
                     if ticket_nr is None:
                         continue
                     if ticket_nr not in results[current]:

@@ -21,6 +21,7 @@
 
 from .changelog import ChangeLog
 from .tag import ReleaseType, Tag, matches_release
-from .rst import *
+from .github import GitHubData
+from .eups import EupsData
 
-__all__ = [ChangeLog, ReleaseType]
+__all__ = [ChangeLog, ReleaseType, GitHubData, Tag, matches_release, EupsData]

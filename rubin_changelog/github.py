@@ -29,6 +29,7 @@ from sortedcontainers import SortedDict
 
 import yaml
 import requests
+from conf import patch_merges
 
 
 class GitHubData:
@@ -138,6 +139,9 @@ class GitHubData:
                 committedDate = mergeCommit["committedDate"]
             if mergedBranch.startswith('tickets/'):
                 mergedBranch = mergedBranch.split('/')[1]
+            if url in patch_merges:
+                oid = patch_merges[url]['oid']
+                committedDate = patch_merges[url]['committedDate']
             if committedDate is not None:
                 pull_requests[branch][committedDate] = mergedBranch, oid, url, title
         return pull_requests, branches
@@ -202,6 +206,11 @@ class GitHubData:
                       }
                    nodes {
                     name
+                    ... on Ref {
+                      target {
+                        ... on Commit {oid committedDate}
+                      }
+                    }
                     target {
                       ... on Tag {
                       tagger {date}
@@ -217,7 +226,15 @@ class GitHubData:
             """ % (owner, repo))
         tags = list()
         result = self._query(query, ["repository", "refs"])
+
         for r in result:
+            if 'target' not in r["target"]:
+                oid = r["target"]["oid"]
+                committedDate = r["target"]["committedDate"]
+                r["target"].update({'tagger': {'date': committedDate}})
+                r["target"]['target'] = {'oid': oid, 'committedDate': committedDate}
+                r["target"].pop('oid')
+                r['target'].pop('committedDate')
             tags.append(r)
         return tags
 

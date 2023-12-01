@@ -157,11 +157,16 @@ class RstRelease:
         result = string
         for c in ['*', '_']:
             result = result.replace(c, f'\\{c}')
-        result = result.replace('`', '``')
+        result = result.replace('`', '\\`')
         result = result.rstrip().lstrip()
         return result
 
-    def make_table(self, release):
+    def make_table(self, r):
+        name = r.name()
+        added = list()
+        if r in self.package_diff:
+            added = self.package_diff[r]["added"]
+        release = self.release_data[name]
         result = list()
         for t, branches in release.items():
             if t is None:
@@ -174,7 +179,10 @@ class RstRelease:
                 wrap = textwrap.TextWrapper(width=60)
                 pkg_names = list()
                 for p in c[1]:
-                    pkg_names.append(self.repo_map[p[0]])
+                    if p[0] not in added or b.endswith(".x"):
+                        pkg_names.append(self.repo_map[p[0]])
+                if len(pkg_names) == 0:
+                    continue
                 pkg = wrap.wrap(', '.join(pkg_names))
                 merge_date = c[2]
                 n = 0
@@ -304,7 +312,7 @@ class RstRelease:
                 self.write_product_table(r, rst)
                 self.write_product_table(r, summary)
 
-            rel = self.make_table(self.release_data[name])
+            rel = self.make_table(r)
             headers = ['Ticket', 'Description', "Last Merge", "Branch", "Packages"]
             table1 = RstTable(rel, headers, indent=3, file=summary_file)
             table2 = RstTable(rel, headers, indent=3, file=file)
