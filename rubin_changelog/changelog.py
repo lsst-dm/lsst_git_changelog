@@ -200,7 +200,10 @@ class ChangeLogData:
                     results[current][ticket_nr][branch][1].add((pkg, url))
                     if results[current][ticket_nr][branch][2] < merge_date:
                         results[current][ticket_nr][branch][2] = merge_date
-                    if not (branch == 'main'
+                    main_name = 'main'
+                    if pkg.lower() in self.repos:
+                        main_name = self.repos[pkg.lower()][2]
+                    if not (branch == main_name
                             and current == '~untagged'
                             and releaseType == ReleaseType.WEEKLY):
                         continue
