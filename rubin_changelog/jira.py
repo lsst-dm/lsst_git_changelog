@@ -32,7 +32,7 @@ class JiraData(object):
             "Accept": "application/json",
             "Content-Type": "application/json"
         }
-        self._perPage = 5000
+        self._perPage = 1000
 
     def get_tickets(self) -> Dict[str, str]:
         """Get all DM-XXXXXX JIRA tickets and summary messages
