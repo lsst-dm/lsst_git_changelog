@@ -22,12 +22,11 @@ from typing import Dict
 
 import requests
 
-
 class JiraData(object):
     """Class to retrieve JIRA ticket data"""
 
     def __init__(self):
-        self._url = 'https://jira.lsstcorp.org/rest/api/2/search'
+        self._url = 'https://rubinobs.atlassian.net/rest/api/2/search'
         self._headers = {
             "Accept": "application/json",
             "Content-Type": "application/json"
@@ -57,7 +56,8 @@ class JiraData(object):
             res = requests.get(req_url, headers=self._headers)
             res_json = res.json()
             total = res_json['total']
-            start_at = start_at + self._perPage
+            maxResults = res_json['maxResults']
+            start_at = start_at + maxResults
             for r in res_json['issues']:
                 results[r['key']] = r['fields']['summary']
             if start_at >= total:

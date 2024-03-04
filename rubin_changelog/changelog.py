@@ -447,7 +447,7 @@ class ChangeLog:
                     continue
                 pkgs = ", ".join(data[1])
                 pkgs = RstRelease.escape(pkgs)
-                print(f"- `DM-{ticket} <https://jira.lsstcorp.org/browse/DM-{ticket}>`_: {desc} [{pkgs}]")
+                print(f"- `DM-{ticket} <https://ls.st//DM-{ticket}>`_: {desc} [{pkgs}]")
                 if not (release.desc()[1][2] == 0 and release.desc()[1][3] == 1):
                     ticket_count.add(ticket)
             print()
