@@ -470,7 +470,16 @@ class ChangeLog:
         """
         log.info("Fetching JIRA data")
         jira = JiraData()
-        jira_tickets = jira.get_tickets()
+        jira_tickets = None
+        if self._debug and os.path.exists("jira_debug.json"):
+            f = open('jira_debug.json')
+            jira_tickets = json.load(f)
+            f.close()
+        else:
+            jira_tickets = jira.get_tickets()
+        if self._debug:
+            with open("jira_debug.json", "w") as outfile:
+                outfile.write(json.dumps(jira_tickets))
         log.info("Fetching EUPS data")
         releases = [release]
         if release == ReleaseType.ALL:
