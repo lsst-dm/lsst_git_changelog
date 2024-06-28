@@ -130,8 +130,8 @@ class ChangeLogData:
                 tag_dict[oid] = list(([name], committedDate))
             else:
                 tag_dict[oid][0].append(name)
-
         result = dict()
+        oid_list = set()
         for name, pull_branch in pull_list.items():
             branch = self.repos[self.repo_map[pkg]][2]
             if not self.valid_branch(name, branch):
@@ -148,9 +148,30 @@ class ChangeLogData:
                 tags = None
                 if oid in tag_dict:
                     tags = tag_dict[oid]
+                    oid_list.add(oid)
                 if tags is not None:
                     tags[0] = sort_tags(tags[0])
-                result[name][date] = (ticket, tags, url, title)
+                result[name][date] = [ticket, tags, url, title]
+        main_name = 'main'
+        if pkg.lower() in self.repos:
+            main_name = self.repos[pkg.lower()][2]
+
+        for oid, tag_data in tag_dict.items():
+            if oid in oid_list:
+                continue
+            date = tag_data[1]
+            tags = sort_tags(tag_data[0])
+            if main_name not in result:
+                result[main_name] = SortedDict()
+            result[main_name][date] = [str(oid), [tags, date], '', '']
+        #for branch, merges in result.items():
+        #    current = None
+        #    for merge_date in reversed(merges):
+        #        item = merges[merge_date]
+        #        tags = item[1]
+        #        if tags is not None:
+        #            current = tags
+        #        result[branch][merge_date][1] = current
         return result, tag_dates
 
     def process(self, releaseType, package_diff):
@@ -159,6 +180,8 @@ class ChangeLogData:
         main = dict()
         tag_dates = dict()
         for pkg, tag in self.tags.items():
+            if pkg.startswith("testdata_") or pkg.endswith("_testdata"):
+                continue
             pull = self.pulls[pkg]
             merges, dates = self._process_tags(tag, pull, releaseType, pkg)
             for rel, date_str in dates.items():
@@ -447,7 +470,7 @@ class ChangeLog:
                     continue
                 pkgs = ", ".join(data[1])
                 pkgs = RstRelease.escape(pkgs)
-                print(f"- `DM-{ticket} <https://ls.st//DM-{ticket}>`_: {desc} [{pkgs}]")
+                print(f"- :jira:`DM-{ticket}`: {desc} [{pkgs}]")
                 if not (release.desc()[1][2] == 0 and release.desc()[1][3] == 1):
                     ticket_count.add(ticket)
             print()
