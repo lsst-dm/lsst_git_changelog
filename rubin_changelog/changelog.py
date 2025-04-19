@@ -41,7 +41,7 @@ log = logging.getLogger("changelog")
 
 
 def valid_ticket(name):
-    match = re.search(r'.*DM-(\d+).*', name)
+    match = re.search(r'.*DM-(\d+).*', name, re.IGNORECASE)
     if match is not None:
         return match.groups()[0]
     return None
@@ -86,7 +86,7 @@ class ChangeLogData:
                 numeric part of DM-XXXXXX
 
         """
-        match = re.search(r'DM[\s*|-](\d+)', title.upper())
+        match = re.search(r'DM[\s*|-](\d+)', title.upper(), re.IGNORECASE)
         ticket = None
         if match:
             ticket = int(match[1])
