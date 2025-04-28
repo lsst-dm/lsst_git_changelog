@@ -22,6 +22,7 @@ from typing import Dict
 
 import requests
 
+
 class JiraData(object):
     """Class to retrieve JIRA ticket data"""
 

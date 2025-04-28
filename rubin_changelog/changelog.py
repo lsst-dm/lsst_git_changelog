@@ -26,7 +26,6 @@ import re
 from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import datetime
 from typing import Dict
-
 import pytz
 from dateutil import parser
 from sortedcontainers import SortedDict, SortedList, SortedSet
@@ -164,14 +163,6 @@ class ChangeLogData:
             if main_name not in result:
                 result[main_name] = SortedDict()
             result[main_name][date] = [str(oid), [tags, date], '', '']
-        #for branch, merges in result.items():
-        #    current = None
-        #    for merge_date in reversed(merges):
-        #        item = merges[merge_date]
-        #        tags = item[1]
-        #        if tags is not None:
-        #            current = tags
-        #        result[branch][merge_date][1] = current
         return result, tag_dates
 
     def process(self, releaseType, package_diff):
@@ -214,15 +205,20 @@ class ChangeLogData:
                             results[current] = dict()
                     if ticket_nr is None:
                         continue
-                    if ticket_nr not in results[current]:
-                        results[current][ticket_nr] = dict()
-                    if branch not in results[current][ticket_nr]:
-                        results[current][ticket_nr][branch] = [
-                            None, SortedList(), "1970-01-01T00:00Z", "1970-01-01T00:00Z"]
-                    results[current][ticket_nr][branch][0] = ticket_title
-                    results[current][ticket_nr][branch][1].add((pkg, url))
-                    if results[current][ticket_nr][branch][2] < merge_date:
-                        results[current][ticket_nr][branch][2] = merge_date
+                    update = True
+                    if Tag(current).is_regular():
+                        if Tag(current).desc()[1][3] > 1 and branch == 'main':
+                            update = False
+                    if update:
+                        if ticket_nr not in results[current]:
+                            results[current][ticket_nr] = dict()
+                        if branch not in results[current][ticket_nr]:
+                            results[current][ticket_nr][branch] = [
+                                None, SortedList(), "1970-01-01T00:00Z", "1970-01-01T00:00Z"]
+                        results[current][ticket_nr][branch][0] = ticket_title
+                        results[current][ticket_nr][branch][1].add((pkg, url))
+                        if results[current][ticket_nr][branch][2] < merge_date:
+                            results[current][ticket_nr][branch][2] = merge_date
                     main_name = 'main'
                     if pkg.lower() in self.repos:
                         main_name = self.repos[pkg.lower()][2]
