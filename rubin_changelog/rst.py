@@ -175,7 +175,11 @@ class RstRelease:
             name = self.make_link(f"DM_{ticket:05d}", f"https://ls.st/DM-{ticket}")
             for b, c in branches.items():
                 wrap = textwrap.TextWrapper(width=60)
-                desc = wrap.wrap(self.escape(c[0]))
+                try:
+                    desc = wrap.wrap(self.escape(c[0]))
+                except:
+                    # Ignore tickets with new JIRA description found
+                    continue
                 wrap = textwrap.TextWrapper(width=60)
                 pkg_names = list()
                 for p in c[1]:
