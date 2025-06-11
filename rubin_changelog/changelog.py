@@ -38,12 +38,11 @@ from .tag import Tag, ReleaseType, matches_release
 
 log = logging.getLogger("changelog")
 
-
 def valid_ticket(name):
-    match = re.search(r'.*DM-(\d+).*', name, re.IGNORECASE)
-    if match is not None:
-        return match.groups()[0]
-    return None
+    match = re.search(r'(DM|SP)-(\d+)', name, re.IGNORECASE)
+    if match:
+        return (match.group(1).upper(), match.group(2))
+    return (None, None)
 
 
 def sort_tags(tags):
@@ -85,11 +84,8 @@ class ChangeLogData:
                 numeric part of DM-XXXXXX
 
         """
-        match = re.search(r'DM[\s*|-](\d+)', title.upper(), re.IGNORECASE)
-        ticket = None
-        if match:
-            ticket = int(match[1])
-        return ticket
+        match = re.search(r'(DM|SP)[\s*-](\d+)', title, re.IGNORECASE)
+        return (match.group(1).upper(), int(match.group(2))) if match else (None, None)
 
     @staticmethod
     def valid_branch(name, branch):
@@ -186,14 +182,14 @@ class ChangeLogData:
                 merge = merges[branch]
                 for merge_date in reversed(merge):
                     item = merge[merge_date]
-                    ticket_nr = valid_ticket(item[0])
+                    project, ticket_nr = valid_ticket(item[0])
                     title = item[3]
-                    title_ticket_nr = self._ticket_number(title)
+                    title_project, title_ticket_nr = self._ticket_number(title)
                     if ticket_nr is None and title_ticket_nr is not None:
                         ticket_nr = title_ticket_nr
                     ticket_title = None
-                    if f'DM-{ticket_nr}' in self.jira_tickets:
-                        ticket_title = self.jira_tickets[f'DM-{ticket_nr}']
+                    if f'{project}-{ticket_nr}' in self.jira_tickets:
+                        ticket_title = self.jira_tickets[f'{project}-{ticket_nr}']
                     tags = item[1]
                     url = item[2]
                     first_tag = None
@@ -209,6 +205,7 @@ class ChangeLogData:
                     if Tag(current).is_regular():
                         if Tag(current).desc()[1][3] > 1 and branch == 'main':
                             update = False
+                    ticket_nr = f"{project}_{int(ticket_nr):05d}"
                     if update:
                         if ticket_nr not in results[current]:
                             results[current][ticket_nr] = dict()
@@ -436,18 +433,18 @@ class ChangeLog:
             tickets = SortedDict()
             for ticket in rel_data:
                 for branch, ticket_data in rel_data[ticket].items():
-                    if int(ticket) not in tickets:
-                        tickets[int(ticket)] = (ticket_data[0], ticket_data[1])
+                    if ticket not in tickets:
+                        tickets[ticket] = (ticket_data[0], ticket_data[1])
                     else:
-                        prev = tickets[int(ticket)][1]
+                        prev = tickets[ticket][1]
                         tickets[int(ticket)] = (ticket_data[0], prev + ticket_data[1])
                 pkg = list()
-                for ticker_data in tickets[int(ticket)][1]:
-                    name = ticker_data[0].replace('legacy-', '')
+                for ticket_data in tickets[ticket][1]:
+                    name = ticket_data[0].replace('legacy-', '')
                     if name not in pkg:
                         pkg.append(name)
-                prev = tickets[int(ticket)][0]
-                tickets[int(ticket)] = (prev, pkg)
+                prev = tickets[ticket][0]
+                tickets[ticket] = (prev, pkg)
             result[Tag(tag)] = tickets
         count = 0
         ticket_count = set()
@@ -466,7 +463,8 @@ class ChangeLog:
                     continue
                 pkgs = ", ".join(data[1])
                 pkgs = RstRelease.escape(pkgs)
-                print(f"- :jira:`DM-{ticket}`: {desc} [{pkgs}]")
+                prefix, number = ticket.split("_")
+                print(f"- :jira:`{prefix}-{int(number)}`: {desc} [{pkgs}]")
                 if not (release.desc()[1][2] == 0 and release.desc()[1][3] == 1):
                     ticket_count.add(ticket)
             print()

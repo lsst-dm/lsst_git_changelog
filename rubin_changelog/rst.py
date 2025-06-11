@@ -171,8 +171,9 @@ class RstRelease:
         for t, branches in release.items():
             if t is None:
                 continue
-            ticket = int(t)
-            name = self.make_link(f"DM_{ticket:05d}", f"https://ls.st/DM-{ticket}")
+            prefix, number = t.split("_")
+            ref = f"{prefix}-{int(number)}"
+            name = self.make_link(t, f"https://ls.st/{ref}")
             for b, c in branches.items():
                 wrap = textwrap.TextWrapper(width=60)
                 try:
