@@ -69,7 +69,7 @@ class RstTable(RstBase):
             for i in range(self.cols):
                 col = row[i]
                 length = 0
-                if type(col) == list:
+                if type(col) is list:
                     for c in col:
                         if len(c) > length:
                             length = len(c)
@@ -89,7 +89,7 @@ class RstTable(RstBase):
         multilines = 0
         for i in range(self.cols):
             line = row[i]
-            if type(row[i]) == list:
+            if type(row[i]) is list:
                 length = len(line)
             else:
                 length = 1
@@ -99,7 +99,7 @@ class RstTable(RstBase):
             self._indent(self.indent)
             for j in range(self.cols):
                 line = row[j]
-                if type(row[j]) == list and len(row[j]) > m:
+                if type(row[j]) is list and len(row[j]) > m:
                     line = row[j][m]
                 elif m >= 1:
                     line = ''
@@ -178,8 +178,9 @@ class RstRelease:
                 wrap = textwrap.TextWrapper(width=60)
                 try:
                     desc = wrap.wrap(self.escape(c[0]))
-                except:
+                except Exception as e:
                     # Ignore tickets with new JIRA description found
+                    log.info("No JIRA description found : %s", e)
                     continue
                 wrap = textwrap.TextWrapper(width=60)
                 pkg_names = list()

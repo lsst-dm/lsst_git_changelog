@@ -38,6 +38,7 @@ from .tag import Tag, ReleaseType, matches_release
 
 log = logging.getLogger("changelog")
 
+
 def valid_ticket(name):
     match = re.search(r'(DM|SP)-(\d+)', name, re.IGNORECASE)
     if match:
@@ -317,8 +318,8 @@ class ChangeLog:
                 result['branches'] = branches
                 del gh
                 return result
-            except:
-                log.info("Fetch failed for %s -- retry %d", repo, i)
+            except Exception as e:
+                log.info("Fetch failed for %s -- retry %d : %s", repo, i, e)
         return result
 
     def _get_package_repos(self, products: SortedList) -> dict:
@@ -363,7 +364,8 @@ class ChangeLog:
                 repo_list.add(repo)
         with ThreadPoolExecutor(
                 max_workers=self._max_workers) as executor:
-            futures = {executor.submit(self._fetch, repos[repo][0], repos[repo][1]): repo for repo in repo_list}
+            futures = {executor.submit(self._fetch,
+                       repos[repo][0], repos[repo][1]): repo for repo in repo_list}
             for future in concurrent.futures.as_completed(futures):
                 try:
                     data = future.result()

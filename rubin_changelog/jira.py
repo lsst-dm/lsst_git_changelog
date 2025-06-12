@@ -39,7 +39,7 @@ class JiraData(object):
         sp = self.get_project_tickets("SP")
         return sp | dm
 
-    def get_project_tickets(self, project : str) -> Dict[str, str]:
+    def get_project_tickets(self, project: str) -> Dict[str, str]:
         """Get all tickets and summary messages or a given project
 
         Parameters
