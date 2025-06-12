@@ -39,8 +39,8 @@ class GitHubData:
         token = os.getenv('AUTH_TOKEN')
         headers = {"Authorization": f"Bearer {token}"}
         transport = AIOHTTPTransport(
-            url='https://api.github.com/graphql', headers=headers)
-        self._client = Client(transport=transport)
+            url='https://api.github.com/graphql', headers=headers, ssl=True)
+        self._client = Client(transport=transport, fetch_schema_from_transport=True)
 
     def _query(self, query: gql, what: List[str]) -> List:
         """Execute a gql query

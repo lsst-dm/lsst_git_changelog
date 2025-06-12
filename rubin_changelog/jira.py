@@ -35,15 +35,22 @@ class JiraData(object):
         self._perPage = 1000
 
     def get_tickets(self) -> Dict[str, str]:
-        """Get all DM-XXXXXX JIRA tickets and summary messages
+        dm = self.get_project_tickets("DM")
+        sp = self.get_project_tickets("SP")
+        return sp | dm
+
+    def get_project_tickets(self, project: str) -> Dict[str, str]:
+        """Get all tickets and summary messages or a given project
 
         Parameters
         ----------
+        project : str
+            JIRA project like DM or SP
 
         Returns
         -------
         tickets : `Dict[str, str]`
-            returns a dictionary DM-XXXXXX : summary message
+            returns a dictionary ticket: summary message
 
         """
         start_at = 0
@@ -51,7 +58,7 @@ class JiraData(object):
         url = self._url
         results = dict()
         while True:
-            req_url = (f"{url}?jql=project=DM&startAt={start_at}"
+            req_url = (f"{url}?jql=project={project}&startAt={start_at}"
                        f"&maxResults={per_page}"
                        "&fields=key,summary")
             res = requests.get(req_url, headers=self._headers)
