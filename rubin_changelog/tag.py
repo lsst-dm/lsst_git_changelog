@@ -30,7 +30,8 @@ class ReleaseType(Enum):
     """Enum class to specify the release type"""
     WEEKLY = 1
     REGULAR = 2
-    ALL = 3
+    DAILY = 3
+    ALL = 4
 
 
 class Tag:
@@ -48,6 +49,7 @@ class Tag:
         self._name = name
         self._valid = False
         self._is_weekly = False
+        self._is_daily = False
         self._is_main = False
         self._major = -1
         self._minor = -1
@@ -55,12 +57,16 @@ class Tag:
         self._rc = -1
         self._week = -1
         self._year = -1
+        self._month = -1
+        self._day = -1
         if name.endswith("main"):
             self._valid = True
             self._is_main = True
             return
         if name.startswith('w'):
             self._weekly()
+        elif name.startswith('d'):
+            self._daily()
         else:
             self._regular()
 
@@ -76,6 +82,16 @@ class Tag:
         self._is_weekly = True
         self._valid = True
 
+    def _daily(self):
+        match = re.search(r'^w[.|_](\d{4})[_|.](\d{2}[_|.]\d{2})$', self._name)
+        if match is None:
+            return
+        self._year = int(match[1])
+        self._month =  int(match[2])
+        self._day = int(match[3])
+        self._is_daily = True
+        self._valid = True
+
     def is_weekly(self) -> bool:
         """check for weekly release tag
 
@@ -86,6 +102,9 @@ class Tag:
 
         """
         return self._is_main or self._is_weekly
+
+    def is_weekly(self) - > bool:
+        return self._is_main or self._is_daily
 
     def is_regular(self) -> bool:
         """check for regular release tag
@@ -179,12 +198,16 @@ class Tag:
             return 9999999999
         if self.is_weekly():
             return self._year * 100 + self._week
+        elif self.is_daily():
+            return self._year * 10000 + self._month *10 + self._day
         else:
             return self._major * 1000000 + self._minor * 10000 + self._patch * 100 + self._rc
 
     def desc(self):
         if self.is_weekly():
             return 'weekly', [self._year, self._week]
+        if self.is_daily():
+            return 'daily', [self._year, self._month, self._day]
         if self.is_regular():
             return 'regular', [self._major, self._minor, self._patch, self._rc]
         return 'main', [9999999999]
@@ -209,6 +232,8 @@ class Tag:
             return f'{self._major}.{self._minor}.{self._patch}'
         elif self.is_weekly():
             return f'w.{self._year:4}.{self._week:02}'
+        elif self.is_daily():
+            return f'd.{self._year:4}.{self._month:02}.{self._day:02}'
         else:
             return 'main'
 
@@ -221,6 +246,8 @@ class Tag:
             return f'{self._major}.{self._minor}.0'
         elif self.is_weekly():
             return f'w.{self._year:4}.{self._week:02}'
+        elif self.is_daily():
+            return f'd.{self._year:4}.{self._month:02}.{self._day:02}'
         else:
             return 'main'
 
@@ -260,6 +287,8 @@ def matches_release(tag: Tag, release: ReleaseType) -> bool:
 
     """
     if tag.is_weekly() and release == ReleaseType.WEEKLY:
+        return True
+    if tag.is_daily() and release == ReleaseType.DAILY:
         return True
     if tag.is_regular() and release == ReleaseType.REGULAR:
         return True
