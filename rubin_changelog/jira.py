@@ -19,20 +19,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from typing import Dict
-
-import requests
+from jira import JIRA
 
 
 class JiraData(object):
     """Class to retrieve JIRA ticket data"""
 
     def __init__(self):
-        self._url = 'https://rubinobs.atlassian.net/rest/api/2/search'
-        self._headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        }
-        self._perPage = 1000
+        pass
 
     def get_tickets(self) -> Dict[str, str]:
         dm = self.get_project_tickets("DM")
@@ -53,21 +47,12 @@ class JiraData(object):
             returns a dictionary ticket: summary message
 
         """
-        start_at = 0
-        per_page = self._perPage
-        url = self._url
+        JIRA_URL = "https://rubinobs.atlassian.net"
+
+        jira = JIRA(
+            server=JIRA_URL,
+        )
         results = dict()
-        while True:
-            req_url = (f"{url}?jql=project={project}&startAt={start_at}"
-                       f"&maxResults={per_page}"
-                       "&fields=key,summary")
-            res = requests.get(req_url, headers=self._headers)
-            res_json = res.json()
-            total = res_json['total']
-            maxResults = res_json['maxResults']
-            start_at = start_at + maxResults
-            for r in res_json['issues']:
-                results[r['key']] = r['fields']['summary']
-            if start_at >= total:
-                break
+        for issue in jira.search_issues(f"project = {project}", maxResults=0, fields="summary"):
+            results[issue.key] = issue.fields.summary
         return results

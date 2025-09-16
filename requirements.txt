@@ -12,3 +12,4 @@ python-dateutil
 flake8
 pytz
 PyYAML
+jira
