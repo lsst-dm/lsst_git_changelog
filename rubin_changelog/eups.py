@@ -41,7 +41,7 @@ class EupsData:
         :param connections: `int`
             number of parallel URL requests
         """
-        self._url = 'https://eups.lsst.codes/stack/src/tags/'
+        self._url = 'https://eups.lsst.cloud/stack/src/tags/'
         self._connection_mgr = urllib3.PoolManager(maxsize=connections)
         self._connections = connections
 
