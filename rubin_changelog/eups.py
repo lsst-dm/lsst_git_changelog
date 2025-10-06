@@ -94,8 +94,9 @@ class EupsData:
         else:
             return []
         soup = BeautifulSoup(response_text, 'html.parser')
-        parent = [self._url + node.get('href')
-                  for node in soup.find_all('a') if node.get('href').endswith(ext)]
+        parent = [self._url.rstrip('/') + '/' + href.split('/')[-1]
+                  for a in soup.find_all('a', href=True)
+                  if (href := a['href']).endswith(ext)]
         return parent
 
     def _download(self, url: str) -> SortedDict:
