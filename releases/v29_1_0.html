@@ -1,0 +1,833 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>v29_1_0 &mdash; Rubin Git Changelog  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=68946263" />
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+      <script src="../_static/main.js?v=6e04fa4e"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="v29_0_1" href="v29_0_1.html" />
+    <link rel="prev" title="v29_1_1" href="v29_1_1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Rubin Git Changelog
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Release ChangeLog</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../weekly/index.html">Weekly</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Releases</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="summary.html">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v30-0-0-rc2">v30_0_0_rc2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-2-1">v29_2_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-2-0">v29_2_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-1-1">v29_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-1-0">v29_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-0-1">v29_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-0-0">v29_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v28-0-2">v28_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v28-0-1">v28_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v28-0-0">v28_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v27-0-0">v27_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v26-0-2">v26_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v26-0-1">v26_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v26-0-0">v26_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-4">v25_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-3">v25_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-2">v25_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-1">v25_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-0">v25_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-6">v24_1_6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-5">v24_1_5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-4">v24_1_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-3">v24_1_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-2">v24_1_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-1">v24_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-0">v24_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-0-0">v24_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-4">v23_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-3">v23_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-2">v23_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-1">v23_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-0">v23_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v22-0-1">v22_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v22-0-0">v22_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v21-0-0">v21_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v20-0-0">v20_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v19-0-0">v19_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v18-1-0">v18_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v18-0-0">v18_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v17-0-1">v17_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v17-0">v17_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v16-0">v16_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="products.html">Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v30_0_0_rc2.html">v30_0_0_rc2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_2_1.html">v29_2_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_2_0.html">v29_2_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_1_1.html">v29_1_1</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">v29_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_0_1.html">v29_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_0_0.html">v29_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v28_0_2.html">v28_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v28_0_1.html">v28_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v28_0_0.html">v28_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v27_0_0.html">v27_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v26_0_2.html">v26_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v26_0_1.html">v26_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v26_0_0.html">v26_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_4.html">v25_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_3.html">v25_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_2.html">v25_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_1.html">v25_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_0.html">v25_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_6.html">v24_1_6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_5.html">v24_1_5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_4.html">v24_1_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_3.html">v24_1_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_2.html">v24_1_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_1.html">v24_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_0.html">v24_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_0_0.html">v24_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_4.html">v23_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_3.html">v23_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_2.html">v23_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_1.html">v23_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_0.html">v23_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v22_0_1.html">v22_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v22_0_0.html">v22_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v21_0_0.html">v21_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v20_0_0.html">v20_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v19_0_0.html">v19_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v18_1_0.html">v18_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v18_0_0.html">v18_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v17_0_1.html">v17_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v17_0.html">v17_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v16_0.html">v16_0</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Rubin Git Changelog</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Releases</a></li>
+      <li class="breadcrumb-item active">v29_1_0</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/releases/v29_1_0.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="v29-1-0">
+<h1>v29_1_0<a class="headerlink" href="#v29-1-0" title="Link to this heading"></a></h1>
+<p>Released at 2025-06-17T13:07:49Z</p>
+<p>No packages added/removed in this release</p>
+<table class="datatable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Ticket</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Last Merge</p></th>
+<th class="head"><p>Branch</p></th>
+<th class="head"><p>Packages</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51331">DM_51331</a></p></td>
+<td><p>Allow SkyWcs to hold a FITS approximation to itself and use</p>
+<p>it in Exposure.writeFits</p>
+</td>
+<td><p>2025-06-12T15:38:43Z</p></td>
+<td><p>29.1.x</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/790">afw</a>, <a class="reference external" href="https://github.com/lsst/meas_extensions_psfex/pull/85">meas_extensions_psfex</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51270">DM_51270</a></p></td>
+<td><p>Fix BUNIT in Exposure writeFits</p></td>
+<td><p>2025-06-10T18:19:16Z</p></td>
+<td><p>29.1.x</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/789">afw</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50379">DM_50379</a></p></td>
+<td><p>Add missing metadata method to ObjectSizeNoSourcesError</p></td>
+<td><p>2025-05-23T23:02:13Z</p></td>
+<td><p>29.1.x</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_psfex/pull/82">meas_extensions_psfex</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-45987">DM_45987</a></p></td>
+<td><p>Convert RuntimeErrors in ObjectSizeStarSelector to</p>
+<p>AlgorithmError</p>
+</td>
+<td><p>2025-06-12T18:21:01Z</p></td>
+<td><p>29.0.x</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/436">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50753">DM_50753</a></p></td>
+<td><p>Use vcr for cp_pipe efd tests</p></td>
+<td><p>2025-05-28T15:55:38Z</p></td>
+<td><p>29.1.x</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/cp_pipe/pull/322">cp_pipe</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49747">DM_49747</a></p></td>
+<td><p>Handle label problems in user config of bps job ordering</p></td>
+<td><p>2025-04-28T15:37:59Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/205">ctrl_bps</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50498">DM_50498</a></p></td>
+<td><p>Make bps config environment values strings</p></td>
+<td><p>2025-04-28T14:33:52Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/206">ctrl_bps</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50294">DM_50294</a></p></td>
+<td><p>Writing to quantumGraphGeneration.out is buffered</p></td>
+<td><p>2025-04-22T18:33:20Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/204">ctrl_bps</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50243">DM_50243</a></p></td>
+<td><p>Document how to set logging values for commands in bps</p></td>
+<td><p>2025-04-16T19:50:54Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/203">ctrl_bps</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49240">DM_49240</a></p></td>
+<td><p>BPS quantum clustering and partitioning in multiple dataset</p>
+<p>dimensions</p>
+</td>
+<td><p>2025-04-15T14:47:33Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/200">ctrl_bps</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49922">DM_49922</a></p></td>
+<td><p>objectTable and diffim clustering is broken in w_2025_14</p></td>
+<td><p>2025-04-10T05:32:49Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/201">ctrl_bps</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49744">DM_49744</a></p></td>
+<td><p>Return exit code for signal (-9) with BPS</p></td>
+<td><p>2025-04-04T18:52:48Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/198">ctrl_bps</a>, <a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/199">ctrl_bps</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-46294">DM_46294</a></p></td>
+<td><p>Allow user-defined ordering in bps</p></td>
+<td><p>2025-03-28T00:11:34Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/195">ctrl_bps</a>, <a class="reference external" href="https://github.com/lsst/ctrl_bps_htcondor/pull/55">ctrl_bps_htcondor</a>, <a class="reference external" href="https://github.com/lsst/ctrl_bps_panda/pull/83">ctrl_bps_panda</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49674">DM_49674</a></p></td>
+<td><p>Make v29 middleware release notes</p></td>
+<td><p>2025-03-26T20:00:47Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps/pull/197">ctrl_bps</a>, <a class="reference external" href="https://github.com/lsst/ctrl_bps_htcondor/pull/57">ctrl_bps_htcondor</a>, <a class="reference external" href="https://github.com/lsst/ctrl_bps_panda/pull/85">ctrl_bps_panda</a>, <a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/332">ctrl_mpexec</a></p>
+<p><a class="reference external" href="https://github.com/lsst-dm/dax_obscore/pull/34">dax_obscore</a>, <a class="reference external" href="https://github.com/lsst/obs_base/pull/507">obs_base</a>, <a class="reference external" href="https://github.com/lsst/pipe_base/pull/482">pipe_base</a>, <a class="reference external" href="https://github.com/lsst/resources/pull/109">resources</a>, <a class="reference external" href="https://github.com/lsst/utils/pull/204">utils</a></p>
+</td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50614">DM_50614</a></p></td>
+<td><p>Add ability to auto-release every held job when using</p>
+<p>ctrl_bps_htcondor</p>
+</td>
+<td><p>2025-05-16T01:24:04Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps_htcondor/pull/59">ctrl_bps_htcondor</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50212">DM_50212</a></p></td>
+<td><p>DAGMan submissions are ignoring service</p>
+<p>DAGMAN_MAX_JOBS_IDLE</p>
+</td>
+<td><p>2025-04-22T17:49:03Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps_htcondor/pull/58">ctrl_bps_htcondor</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50973">DM_50973</a></p></td>
+<td><p>use a map file to reduce the size of the bps PanDA</p>
+<p>submission size</p>
+</td>
+<td><p>2025-05-21T14:57:17Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps_panda/pull/88">ctrl_bps_panda</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50400">DM_50400</a></p></td>
+<td><p>pass IDDS_MAX_NAME_LENGTH to remote build task</p></td>
+<td><p>2025-04-23T15:59:46Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps_panda/pull/87">ctrl_bps_panda</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49801">DM_49801</a></p></td>
+<td><p>Enable environment variables to be set in bps yaml files for</p>
+<p>the PanDA bps plugin</p>
+</td>
+<td><p>2025-04-05T22:00:07Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps_panda/pull/86">ctrl_bps_panda</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49020">DM_49020</a></p></td>
+<td><p>fix  fileDistributionEndPoint for different protocols</p></td>
+<td><p>2025-03-25T23:40:44Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps_panda/pull/82">ctrl_bps_panda</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50885">DM_50885</a></p></td>
+<td><p>Add a –datasetTypes switch to transfer_from_graph to</p>
+<p>allow parallel merges of large quantumGraph</p>
+</td>
+<td><p>2025-05-21T19:14:11Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/340">ctrl_mpexec</a>, <a class="reference external" href="https://github.com/lsst/pipe_base/pull/496">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50476">DM_50476</a></p></td>
+<td><p>Fix metadata-existence skipping in auto-retries and add job-</p>
+<p>level timing info to metadata</p>
+</td>
+<td><p>2025-04-29T14:34:27Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/338">ctrl_mpexec</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50490">DM_50490</a></p></td>
+<td><p>Record butler metrics in quantum metadata</p></td>
+<td><p>2025-04-29T02:34:46Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/337">ctrl_mpexec</a>, <a class="reference external" href="https://github.com/lsst/utils/pull/212">utils</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-47916">DM_47916</a></p></td>
+<td><p>Remove makeWarp and warpAndPsfMatch tasks</p></td>
+<td><p>2025-04-25T20:32:28Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/336">ctrl_mpexec</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49870">DM_49870</a></p></td>
+<td><p>Butler cache directories are not cleaned up promptly after</p>
+<p>pipetasks finish in bps jobs</p>
+</td>
+<td><p>2025-04-14T19:46:43Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/333">ctrl_mpexec</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49949">DM_49949</a></p></td>
+<td><p>Plumb data ID upload and task expression language through to</p>
+<p>ctrl_mpexec</p>
+</td>
+<td><p>2025-04-12T13:32:14Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/334">ctrl_mpexec</a>, <a class="reference external" href="https://github.com/lsst/pipe_base/pull/484">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-48206">DM_48206</a></p></td>
+<td><p>Graph-based visualization of pipeline processing status</p>
+<p>(text representation)</p>
+</td>
+<td><p>2025-04-09T06:17:06Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/330">ctrl_mpexec</a>, <a class="reference external" href="https://github.com/lsst/pipe_base/pull/460">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49440">DM_49440</a></p></td>
+<td><p>Attempt quick-and-dirty speedups for pipetask report</p>
+<p>metadata loading</p>
+</td>
+<td><p>2025-03-19T20:04:19Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/329">ctrl_mpexec</a>, <a class="reference external" href="https://github.com/lsst/pipe_base/pull/480">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49311">DM_49311</a></p></td>
+<td><p>Enable Mermaid output for quantum graphs</p></td>
+<td><p>2025-03-09T01:38:56Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/328">ctrl_mpexec</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-48482">DM_48482</a></p></td>
+<td><p>Build image rendering around `mermaid-py` for Mermaid</p>
+<p>diagrams</p>
+</td>
+<td><p>2025-03-07T18:35:20Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/327">ctrl_mpexec</a>, <a class="reference external" href="https://github.com/lsst/pipe_base/pull/473">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49095">DM_49095</a></p></td>
+<td><p>MPGraphExecutor failure to fail</p></td>
+<td><p>2025-02-27T18:58:25Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec/pull/326">ctrl_mpexec</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49537">DM_49537</a></p></td>
+<td><p>Implement ability to load a single blend from</p>
+<p>scarletModelData</p>
+</td>
+<td><p>2025-05-28T20:29:17Z</p></td>
+<td><p>29.1.x</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/daf_butler/pull/1211">daf_butler</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50727">DM_50727</a></p></td>
+<td><p>Database deadlock errors when attempting to delete dataset</p>
+<p>from /rubin/embargo</p>
+</td>
+<td><p>2025-05-13T04:20:46Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/daf_butler_admin/pull/4">daf_butler_admin</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50958">DM_50958</a></p></td>
+<td><p>Try to improve database performance removing large</p>
+<p>collections</p>
+</td>
+<td><p>2025-05-21T22:38:28Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/daf_butler_migrate/pull/48">daf_butler_migrate</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51116">DM_51116</a></p></td>
+<td><p>BAND queries no longer work in SIAv2 in dax_obscore</p></td>
+<td><p>2025-05-27T21:13:59Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/dax_obscore/pull/36">dax_obscore</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49669">DM_49669</a></p></td>
+<td><p>Update preliminary DP1 at IDF with v2 pipelines outputs</p></td>
+<td><p>2025-03-26T17:56:50Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/dax_obscore/pull/32">dax_obscore</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50937">DM_50937</a></p></td>
+<td><p>Remove profile.d/mamba.sh in lsstinstall</p></td>
+<td><p>2025-05-22T13:50:17Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst/pull/196">lsst</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50583">DM_50583</a></p></td>
+<td><p>Remove any use of mamba in build eng tools</p></td>
+<td><p>2025-05-07T17:37:04Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst/pull/195">lsst</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50661">DM_50661</a></p></td>
+<td><p>Don’t constrain on raw existence in define-visits CLI script</p></td>
+<td><p>2025-05-07T01:24:58Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/517">obs_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49900">DM_49900</a></p></td>
+<td><p>Examine dateutil usage in obs_lsst scripts</p></td>
+<td><p>2025-04-29T17:25:47Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/515">obs_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50538">DM_50538</a></p></td>
+<td><p>Add more logging to define-visits to track down partial</p>
+<p>visit_detector_region coverage</p>
+</td>
+<td><p>2025-04-29T14:00:23Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/516">obs_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50446">DM_50446</a></p></td>
+<td><p>Make it possible for define-visits to fix bad detector-</p>
+<p>regions even when visit is unchanged</p>
+</td>
+<td><p>2025-04-24T00:58:06Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/514">obs_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50167">DM_50167</a></p></td>
+<td><p>Modify what data gets visit definitions</p></td>
+<td><p>2025-04-17T22:29:22Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/513">obs_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49845">DM_49845</a></p></td>
+<td><p>Can not ingest raws with certain on-sky fields</p></td>
+<td><p>2025-04-03T18:36:21Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/510">obs_base</a>, <a class="reference external" href="https://github.com/lsst/obs_base/pull/512">obs_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-46526">DM_46526</a></p></td>
+<td><p>Bring vendor-provided spatially variable vendor LSSTCam</p>
+<p>filter curves into curated calibrations</p>
+</td>
+<td><p>2025-04-02T21:05:49Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/509">obs_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49807">DM_49807</a></p></td>
+<td><p>Error from FitsExposureFormatter when reading from s3 with</p>
+<p>caching disabled</p>
+</td>
+<td><p>2025-04-01T22:06:24Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/508">obs_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49622">DM_49622</a></p></td>
+<td><p>Add pydantic serialization for DimensionRecordSet</p></td>
+<td><p>2025-03-26T00:38:17Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/505">obs_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49314">DM_49314</a></p></td>
+<td><p>ConsolidateVisitSummary very I/O hungry</p></td>
+<td><p>2025-03-25T20:21:57Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base/pull/504">obs_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50969">DM_50969</a></p></td>
+<td><p>Push spatial predicate terms and data ID tables into</p>
+<p>spatial-overlap subquery when possible</p>
+</td>
+<td><p>2025-05-22T02:42:14Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/497">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50451">DM_50451</a></p></td>
+<td><p>Make sure dataset_ids and UUID literals work in butler</p>
+<p>string expressions and the butler CLI</p>
+</td>
+<td><p>2025-05-01T17:39:48Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/493">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50491">DM_50491</a></p></td>
+<td><p>Add get/put timing metrics into butler</p></td>
+<td><p>2025-04-30T23:42:05Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/494">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50539">DM_50539</a></p></td>
+<td><p>Improve QG builder error handling and improve</p>
+<p>adjust_all_quanta</p>
+</td>
+<td><p>2025-04-30T13:46:08Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/492">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50559">DM_50559</a></p></td>
+<td><p>Fix AlgorithmError metadata abc</p></td>
+<td><p>2025-04-29T17:07:16Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/491">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50191">DM_50191</a></p></td>
+<td><p>Add support for substring queries in butler</p></td>
+<td><p>2025-04-29T05:17:06Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/490">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50310">DM_50310</a></p></td>
+<td><p>Add data ID / dimension record tooling for QGs and zip</p>
+<p>archives</p>
+</td>
+<td><p>2025-04-24T19:29:32Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/488">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50107">DM_50107</a></p></td>
+<td><p>Fix pipeline step resolution when selecting single tasks</p></td>
+<td><p>2025-04-16T14:47:26Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/486">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50041">DM_50041</a></p></td>
+<td><p>Make QG full reads fetch all bytes up front (or do some kind</p>
+<p>of buffering)</p>
+</td>
+<td><p>2025-04-14T18:49:29Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/485">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-48913">DM_48913</a></p></td>
+<td><p>Add small expression language for selecting subsets of</p>
+<p>pipelines</p>
+</td>
+<td><p>2025-04-08T20:02:36Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/470">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49763">DM_49763</a></p></td>
+<td><p>Avoid internal exception traceback from empty QG</p></td>
+<td><p>2025-03-31T20:17:22Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/483">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49310">DM_49310</a></p></td>
+<td><p>Add test coverage for mermaid image rendering and source</p>
+<p>output</p>
+</td>
+<td><p>2025-03-14T21:51:25Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/476">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49300">DM_49300</a></p></td>
+<td><p>Add new adjustQuanta hook to allow a task to modify all</p>
+<p>quanta associated with a task</p>
+</td>
+<td><p>2025-03-13T23:47:20Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/477">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-38497">DM_38497</a></p></td>
+<td><p>Use explicit bind syntax in user expressions</p></td>
+<td><p>2025-03-12T21:54:53Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/479">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49296">DM_49296</a></p></td>
+<td><p>Optimize QG generation and mitigate PostgreSQL string-size</p>
+<p>limit problems</p>
+</td>
+<td><p>2025-03-08T04:07:13Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/475">pipe_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49266">DM_49266</a></p></td>
+<td><p>Exception in QG builder in skip-existing-in builds with</p>
+<p>predicted-only output datasets</p>
+</td>
+<td><p>2025-03-04T15:02:50Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base/pull/474">pipe_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51087">DM_51087</a></p></td>
+<td><p>Bug in ResourcePath with astropy.io.fits writing</p></td>
+<td><p>2025-05-28T22:14:38Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/121">resources</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50897">DM_50897</a></p></td>
+<td><p>Parallelize s3 ResourcePath.mremove</p></td>
+<td><p>2025-05-15T20:29:29Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/119">resources</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50857">DM_50857</a></p></td>
+<td><p>Investigate performance of butler remove-runs in embargo</p></td>
+<td><p>2025-05-14T04:53:26Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/118">resources</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49784">DM_49784</a></p></td>
+<td><p>Add explicit WebDAV scheme to ResourcePath</p></td>
+<td><p>2025-05-12T08:37:53Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/115">resources</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50724">DM_50724</a></p></td>
+<td><p>Support bulk deletes in ResourcePath</p></td>
+<td><p>2025-05-07T05:17:43Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/117">resources</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50645">DM_50645</a></p></td>
+<td><p>Connection pool warnings with RSP butler.get at USDF</p></td>
+<td><p>2025-05-01T20:11:47Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/116">resources</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50074">DM_50074</a></p></td>
+<td><p>Allow bigger connection pool for ResourcePath mtransfer and</p>
+<p>mexists</p>
+</td>
+<td><p>2025-04-30T23:47:06Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/113">resources</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50506">DM_50506</a></p></td>
+<td><p>Ensure HTTPResourcePath closes connection when doing partial</p>
+<p>reads</p>
+</td>
+<td><p>2025-04-25T14:14:50Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/114">resources</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49913">DM_49913</a></p></td>
+<td><p>s3 downloads leave temporary directories behind for every</p>
+<p>downloaded file</p>
+</td>
+<td><p>2025-04-09T23:14:50Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/112">resources</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49786">DM_49786</a></p></td>
+<td><p>Add dav and davs schemes as aliases in lsst-resources</p></td>
+<td><p>2025-04-01T00:48:13Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/110">resources</a>, <a class="reference external" href="https://github.com/lsst/resources/pull/111">resources</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-31824">DM_31824</a></p></td>
+<td><p>Parallelize more operations in ResourcePath</p></td>
+<td><p>2025-03-19T21:40:04Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/resources/pull/107">resources</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50218">DM_50218</a></p></td>
+<td><p>HealPixelization: Error computing envelope for point region</p></td>
+<td><p>2025-04-15T23:10:17Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sphgeom/pull/84">sphgeom</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50926">DM_50926</a></p></td>
+<td><p>Change default color cycle in plotting utils</p></td>
+<td><p>2025-05-16T03:05:32Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/214">utils</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/SP-2200">SP_02200</a></p></td>
+<td><p>Consider updates to the filter linestyle advice with</p>
+<p>matplotlib</p>
+</td>
+<td><p>2025-05-12T18:57:23Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/213">utils</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49951">DM_49951</a></p></td>
+<td><p>Create examples for standard plotting styles</p></td>
+<td><p>2025-04-25T23:44:47Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/211">utils</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49911">DM_49911</a></p></td>
+<td><p>Butler init via alias broken by DM-49860</p></td>
+<td><p>2025-04-05T23:37:22Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/210">utils</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49860">DM_49860</a></p></td>
+<td><p>Allow DBAuth to take credentials from a JSON environment</p>
+<p>variable</p>
+</td>
+<td><p>2025-04-04T16:52:19Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/209">utils</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-48671">DM_48671</a></p></td>
+<td><p>Add node info to task metadata</p></td>
+<td><p>2025-04-03T00:22:36Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/208">utils</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-34978">DM_34978</a></p></td>
+<td><p>Allow disabling the timing decorator</p></td>
+<td><p>2025-04-02T19:12:02Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/207">utils</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-44862">DM_44862</a></p></td>
+<td><p>Specify default location of db-auth.yaml file.</p></td>
+<td><p>2025-03-31T23:07:30Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/206">utils</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49728">DM_49728</a></p></td>
+<td><p>Create standard matplotlib style for Rubin publications</p></td>
+<td><p>2025-03-27T00:02:00Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/205">utils</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-46249">DM_46249</a></p></td>
+<td><p>Upload analysis_tools metrics from ap_verify so they can</p>
+<p>be retrieved in Chronograf</p>
+</td>
+<td><p>2025-03-18T22:51:44Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/utils/pull/201">utils</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51073">DM_51073</a></p></td>
+<td><p>Make middleware v29.1 release</p></td>
+<td><p>2025-06-13T22:33:08Z</p></td>
+<td><p>29.1.x</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/daf_butler/pull/1222">daf_butler</a>, <a class="reference external" href="https://github.com/lsst/pipe_base/pull/501">pipe_base</a>, <a class="reference external" href="https://github.com/lsst/resources/pull/120">resources</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49994">DM_49994</a></p></td>
+<td><p>Make it possible to run makeDirectWarp on the final</p>
+<p>visit_image data product</p>
+</td>
+<td><p>2025-06-17T03:19:51Z</p></td>
+<td><p>29.1.x</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/drp_tasks/pull/128">drp_tasks</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51075">DM_51075</a></p></td>
+<td><p>Implement Butler.transfer_from() for RemoteButler -&gt;</p>
+<p>DirectButler</p>
+</td>
+<td><p>2025-06-12T16:48:34Z</p></td>
+<td><p>29.1.x</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/daf_butler/pull/1219">daf_butler</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="v29_1_1.html" class="btn btn-neutral float-left" title="v29_1_1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="v29_0_1.html" class="btn btn-neutral float-right" title="v29_0_1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)..
+      <span class="lastupdated">Last updated on 2026-01-12 00:08 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

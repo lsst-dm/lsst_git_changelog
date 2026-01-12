@@ -1,0 +1,596 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products &mdash; Rubin Git Changelog  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=68946263" />
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+      <script src="../_static/main.js?v=6e04fa4e"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="v30_0_0_rc2" href="v30_0_0_rc2.html" />
+    <link rel="prev" title="Summary" href="summary.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Rubin Git Changelog
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Release ChangeLog</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../weekly/index.html">Weekly</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Releases</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="summary.html">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v30-0-0-rc2">v30_0_0_rc2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-2-1">v29_2_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-2-0">v29_2_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-1-1">v29_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-1-0">v29_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-0-1">v29_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-0-0">v29_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v28-0-2">v28_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v28-0-1">v28_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v28-0-0">v28_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v27-0-0">v27_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v26-0-2">v26_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v26-0-1">v26_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v26-0-0">v26_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-4">v25_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-3">v25_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-2">v25_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-1">v25_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-0">v25_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-6">v24_1_6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-5">v24_1_5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-4">v24_1_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-3">v24_1_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-2">v24_1_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-1">v24_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-0">v24_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-0-0">v24_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-4">v23_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-3">v23_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-2">v23_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-1">v23_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-0">v23_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v22-0-1">v22_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v22-0-0">v22_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v21-0-0">v21_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v20-0-0">v20_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v19-0-0">v19_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v18-1-0">v18_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v18-0-0">v18_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v17-0-1">v17_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v17-0">v17_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v16-0">v16_0</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v30_0_0_rc2.html">v30_0_0_rc2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_2_1.html">v29_2_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_2_0.html">v29_2_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_1_1.html">v29_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_1_0.html">v29_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_0_1.html">v29_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_0_0.html">v29_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v28_0_2.html">v28_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v28_0_1.html">v28_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v28_0_0.html">v28_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v27_0_0.html">v27_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v26_0_2.html">v26_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v26_0_1.html">v26_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v26_0_0.html">v26_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_4.html">v25_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_3.html">v25_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_2.html">v25_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_1.html">v25_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_0.html">v25_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_6.html">v24_1_6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_5.html">v24_1_5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_4.html">v24_1_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_3.html">v24_1_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_2.html">v24_1_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_1.html">v24_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_0.html">v24_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_0_0.html">v24_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_4.html">v23_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_3.html">v23_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_2.html">v23_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_1.html">v23_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_0.html">v23_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v22_0_1.html">v22_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v22_0_0.html">v22_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v21_0_0.html">v21_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v20_0_0.html">v20_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v19_0_0.html">v19_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v18_1_0.html">v18_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v18_0_0.html">v18_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v17_0_1.html">v17_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v17_0.html">v17_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v16_0.html">v16_0</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Rubin Git Changelog</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Releases</a></li>
+      <li class="breadcrumb-item active">Products</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/releases/products.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="products">
+<h1>Products<a class="headerlink" href="#products" title="Link to this heading"></a></h1>
+<table class="datatable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Products</p></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-galsim">GalSim</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-activemqcpp">activemqcpp</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw">afw</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afwdata">afwdata</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/alert_packet">alert_packet</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-anaconda">anaconda</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/analysis_ap">analysis_ap</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-analysis_drp">analysis_drp</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/analysis_tools">analysis_tools</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-antlr">antlr</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ap">ap</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ap_association">ap_association</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/ap_pipe">ap_pipe</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ap_pipe_testdata">ap_pipe_testdata</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ap_verify">ap_verify</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ap_verify_testdata">ap_verify_testdata</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-apr">apr</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-apr_util">apr_util</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/astro_metadata_translator">astro_metadata_translator</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-astrometry_net">astrometry_net</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-astrometry_net_data">astrometry_net_data</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-astropy">astropy</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/astshim">astshim</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/atmospec">atmospec</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-autograd">autograd</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/base">base</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-boost">boost</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sdm_schemas">cat</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/cbp">cbp</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/cell_coadds">cell_coadds</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-cfitsio">cfitsio</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ci_ctio0m9">ci_ctio0m9</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-coadd_chisquared">coadd_chisquared</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/coadd_utils">coadd_utils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-coord">coord</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/cp_pipe">cp_pipe</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/cp_verify">cp_verify</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/cpputils">cpputils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps">ctrl_bps</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps_htcondor">ctrl_bps_htcondor</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps_panda">ctrl_bps_panda</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_bps_parsl">ctrl_bps_parsl</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ctrl_events">ctrl_events</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_execute">ctrl_execute</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/ctrl_mpexec">ctrl_mpexec</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ctrl_orca">ctrl_orca</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy_ctrl_platform_gordon">ctrl_platform_gordon</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy_ctrl_platform_lsst">ctrl_platform_lsst</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ctrl_platform_lsstvc">ctrl_platform_lsstvc</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ctrl_platform_s3df">ctrl_platform_s3df</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ctrl_pool">ctrl_pool</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ctrl_provenance">ctrl_provenance</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/daf_base">daf_base</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/daf_butler">daf_butler</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_base">daf_butlerUtils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/daf_butler_admin">daf_butler_admin</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/daf_butler_migrate">daf_butler_migrate</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-daf_persistence">daf_persistence</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/daf_relation">daf_relation</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-datarel">datarel</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/dax_apdb">dax_apdb</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-dax_dbserv">dax_dbserv</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/dax_images_cutout">dax_images_cutout</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-dax_imgserv">dax_imgserv</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-dax_metaserv">dax_metaserv</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/dax_obscore">dax_obscore</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/dax_ppdb">dax_ppdb</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/dax_ppdbx_gcp">dax_ppdbx_gcp</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-dax_webserv">dax_webserv</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-dax_webservcommon">dax_webservcommon</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-db">db</a></p></td>
+<td><p>dbserv</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/WeakLensingDeblending">descwl</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/descwl_coadd">descwl_coadd</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/descwl-shear-sims">descwl_shear_sims</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/display_astrowidgets">display_astrowidgets</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/display_ds9">display_ds9</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/display_firefly">display_firefly</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/display_matplotlib">display_matplotlib</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/doxygen">doxygen</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/drp_pipe">drp_pipe</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/drp_tasks">drp_tasks</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/dustmaps_cachedata">dustmaps_cachedata</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/eigen">eigen</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ephem">ephem</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-esutil">esutil</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-expat">expat</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/faro">faro</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/felis">felis</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-fftw">fftw</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/fgcm">fgcm</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/fgcmcal">fgcmcal</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-firefly_client">firefly_client</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-flake8">flake8</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-flask">flask</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-freetds">freetds</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-galsim">galsim</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/gauss2d">gauss2d</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/gauss2d_fit">gauss2d_fit</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/gbdes">gbdes</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/geom">geom</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-git">git</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-gsl">gsl</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-healpy">healpy</a></p></td>
+</tr>
+<tr class="row-even"><td><p>imgserv</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim">ip_diffim</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr">ip_isr</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-jemalloc">jemalloc</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/jointcal">jointcal</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/jointcal_cholmod">jointcal_cholmod</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-kazoo">kazoo</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/kht">kht</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-libcurl">libcurl</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-libevent">libevent</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/libyaml">libyaml</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-lmfit">lmfit</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/log">log</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-log4cxx">log4cxx</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst">lsst</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst_apps">lsst_apps</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/lsst_bps_plugins">lsst_bps_plugins</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst_ci">lsst_ci</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst_distrib">lsst_distrib</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-lsst_dm_stack_demo">lsst_dm_stack_demo</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/lsst_extras">lsst_extras</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst_libs">lsst_libs</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst_middleware">lsst_middleware</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst_obs">lsst_obs</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/lsst_sims">lsst_sims</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst_sitcom">lsst_sitcom</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/lsst_thirdparty">lsst_thirdparty</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-lua">lua</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-luaexpat">luaexpat</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-luasocket">luasocket</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-luaxmlrpc">luaxmlrpc</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-mariadb">mariadb</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-mariadbclient">mariadbclient</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-matplotlib">matplotlib</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms">meas_algorithms</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_astrom">meas_astrom</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/meas_base">meas_base</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_deblender">meas_deblender</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-meas_extensions_astrometryNet">meas_extensions_astrometryNet</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_convolved">meas_extensions_convolved</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_gaap">meas_extensions_gaap</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-meas_extensions_multiShapelet">meas_extensions_multiShapelet</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_multiprofit">meas_extensions_multiprofit</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_photometryKron">meas_extensions_photometryKron</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_piff">meas_extensions_piff</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_psfex">meas_extensions_psfex</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_scarlet">meas_extensions_scarlet</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_shapeHSM">meas_extensions_shapeHSM</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_simpleShape">meas_extensions_simpleShape</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_extensions_trailedSources">meas_extensions_trailedSources</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_modelfit">meas_modelfit</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-meas_mosaic">meas_mosaic</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/meas_photoz_base">meas_photoz_base</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_transiNet">meas_transiNet</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/metadetect">metadetect</a></p></td>
+<td><p>metaserv</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-minuit2">minuit2</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/modelfit_parameters">modelfit_parameters</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-mpi">mpi</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-mpi4py">mpi4py</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-mpich">mpich</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/multiprofit">multiprofit</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-mysql">mysql</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-mysqlclient">mysqlclient</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-mysqlproxy">mysqlproxy</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-mysqlpython">mysqlpython</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ndarray">ndarray</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-numpy">numpy</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/obs_base">obs_base</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_cfht">obs_cfht</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-obs_comCam">obs_comCam</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-obs_ctio0m9">obs_ctio0m9</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/obs_decam">obs_decam</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_decam_data">obs_decam_data</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_fiberspectrograph">obs_fiberspectrograph</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_lsst">obs_lsst</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-obs_lsstSim">obs_lsstSim</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_lsst_data">obs_lsst_data</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-obs_monocam">obs_monocam</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_rubinGenericCamera">obs_rubinGenericCamera</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-obs_sdss">obs_sdss</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_subaru">obs_subaru</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/obs_subaru_data">obs_subaru_data</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-obs_test">obs_test</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/obs_test_data">obs_test_data</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-oorb">oorb</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-palpy">palpy</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-partition">partition</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pep8_naming">pep8_naming</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pex_config">pex_config</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pex_exceptions">pex_exceptions</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pex_harness">pex_harness</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pex_logging">pex_logging</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pex_policy">pex_policy</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipe_base">pipe_base</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pipe_drivers">pipe_drivers</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/pipe_tasks">pipe_tasks</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/pipelines_check">pipelines_check</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-protobuf">protobuf</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/proxmin">proxmin</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/psfex">psfex</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pybind11">pybind11</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pycodestyle">pycodestyle</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pyephem">pyephem</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pyfits">pyfits</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pyflakes">pyflakes</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pykg_config">pykg_config</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pymssql">pymssql</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pytest">pytest</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pytest_cov">pytest_cov</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pytest_flake8">pytest_flake8</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pytest_forked">pytest_forked</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pytest_session2file">pytest_session2file</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pytest_xdist">pytest_xdist</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-python">python</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-python_coverage">python_coverage</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-python_d2to1">python_d2to1</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-python_execnet">python_execnet</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-python_future">python_future</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-python_mccabe">python_mccabe</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-python_mysqlclient">python_mysqlclient</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-python_psutil">python_psutil</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-python_py">python_py</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-pyyaml">pyyaml</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/qserv">qserv</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-qserv_distrib">qserv_distrib</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/qserv_testdata">qserv_testdata</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-requests">requests</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/resources">resources</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/rucio_register">rucio_register</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/scarlet">scarlet</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/scarlet_extensions">scarlet_extensions</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/scarlet_lite">scarlet_lite</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-scipy">scipy</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-scisql">scisql</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-scons">scons</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/sconsUtils">sconsUtils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sdm_schemas">sdm_schemas</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sdm_tools">sdm_tools</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/shapelet">shapelet</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/sims_GalSimInterface">sims_GalSimInterface</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-sims/sims_alertsim">sims_alertsim</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_catUtils">sims_catUtils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_catalogs">sims_catalogs</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/sims_catalogs_generation">sims_catalogs_generation</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_catalogs_measures">sims_catalogs_measures</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_coordUtils">sims_coordUtils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_data">sims_data</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/sims_dustmaps">sims_dustmaps</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_maf">sims_maf</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_maps">sims_maps</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_movingObjects">sims_movingObjects</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/sims_photUtils">sims_photUtils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_sed_library">sims_sed_library</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_skybrightness">sims_skybrightness</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_skybrightness_data">sims_skybrightness_data</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/sims_skybrightness_pre">sims_skybrightness_pre</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_survey_fields">sims_survey_fields</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/sims_utils">sims_utils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/skymap">skymap</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-skypix">skypix</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-sncosmo">sncosmo</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/source_injection">source_injection</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/Spectractor">spectractor</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/sphgeom">sphgeom</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-sqlalchemy">sqlalchemy</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-sqlite">sqlite</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/starlink_ast">starlink_ast</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-stsci_distutils">stsci_distutils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-sitcom/summit_extras">summit_extras</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-sitcom/summit_utils">summit_utils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-swig">swig</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-synpipe">synpipe</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/testdata_cfht">testdata_cfht</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/testdata_deblender">testdata_deblender</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/testdata_decam">testdata_decam</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst-dm/testdata_image_cutouts">testdata_image_cutouts</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/testdata_jointcal">testdata_jointcal</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/testdata_subaru">testdata_subaru</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/testing_endtoend">testing_endtoend</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst/throughputs">throughputs</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-tmv">tmv</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-treecorr">treecorr</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-twisted">twisted</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/lsst/utils">utils</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/validate_base">validate_base</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-validate_drp">validate_drp</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/validation_data_cfht">validation_data_cfht</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-validation_data_decam">validation_data_decam</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/verify">verify</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/verify_metrics">verify_metrics</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-wcslib">wcslib</a></p></td>
+</tr>
+<tr class="row-even"><td><p>webserv</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-ws4py">ws4py</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-xpa">xpa</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/xrootd">xrootd</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-zookeeper">zookeeper</a></p></td>
+<td><p><a class="reference external" href="https://github.com/lsst-dm/legacy-zopeinterface">zopeinterface</a></p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="summary.html" class="btn btn-neutral float-left" title="Summary" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="v30_0_0_rc2.html" class="btn btn-neutral float-right" title="v30_0_0_rc2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)..
+      <span class="lastupdated">Last updated on 2026-01-12 00:08 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

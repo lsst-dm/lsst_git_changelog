@@ -1,0 +1,894 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>v29_2_0 &mdash; Rubin Git Changelog  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=68946263" />
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+      <script src="../_static/main.js?v=6e04fa4e"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="v29_1_1" href="v29_1_1.html" />
+    <link rel="prev" title="v29_2_1" href="v29_2_1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Rubin Git Changelog
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Release ChangeLog</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../weekly/index.html">Weekly</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Releases</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="summary.html">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v30-0-0-rc2">v30_0_0_rc2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-2-1">v29_2_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-2-0">v29_2_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-1-1">v29_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-1-0">v29_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-0-1">v29_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v29-0-0">v29_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v28-0-2">v28_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v28-0-1">v28_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v28-0-0">v28_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v27-0-0">v27_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v26-0-2">v26_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v26-0-1">v26_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v26-0-0">v26_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-4">v25_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-3">v25_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-2">v25_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-1">v25_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v25-0-0">v25_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-6">v24_1_6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-5">v24_1_5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-4">v24_1_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-3">v24_1_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-2">v24_1_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-1">v24_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-1-0">v24_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v24-0-0">v24_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-4">v23_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-3">v23_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-2">v23_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-1">v23_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v23-0-0">v23_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v22-0-1">v22_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v22-0-0">v22_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v21-0-0">v21_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v20-0-0">v20_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v19-0-0">v19_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v18-1-0">v18_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v18-0-0">v18_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v17-0-1">v17_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v17-0">v17_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="summary.html#v16-0">v16_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="products.html">Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v30_0_0_rc2.html">v30_0_0_rc2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_2_1.html">v29_2_1</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">v29_2_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_1_1.html">v29_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_1_0.html">v29_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_0_1.html">v29_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v29_0_0.html">v29_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v28_0_2.html">v28_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v28_0_1.html">v28_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v28_0_0.html">v28_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v27_0_0.html">v27_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v26_0_2.html">v26_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v26_0_1.html">v26_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v26_0_0.html">v26_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_4.html">v25_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_3.html">v25_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_2.html">v25_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_1.html">v25_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v25_0_0.html">v25_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_6.html">v24_1_6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_5.html">v24_1_5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_4.html">v24_1_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_3.html">v24_1_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_2.html">v24_1_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_1.html">v24_1_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_1_0.html">v24_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v24_0_0.html">v24_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_4.html">v23_0_4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_3.html">v23_0_3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_2.html">v23_0_2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_1.html">v23_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v23_0_0.html">v23_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v22_0_1.html">v22_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v22_0_0.html">v22_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v21_0_0.html">v21_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v20_0_0.html">v20_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v19_0_0.html">v19_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v18_1_0.html">v18_1_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v18_0_0.html">v18_0_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v17_0_1.html">v17_0_1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v17_0.html">v17_0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v16_0.html">v16_0</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Rubin Git Changelog</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Releases</a></li>
+      <li class="breadcrumb-item active">v29_2_0</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/releases/v29_2_0.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="v29-2-0">
+<h1>v29_2_0<a class="headerlink" href="#v29-2-0" title="Link to this heading"></a></h1>
+<p>Released at 2025-08-12T16:07:34Z</p>
+<p>No packages added/removed in this release</p>
+<table class="datatable docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Ticket</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Last Merge</p></th>
+<th class="head"><p>Branch</p></th>
+<th class="head"><p>Packages</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-38772">DM_38772</a></p></td>
+<td><p>PSF models in Exposure and ExposureCatalog objects leak</p>
+<p>memory.</p>
+</td>
+<td><p>2025-08-07T18:43:21Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/799">afw</a>, <a class="reference external" href="https://github.com/lsst/astshim/pull/69">astshim</a>, <a class="reference external" href="https://github.com/lsst/cpputils/pull/11">cpputils</a>, <a class="reference external" href="https://github.com/lsst/geom/pull/49">geom</a>, <a class="reference external" href="https://github.com/lsst/ip_diffim/pull/424">ip_diffim</a>, <a class="reference external" href="https://github.com/lsst/ip_isr/pull/422">ip_isr</a></p>
+<p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/439">meas_algorithms</a>, <a class="reference external" href="https://github.com/lsst/meas_astrom/pull/210">meas_astrom</a>, <a class="reference external" href="https://github.com/lsst/meas_base/pull/312">meas_base</a>, <a class="reference external" href="https://github.com/lsst/meas_deblender/pull/104">meas_deblender</a></p>
+<p><a class="reference external" href="https://github.com/lsst/meas_extensions_photometryKron/pull/53">meas_extensions_photometryKron</a>, <a class="reference external" href="https://github.com/lsst/meas_extensions_simpleShape/pull/37">meas_extensions_simpleShape</a></p>
+<p><a class="reference external" href="https://github.com/lsst/meas_extensions_trailedSources/pull/24">meas_extensions_trailedSources</a>, <a class="reference external" href="https://github.com/lsst/meas_modelfit/pull/116">meas_modelfit</a>, <a class="reference external" href="https://github.com/lsst/shapelet/pull/47">shapelet</a></p>
+<p><a class="reference external" href="https://github.com/lsst/sphgeom/pull/86">sphgeom</a></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-38772">DM_38772</a></p></td>
+<td><p>PSF models in Exposure and ExposureCatalog objects leak</p>
+<p>memory.</p>
+</td>
+<td><p>2025-08-07T19:10:48Z</p></td>
+<td><p>lsst-dev</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/gbdes/pull/27">gbdes</a>, <a class="reference external" href="https://github.com/lsst/kht/pull/5">kht</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-20746">DM_20746</a></p></td>
+<td><p>Add camera orientation parity to camera geometry</p></td>
+<td><p>2025-07-07T13:57:18Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/796">afw</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51452">DM_51452</a></p></td>
+<td><p>Guard against empty WCS pointers in FITS approximation logic</p></td>
+<td><p>2025-06-19T01:14:22Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/794">afw</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51445">DM_51445</a></p></td>
+<td><p>Fix overzealous check for SkyWcs.isFits in</p>
+<p>copyWithFitsApproximation</p>
+</td>
+<td><p>2025-06-18T03:24:19Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/792">afw</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50875">DM_50875</a></p></td>
+<td><p>Add align/lock method to public display_firefly API</p></td>
+<td><p>2025-06-17T00:07:53Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/785">afw</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51331">DM_51331</a></p></td>
+<td><p>Allow SkyWcs to hold a FITS approximation to itself and use</p>
+<p>it in Exposure.writeFits</p>
+</td>
+<td><p>2025-06-12T04:02:48Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/788">afw</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51270">DM_51270</a></p></td>
+<td><p>Fix BUNIT in Exposure writeFits</p></td>
+<td><p>2025-06-10T03:33:58Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/786">afw</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51187">DM_51187</a></p></td>
+<td><p>add nanojanskyToInstFlux to PhotoCalib</p></td>
+<td><p>2025-06-02T22:54:51Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/784">afw</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-45569">DM_45569</a></p></td>
+<td><p>Add color correction in PSF modeling for Piff</p></td>
+<td><p>2025-05-22T02:01:41Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/781">afw</a>, <a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/423">meas_algorithms</a>, <a class="reference external" href="https://github.com/lsst/meas_base/pull/308">meas_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50735">DM_50735</a></p></td>
+<td><p>Stand up visit-background task that just re-fits a smoother</p>
+<p>model to preliminary_visit_image_background</p>
+</td>
+<td><p>2025-05-10T04:49:13Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/783">afw</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50510">DM_50510</a></p></td>
+<td><p>Update Background-example docs in afw</p></td>
+<td><p>2025-04-25T18:17:46Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/782">afw</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49695">DM_49695</a></p></td>
+<td><p>Make get_full_type_name more robust</p></td>
+<td><p>2025-03-25T23:37:32Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/777">afw</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49263">DM_49263</a></p></td>
+<td><p>Don’t include calibration uncertainty in pixel-level</p>
+<p>calibrations in CalibrateImageTask and</p>
+<p>ReprocessVisitImageTask</p>
+</td>
+<td><p>2025-03-20T13:50:10Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/afw/pull/775">afw</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51138">DM_51138</a></p></td>
+<td><p>Add astrometry fixes from processing HSC open-use data</p></td>
+<td><p>2025-05-31T02:16:03Z</p></td>
+<td><p>lsst-dev</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/gbdes/pull/26">gbdes</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-52071">DM_52071</a></p></td>
+<td><p>Erase image plane of difference image for NO_DATA pixels</p></td>
+<td><p>2025-08-06T02:21:42Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/423">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51971">DM_51971</a></p></td>
+<td><p>Provide ability to filter diaSources based on configurable</p>
+<p>minimum reliability score</p>
+</td>
+<td><p>2025-07-31T00:25:36Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/422">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51961">DM_51961</a></p></td>
+<td><p>Failure in getSattleDiaSourceAllowlist due to failure to</p>
+<p>serialize JSON</p>
+</td>
+<td><p>2025-07-25T23:32:29Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/421">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50988">DM_50988</a></p></td>
+<td><p>Flag DIASources consistent with glints from rotating space</p>
+<p>junk</p>
+</td>
+<td><p>2025-07-24T21:16:06Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/420">ip_diffim</a>, <a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/438">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51632">DM_51632</a></p></td>
+<td><p>LSSTCam DRP error in subtractImages: “Unable to determine</p>
+<p>kernel sum; 0 candidates”</p>
+</td>
+<td><p>2025-07-24T12:47:24Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/417">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50987">DM_50987</a></p></td>
+<td><p>Integrate sattle with Prompt Processing</p></td>
+<td><p>2025-07-23T16:56:38Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/418">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51228">DM_51228</a></p></td>
+<td><p>Calculate forced photometry at the DIASource position on the</p>
+<p>template</p>
+</td>
+<td><p>2025-07-15T20:07:50Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/412">ip_diffim</a>, <a class="reference external" href="https://github.com/lsst/ip_diffim/pull/419">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51635">DM_51635</a></p></td>
+<td><p>LSSTCam DRP error in subtractImages: “cannot access local</p>
+<p>variable ‘maglim’ where it is not associated with a value”</p>
+</td>
+<td><p>2025-07-02T03:55:40Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/416">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51260">DM_51260</a></p></td>
+<td><p>Add additional configurable error in subtractImages for low</p>
+<p>quality kernel</p>
+</td>
+<td><p>2025-07-01T17:39:22Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/413">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51636">DM_51636</a></p></td>
+<td><p>LSSTCam DRP error in subtractImages: “Could not compute</p>
+<p>LinearTransform inverse”</p>
+</td>
+<td><p>2025-07-01T17:32:07Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/415">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51462">DM_51462</a></p></td>
+<td><p>Include science mask in template coverage check</p></td>
+<td><p>2025-06-19T03:42:46Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/414">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51315">DM_51315</a></p></td>
+<td><p>Fix error values of None in DipoleFitPlugin</p></td>
+<td><p>2025-06-17T01:10:07Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/411">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51368">DM_51368</a></p></td>
+<td><p>Use kernel sources for final diffim quality metric</p></td>
+<td><p>2025-06-13T02:04:05Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/408">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51360">DM_51360</a></p></td>
+<td><p>Use template mask in kernel source selection</p></td>
+<td><p>2025-06-12T06:57:30Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/407">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51329">DM_51329</a></p></td>
+<td><p>Investigate AP CI metrics change from DM-50980</p></td>
+<td><p>2025-06-11T17:32:45Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/406">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51063">DM_51063</a></p></td>
+<td><p>Add error handling for missing photoCalib</p></td>
+<td><p>2025-06-04T05:29:20Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/403">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51248">DM_51248</a></p></td>
+<td><p>Catch kernel failure edge case</p></td>
+<td><p>2025-06-04T05:26:30Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/405">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50948">DM_50948</a></p></td>
+<td><p>Debug DcrCoadd quantum graph build failure</p></td>
+<td><p>2025-05-30T18:23:49Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/400">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-40487">DM_40487</a></p></td>
+<td><p>Add uncertainty to the output of DipoleFitTask</p></td>
+<td><p>2025-05-30T17:10:54Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/399">ip_diffim</a>, <a class="reference external" href="https://github.com/lsst/meas_base/pull/307">meas_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51021">DM_51021</a></p></td>
+<td><p>Make base_SkyCoord insert error fields in schema</p></td>
+<td><p>2025-05-29T20:16:03Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/401">ip_diffim</a>, <a class="reference external" href="https://github.com/lsst/meas_astrom/pull/208">meas_astrom</a>, <a class="reference external" href="https://github.com/lsst/meas_base/pull/309">meas_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50843">DM_50843</a></p></td>
+<td><p>Move diffim subtraction quality metric to detectAndMeasure</p></td>
+<td><p>2025-05-23T21:57:03Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/402">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50717">DM_50717</a></p></td>
+<td><p>Mitigate excess detections of faint DIASources in u &amp; g</p>
+<p>bands</p>
+</td>
+<td><p>2025-05-11T20:24:55Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/397">ip_diffim</a>, <a class="reference external" href="https://github.com/lsst/ip_diffim/pull/398">ip_diffim</a>, <a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/428">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50702">DM_50702</a></p></td>
+<td><p>LSSTCam DRP errors in makePsfMatchedWarp: “Could not compute</p>
+<p>LinearTransform inverse” and “Unexpectedly large transform</p>
+<p>passed to WarpedPsf”</p>
+</td>
+<td><p>2025-05-09T19:11:18Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/396">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-47916">DM_47916</a></p></td>
+<td><p>Remove makeWarp and warpAndPsfMatch tasks</p></td>
+<td><p>2025-04-25T20:34:42Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/395">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49344">DM_49344</a></p></td>
+<td><p>Modify getDcrTemplateTask to use deferredDatasetHandles</p></td>
+<td><p>2025-04-22T22:29:55Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/394">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49274">DM_49274</a></p></td>
+<td><p>Sky Objects are landing in NO_DATA regions of coadds</p></td>
+<td><p>2025-03-25T10:51:55Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/389">ip_diffim</a>, <a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/416">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49378">DM_49378</a></p></td>
+<td><p>Trim totalBox to destination warped bbox in getTemplate</p></td>
+<td><p>2025-03-15T16:05:12Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/388">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49302">DM_49302</a></p></td>
+<td><p>Make getTemplate more memory efficient</p></td>
+<td><p>2025-03-06T06:09:22Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/387">ip_diffim</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-48920">DM_48920</a></p></td>
+<td><p>Repeated NO_DATA patterns in ComCam coadds</p></td>
+<td><p>2025-03-05T23:38:40Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_diffim/pull/383">ip_diffim</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-52123">DM_52123</a></p></td>
+<td><p>Fix the fallback seed option when exposure.getInfo().getId()</p>
+<p>isn’t set</p>
+</td>
+<td><p>2025-08-08T00:28:14Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/424">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51442">DM_51442</a></p></td>
+<td><p>Use average focal-plane linearity residuals to normalize</p>
+<p>linearity corrections</p>
+</td>
+<td><p>2025-08-04T16:56:58Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/421">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51630">DM_51630</a></p></td>
+<td><p>Handle vignetting-gradient regions for in-dome LSSTCam PTCs</p></td>
+<td><p>2025-07-02T14:54:36Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/419">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51470">DM_51470</a></p></td>
+<td><p>Update LSSTCam cp pipelines to investigate v31 sequencer</p>
+<p>updates for LSSTCam</p>
+</td>
+<td><p>2025-06-26T00:21:53Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/418">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-44113">DM_44113</a></p></td>
+<td><p>Test and update electrometer ingest for FITS files as</p>
+<p>currently written.</p>
+</td>
+<td><p>2025-06-09T19:14:06Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/396">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51005">DM_51005</a></p></td>
+<td><p>Some y-band exposures are erroneously triggering the “amp is</p>
+<p>dead” code.</p>
+</td>
+<td><p>2025-05-27T22:16:09Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/416">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50838">DM_50838</a></p></td>
+<td><p>Monitor HVBIAS as well as BSSVBS for which detectors are</p>
+<p>turned on for ISR</p>
+</td>
+<td><p>2025-05-22T23:48:43Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/412">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51008">DM_51008</a></p></td>
+<td><p>Vignetted regions in IsrTaskLSST are getting nans in the</p>
+<p>variance plane</p>
+</td>
+<td><p>2025-05-20T21:08:09Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/415">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50847">DM_50847</a></p></td>
+<td><p>Add option to mark individual amps as defects in IsrTaskLSST</p></td>
+<td><p>2025-05-14T02:36:08Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/414">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-48779">DM_48779</a></p></td>
+<td><p>Investigate precision + accuracy of shifting to FFT convolve</p>
+<p>in BF correction</p>
+</td>
+<td><p>2025-05-01T17:26:06Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/410">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50625">DM_50625</a></p></td>
+<td><p>ComCamSim can’t pass minimum voltage check</p></td>
+<td><p>2025-05-01T16:54:46Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/411">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50256">DM_50256</a></p></td>
+<td><p>e2v edge bleeds masking</p></td>
+<td><p>2025-04-30T00:04:42Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/408">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50257">DM_50257</a></p></td>
+<td><p>Investigate best options to test if an amp has died/gone</p>
+<p>dormant, and add necessary code.</p>
+</td>
+<td><p>2025-04-24T23:58:45Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/409">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50336">DM_50336</a></p></td>
+<td><p>Regenerate LSSTCam Run7 PTC with overscan level statistics</p></td>
+<td><p>2025-04-23T17:00:06Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/407">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50295">DM_50295</a></p></td>
+<td><p>Create initial i-band dome flat for LSSTCam</p></td>
+<td><p>2025-04-21T21:19:37Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/406">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50259">DM_50259</a></p></td>
+<td><p>Investigate best options to test if an amp has greatly</p>
+<p>increased read noise, and add necessary code.</p>
+</td>
+<td><p>2025-04-21T19:41:49Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/405">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50305">DM_50305</a></p></td>
+<td><p>Crash in ISR maskITLEdgeBleed</p></td>
+<td><p>2025-04-17T19:56:37Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/403">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49926">DM_49926</a></p></td>
+<td><p>Add MJDs to the PhotonTransferCurveDataset</p></td>
+<td><p>2025-04-17T16:13:30Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/395">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-48964">DM_48964</a></p></td>
+<td><p>Default interpolation for IsrTaskLSST should cover</p>
+<p>UNMASKEDNAN</p>
+</td>
+<td><p>2025-04-15T20:20:39Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/401">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50189">DM_50189</a></p></td>
+<td><p>Add information to exposure metadata in ISR if there is a</p>
+<p>sequencer mismatch</p>
+</td>
+<td><p>2025-04-15T18:05:36Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/400">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-46887">DM_46887</a></p></td>
+<td><p>Calibrations not based on combined inputs need proper header</p>
+<p>information</p>
+</td>
+<td><p>2025-04-15T14:49:51Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/398">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50153">DM_50153</a></p></td>
+<td><p>IsrTaskLSST can try to use ptc.gain when ptc is None</p></td>
+<td><p>2025-04-14T23:29:04Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/399">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50061">DM_50061</a></p></td>
+<td><p>Remove use of afw footprints for ISR masking where possible</p></td>
+<td><p>2025-04-12T18:18:32Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/397">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49175">DM_49175</a></p></td>
+<td><p>Create LSSTCam calibrations from Run 7 using v29</p></td>
+<td><p>2025-04-03T23:30:36Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/388">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49785">DM_49785</a></p></td>
+<td><p>Calibration sequencer header checks should not warn/raise if</p>
+<p>no sequencer information is available</p>
+</td>
+<td><p>2025-04-02T21:27:46Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/390">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-46526">DM_46526</a></p></td>
+<td><p>Bring vendor-provided spatially variable vendor LSSTCam</p>
+<p>filter curves into curated calibrations</p>
+</td>
+<td><p>2025-04-02T21:05:45Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/391">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49749">DM_49749</a></p></td>
+<td><p>Fix to ITL edge bleeds</p></td>
+<td><p>2025-04-01T22:35:00Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/389">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49604">DM_49604</a></p></td>
+<td><p>Update ITL edge bleed masking to handle partial/incomplete</p>
+<p>edge bleeds</p>
+</td>
+<td><p>2025-03-27T04:51:54Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/387">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49500">DM_49500</a></p></td>
+<td><p>Add mask plane for ITL dip for ComCam/LSSTCam processing</p></td>
+<td><p>2025-03-26T17:17:10Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/386">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49497">DM_49497</a></p></td>
+<td><p>Add validity check for BFK ampKernels and reject them from</p>
+<p>makeDetectorKernelFromAmpKernels</p>
+</td>
+<td><p>2025-03-20T15:27:19Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/385">ip_isr</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49308">DM_49308</a></p></td>
+<td><p>Update ITL edge bleed detection and masking</p></td>
+<td><p>2025-03-07T00:19:45Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/ip_isr/pull/383">ip_isr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51266">DM_51266</a></p></td>
+<td><p>Adapt C++ glint finding code to python</p></td>
+<td><p>2025-06-16T22:25:55Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/434">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51361">DM_51361</a></p></td>
+<td><p>Catch NaN values in background subtraction filtering</p></td>
+<td><p>2025-06-12T16:31:43Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/435">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50980">DM_50980</a></p></td>
+<td><p>Experiment with tract-level background subtraction</p></td>
+<td><p>2025-06-04T01:03:28Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/432">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-51066">DM_51066</a></p></td>
+<td><p>Add ability for individual Stamp objects to include a FITS</p>
+<p>header</p>
+</td>
+<td><p>2025-05-28T21:36:59Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/431">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51053">DM_51053</a></p></td>
+<td><p>Refcat loader spends half its time looping over records to</p>
+<p>see if they are in the region</p>
+</td>
+<td><p>2025-05-22T21:19:44Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/430">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50880">DM_50880</a></p></td>
+<td><p>Cosmic Ray code can take a long time and fail on very</p>
+<p>saturated detectors</p>
+</td>
+<td><p>2025-05-14T16:36:42Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/429">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-50729">DM_50729</a></p></td>
+<td><p>DM-48718  prevents coadds from being generated if warps have</p>
+<p>low coverage</p>
+</td>
+<td><p>2025-05-07T21:03:49Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/427">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50457">DM_50457</a></p></td>
+<td><p>PSF fitting errors/warnings in Prompt Processing</p></td>
+<td><p>2025-05-05T19:34:36Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/426">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-48718">DM_48718</a></p></td>
+<td><p>DetectCoaddSourcesTask should raise NoWorkFound fewer than</p>
+<p>minimum number of pixels</p>
+</td>
+<td><p>2025-04-30T23:12:50Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/424">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-50379">DM_50379</a></p></td>
+<td><p>Add missing metadata method to ObjectSizeNoSourcesError</p></td>
+<td><p>2025-04-22T00:21:35Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/422">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-45987">DM_45987</a></p></td>
+<td><p>Convert RuntimeErrors in ObjectSizeStarSelector to</p>
+<p>AlgorithmError</p>
+</td>
+<td><p>2025-04-16T21:20:43Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/421">meas_algorithms</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-41146">DM_41146</a></p></td>
+<td><p>Remove AstrometrySourceSelector and MatcherSourceSelector</p></td>
+<td><p>2025-04-10T23:26:21Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_algorithms/pull/420">meas_algorithms</a>, <a class="reference external" href="https://github.com/lsst/meas_astrom/pull/206">meas_astrom</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-46523">DM_46523</a></p></td>
+<td><p>Remove Pandas support in MatchTractCatalogTask</p></td>
+<td><p>2025-06-10T23:51:44Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_astrom/pull/209">meas_astrom</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-44400">DM_44400</a></p></td>
+<td><p>Fix diff_matched test thresholds</p></td>
+<td><p>2025-03-19T15:23:26Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_astrom/pull/205">meas_astrom</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51407">DM_51407</a></p></td>
+<td><p>Filtering ref cats can take very long for</p>
+<p>forcedPhotObjectDirect and forcedPhotObjectDifference</p>
+</td>
+<td><p>2025-06-16T23:38:17Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_base/pull/310">meas_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49628">DM_49628</a></p></td>
+<td><p>Behavior of negative peaks in SdssCentroid/SdssShape</p></td>
+<td><p>2025-04-16T16:43:14Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_base/pull/306">meas_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-49997">DM_49997</a></p></td>
+<td><p>Reallocate bits between data release and controller for</p>
+<p>source IDs</p>
+</td>
+<td><p>2025-04-10T03:05:53Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_base/pull/304">meas_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-46908">DM_46908</a></p></td>
+<td><p>Cleanups of SdssCentroid while investigating negative</p>
+<p>sources</p>
+</td>
+<td><p>2025-04-01T00:13:53Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_base/pull/303">meas_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-44030">DM_44030</a></p></td>
+<td><p>Remove NaiveDipoleCentroid/NaiveDipoleFlux</p></td>
+<td><p>2025-03-31T22:41:40Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_base/pull/302">meas_base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49452">DM_49452</a></p></td>
+<td><p>Deprecate and disable PhotoCalib uncertainty propagation in</p>
+<p>forcedPhotCcd and postprocessing</p>
+</td>
+<td><p>2025-03-27T04:16:41Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/meas_base/pull/299">meas_base</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://ls.st/DM-51918">DM_51918</a></p></td>
+<td><p>Fix verify assertion error for task timing</p></td>
+<td><p>2025-07-23T23:29:40Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/verify/pull/128">verify</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://ls.st/DM-49464">DM_49464</a></p></td>
+<td><p>Make missing APDB metadata table an error</p></td>
+<td><p>2025-03-17T19:09:45Z</p></td>
+<td><p>main</p></td>
+<td><p><a class="reference external" href="https://github.com/lsst/verify/pull/127">verify</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="v29_2_1.html" class="btn btn-neutral float-left" title="v29_2_1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="v29_1_1.html" class="btn btn-neutral float-right" title="v29_1_1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)..
+      <span class="lastupdated">Last updated on 2026-01-12 00:08 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
