@@ -22,7 +22,6 @@ import concurrent.futures
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Set, Iterable
 
 import urllib3
 from bs4 import BeautifulSoup
@@ -47,26 +46,26 @@ class PackageEntry:
 @dataclass(frozen=True)
 class Release:
     tag: Tag
-    packages: List[PackageEntry]
+    packages: list[PackageEntry]
 
 
 @dataclass
 class ReleaseCollection:
-    releases: Dict[Tag, List[PackageEntry]]
-    products: Set[str]
+    releases: dict[Tag, list[PackageEntry]]
+    products: set[str]
 
 
 @dataclass(frozen=True)
 class PackageDiff:
-    added: Set[str]
-    removed: Set[str]
-    packages: Set[str]
+    added: set[str]
+    removed: set[str]
+    packages: set[str]
 
 
 @dataclass
 class ReleaseResult:
     data: ReleaseCollection
-    diffs: Dict[Tag, PackageDiff]
+    diffs: dict[Tag, PackageDiff]
 
 
 # -----------------------------------------------------------------------------
@@ -88,9 +87,9 @@ class EupsData:
     # ------------------------------------------------------------------
 
     @staticmethod
-    def _process_list(data: bytes) -> List[PackageEntry]:
+    def _process_list(data: bytes) -> list[PackageEntry]:
         """Parse an EUPS `.list` file into package entries."""
-        entries: List[PackageEntry] = []
+        entries: list[PackageEntry] = []
 
         for line in data.splitlines():
             if not line or line.startswith((b"#", b"EUPS distribution")):
@@ -105,7 +104,7 @@ class EupsData:
 
         return entries
 
-    def _get_url_paths(self) -> List[str]:
+    def _get_url_paths(self) -> list[str]:
         """Retrieve all `.list` file URLs from the EUPS server."""
         try:
             response = self._http.request(
@@ -133,7 +132,7 @@ class EupsData:
             if a["href"].endswith(".list")
         ]
 
-    def _download(self, url: str) -> Optional[Release]:
+    def _download(self, url: str) -> Release | None:
         """Download and parse a single EUPS `.list` file."""
         try:
             response = self._http.request(
@@ -163,10 +162,9 @@ class EupsData:
 
     def get_release(self, release_type: ReleaseType) -> ReleaseCollection:
         """Retrieve all releases for a specific release type."""
-
         urls = self._get_url_paths()
 
-        release_urls: List[str] = []
+        release_urls: list[str] = []
         for url in urls:
             name = url.rsplit("/", 1)[-1].removesuffix(".list")
             tag = Tag(name)
@@ -178,7 +176,7 @@ class EupsData:
 
             release_urls.append(url)
 
-        releases: Dict[Tag, List[PackageEntry]] = {}
+        releases: dict[Tag, list[PackageEntry]] = {}
 
         with ThreadPoolExecutor(max_workers=self._connections) as executor:
             futures = [executor.submit(self._download, url) for url in release_urls]
@@ -188,25 +186,18 @@ class EupsData:
                 if release is not None:
                     releases[release.tag] = release.packages
 
-        products: Set[str] = {
-            entry.package
-            for packages in releases.values()
-            for entry in packages
-        }
+        products: set[str] = {entry.package for packages in releases.values() for entry in packages}
 
         return ReleaseCollection(releases=releases, products=products)
 
     @staticmethod
-    def get_package_diff(collection: ReleaseCollection) -> Dict[Tag, PackageDiff]:
+    def get_package_diff(collection: ReleaseCollection) -> dict[Tag, PackageDiff]:
         """Compute added and removed packages between releases."""
-
-        result: Dict[Tag, PackageDiff] = {}
-        previous_packages: Optional[Set[str]] = None
+        result: dict[Tag, PackageDiff] = {}
+        previous_packages: set[str] | None = None
 
         for tag in sorted(collection.releases):
-            current_packages = {
-                entry.package for entry in collection.releases[tag]
-            }
+            current_packages = {entry.package for entry in collection.releases[tag]}
 
             if previous_packages is not None:
                 result[tag] = PackageDiff(
@@ -221,17 +212,14 @@ class EupsData:
 
     def get_releases(self, release_type: ReleaseType) -> ReleaseResult:
         """Retrieve releases and package diffs for a release type."""
-
         data = self.get_release(release_type)
         diffs = self.get_package_diff(data)
         return ReleaseResult(data=data, diffs=diffs)
 
-    def get_all_releases(self) -> Dict[str, ReleaseResult]:
+    def get_all_releases(self) -> dict[str, ReleaseResult]:
         """Retrieve weekly and regular releases."""
-
         return {
             "weekly": self.get_releases(ReleaseType.WEEKLY),
             "regular": self.get_releases(ReleaseType.REGULAR),
+            "daily": self.get_releases(ReleaseType.DAILY),
         }
-
-

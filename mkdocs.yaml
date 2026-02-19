@@ -1,0 +1,50 @@
+site_name: Rubin Git Changelog
+theme:
+  name: material
+  logo: assets/rubin-titlebar-imagotype-dark.svg
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+    - navigation.top
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: blue
+      accent: blue
+    
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+      primary: blue
+      accent: blue
+
+nav:
+  - Home: index.md
+  - Releases: releases/index.md
+  - Weekly: weekly/index.md
+  - Daily: daily/index.md
+
+
+
+extra_css:
+  - stylesheets/custom.css
+
+extra_javascript:
+  - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js
+  - https://cdn.jsdelivr.net/npm/tablesort@5.3.0/src/sorts/tablesort.number.min.js
+  - javascripts/tablesort-natural.js
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+copyright: Copyright &copy Association of Universities for Research in Astronomy, Inc. (AURA).

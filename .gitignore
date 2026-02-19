@@ -1,0 +1,8 @@
+docs/weekly/index.md
+docs/daily/index.md
+docs/releases/index.md
+cache/
+__pycache__
+*egg-info/
+*.pyc
+site/

@@ -1,0 +1,127 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lsst-changelog"
+requires-python = ">=3.11.0"
+description = "A git changelog generator for LSST pipeline releases."
+license = "BSD-3-Clause OR GPL-3.0-or-later"
+license-files = ["COPYRIGHT", "LICENSE", "bsd_license.txt", "gpl-v3.0.txt"]
+readme = "README.md"
+version = "0.1.0"
+authors = [
+    {name="Rubin Observatory Data Management", email="dm-admin@lists.lsst.org"},
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+keywords = ["lsst"]
+dependencies = [
+    "requests>=2.28.0",
+    "pyyaml>=6.0",
+    "jira>=3.5.0",
+    "beautifulsoup4>=4.11.0",
+    "urllib3>=1.26.0",
+    "mkdocs",
+    "mkdocs-material"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "types-requests>=2.28.0",
+    "types-pyyaml>=6.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["python"]
+
+[tool.setuptools]
+zip-safe = true
+
+[tool.black]
+line-length = 110
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 110
+known_first_party = ["lsst"]
+
+convention = "numpy"
+# Our coding style does not require docstrings for magic methods (D105)
+# Our docstyle documents __init__ at the class level (D107)
+# We allow methods to inherit docstrings and this is not compatible with D102.
+# Docstring at the very first line is not required
+# D200, D205 and D400 all complain if the first sentence of the docstring does
+# not fit on one line. We do not require docstrings in __init__ files (D104).
+add-ignore = ["D107", "D105", "D102", "D100", "D200", "D205", "D400", "D104", "D101", "D103"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+ignore = [
+    "D105",
+    "D102",
+    "D104",
+    "D100",
+    "D200",
+    "D205",
+    "D400",
+    "D101",
+    "D103",
+    "UP022",
+]
+select = [
+    "E",  # pycodestyle
+    "F",  # pycodestyle
+    "N",  # pep8-naming
+    "W",  # pycodestyle
+    "D",  # pydocstyle
+    "UP",  # pyupgrade
+    "I",  # isort
+    "RUF022",  # sort __all__
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["changelog"]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 79
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.format]
+docstring-code-format = true
+# Formatter does not know about indenting.
+docstring-code-line-length = 69
+
+[tool.numpydoc_validation]
+checks = [
+    "all",  # All except the rules listed below.
+    "SA01",  # See Also section.
+    "SA04",  # We don't use descriptions with See Also.
+    "EX01",  # Example section.
+    "SS06",  # Summary can go into second line.
+    "GL01",  # Summary text can start on same line as """
+    "GL08",  # Do not require docstring.
+    "ES01",  # No extended summary required.
+    "RT01",  # Unfortunately our @property trigger this.
+    "RT02",  # Does not want named return value. DM style says we do.
+    "SS05",  # pydocstyle is better at finding infinitive verb.
+    "RT03",  # Temporarily disable for sphinx empty returns.
+    "PR04",  # New Sphinx can infer types from python typing
+]

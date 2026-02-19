@@ -1,0 +1,53 @@
+name: Generate changelog
+
+on:
+    push:
+        branches:
+            - new_changelog
+    schedule:
+        - cron: '15 * * * *'
+    workflow_dispatch:
+
+jobs:
+    generate:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - uses: actions/checkout@v4
+            
+            - uses: actions/setup-python@v5
+              with:
+                python-version: '3.13'
+            
+            - name: Cache changelog data
+              uses: actions/cache@v4
+              with:
+                path: |
+                  cache/git/
+                  cache/jira.sqlite
+                key: changelog-cache-${{ github.run_id }}
+                restore-keys: |
+                  changelog-cache-
+            
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                python -m pip install .
+            
+            - name: Create Changelog
+              run: |
+                 python generate.py
+                 mkdocs build
+              env:
+                AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            
+            - name: Deploy to GitHub Pages
+              if: success()
+              uses: crazy-max/ghaction-github-pages@v2
+              with:
+                target_branch: gh-pages
+                build_dir: site
+                jekyll: false
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
