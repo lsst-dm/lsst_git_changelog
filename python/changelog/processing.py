@@ -6,7 +6,7 @@ from changelog.jira import JiraData, JiraTicket
 from changelog.models import ChangelogData, Config, Package, ReleaseConfig, Ticket
 from changelog.releases import ReleaseData
 from changelog.tag import ReleaseType
-from changelog.utils import get_repo_list, read_repo_yaml
+from changelog.utils import get_repo_list, read_repo_default_branches, read_repo_yaml
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -254,6 +254,7 @@ def fetch_changelog_data(config: Config) -> ChangelogData:
     logging.info("Initializing Git repositories")
     git = Git(config.cache_dir, package_list, release_data.all_packages)
     git.clone_all_packages()
+    git.update_all_heads(read_repo_default_branches())
     git.tag_all(release_data.tag_list[ReleaseType.DAILY])
 
     logging.info("Getting branches from Git repositories")

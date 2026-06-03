@@ -145,12 +145,22 @@ def get_release_date(end, eups_tags: dict, git) -> str | None:
     return None
 
 
-def write_doc(release, shared_data, filename):
+def write_doc(release, shared_data, filename, include_head_diff=False):
     with open(filename, "w") as f:
         generated_at = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
         print(f"*Last updated: {generated_at}*\n\n", file=f)
         result = get_entries(release)
         first = True
+
+        if include_head_diff and result:
+            last_key = max(result.keys())
+            rel_config = ReleaseConfig(start_ref=last_key.git_name(), end_ref="HEAD", eups_tag=last_key)
+            tickets = generate_changelog(rel_config, shared_data)
+            print("## HEAD\n\n", file=f)
+            print(f"**Tickets merged:** {len(tickets)}\n\n", file=f)
+            print(create_markdown_table(tickets), file=f)
+            first = False
+
         for key, (start, end) in reversed(result.items()):
             if not first:
                 print("---\n\n", file=f)
@@ -172,5 +182,5 @@ config = Config()
 shared_data = fetch_changelog_data(config)
 releases = shared_data.release_data
 write_doc(releases.releases, shared_data, 'docs/releases/index.md')
-write_doc(releases.weekly_releases,shared_data, 'docs/weekly/index.md')
-write_doc(releases.daily_releases, shared_data, 'docs/daily/index.md')
+write_doc(releases.weekly_releases, shared_data, 'docs/weekly/index.md', include_head_diff=True)
+write_doc(releases.daily_releases, shared_data, 'docs/daily/index.md', include_head_diff=True)
