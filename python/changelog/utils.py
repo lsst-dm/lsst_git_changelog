@@ -55,6 +55,29 @@ def read_repo_yaml() -> dict[str, str]:
     return result
 
 
+def read_repo_default_branches() -> dict[str, str]:
+    """Fetch the LSST repository list and return per-repo default branches.
+
+    Returns
+    -------
+    dict[str, str]
+        Mapping of package name to its default branch (e.g. ``"main"``).
+        Repos whose YAML entry does not specify ``default_branch`` default
+        to ``"main"``.
+    """
+    url = "https://raw.githubusercontent.com/lsst/repos/refs/heads/main/etc/repos.yaml"
+    response = requests.get(url)
+    response.raise_for_status()
+    data = yaml.safe_load(response.text)
+    result = {}
+    for key, value in data.items():
+        if isinstance(value, dict):
+            result[key] = value.get("ref", "main")
+        else:
+            result[key] = "main"
+    return result
+
+
 def get_repo_list() -> list[tuple[str, str]]:
     """Return all repositories as ``(owner, repo)`` tuples.
 

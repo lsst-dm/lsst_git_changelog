@@ -368,6 +368,83 @@ class Git:
         except Exception:
             return None
 
+    def update_head(self, repo_name: str, ref: str = "main") -> None:
+        """Update the HEAD symbolic ref in a single bare repository.
+
+        Parameters
+        ----------
+        repo_name : str
+            Name of the package / repository subdirectory.
+        ref : str, optional
+            Branch name to point HEAD at. Default is ``"main"``.
+
+        Raises
+        ------
+        RuntimeError
+            If the repository directory does not exist.
+        subprocess.CalledProcessError
+            If the git command fails.
+        """
+        repo_path = Path(self.repo_path) / repo_name
+        if not repo_path.exists():
+            raise RuntimeError(f"Repository {repo_name} does not exist at {repo_path}")
+        # Fetch only metadata (no blobs/files)
+        self._run_git([
+            "git", "-C", str(repo_path),
+            "fetch", "--filter=blob:none", "origin", f"{ref}:refs/remotes/origin/{ref}",
+        ])
+
+        # Now update the refs
+        self._run_git([
+            "git", "-C", str(repo_path),
+            "update-ref", f"refs/heads/{ref}", f"refs/remotes/origin/{ref}",
+        ])
+
+        self._run_git([
+            "git", "-C", str(repo_path),
+            "symbolic-ref", "HEAD", f"refs/heads/{ref}",
+        ])
+
+
+
+    def update_all_heads(
+        self,
+        default_branches: dict[str, str] | None = None,
+        fallback: str = "main",
+    ) -> dict[str, Exception | None]:
+        """Update HEAD across all repositories in parallel.
+
+        Parameters
+        ----------
+        default_branches : dict[str, str] or None, optional
+            Per-repo branch names (e.g. from ``read_repo_default_branches``).
+            When a repo is not present in the mapping, ``fallback`` is used.
+        fallback : str, optional
+            Branch name used when ``default_branches`` has no entry for a
+            repo. Default is ``"main"``.
+
+        Returns
+        -------
+        dict[str, Exception or None]
+            Mapping of package name to ``None`` on success or the exception
+            raised on failure.
+        """
+        branches = default_branches or {}
+
+        def task(name):
+            ref = branches.get(name, fallback)
+            try:
+                self.update_head(name, ref)
+                return name, None
+            except Exception as exc:
+                return name, exc
+
+        results: dict[str, Exception | None] = {}
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            for name, exc in executor.map(task, self.repo_list):
+                results[name] = exc
+        return results
+
     def get_merges(self, name: str, begin_tag: str, end_tag: str) -> list[MergeEntry]:
         """Return all merge commits in a repository between two refs.
 
