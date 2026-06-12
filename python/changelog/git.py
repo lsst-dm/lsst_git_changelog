@@ -488,7 +488,7 @@ class Git:
             message = parts[2] if len(parts) > 2 else ""
             pr_match = re.search(r"Merge pull request #(\d+)", message)
             pr_number = int(pr_match.group(1)) if pr_match else None
-            ticket_match = re.search(r"(?:DM|SP)-(\d+)", message)
+            ticket_match = re.search(r"(?:DM|SP|RSO)-(\d+)", message)
             ticket_number = f"{ticket_match.group(0)}" if ticket_match else None
             branch = None
             from_match = re.search(r"from [^/]+/(\S+)", message)

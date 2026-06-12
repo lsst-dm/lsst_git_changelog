@@ -85,7 +85,7 @@ class JiraData:
     # ---------- public API ----------
 
     def get_tickets(self) -> dict[str, JiraTicket]:
-        """Return all tickets for the DM and SP projects.
+        """Return all tickets for the DM, SP and RSO projects.
 
         Syncs any new issues from Jira before returning cached data.
 
@@ -95,7 +95,7 @@ class JiraData:
             Mapping of ticket identifier (e.g. ``"DM-12345"``) to
             ``JiraTicket``.
         """
-        tickets: list[JiraTicket] = self.get_projects_tickets(["DM", "SP"])
+        tickets: list[JiraTicket] = self.get_projects_tickets(["DM", "SP", "RSO"])
         # keys as "SP-1", "DM-1" to avoid collisions
         return {f"{t.project}-{t.key}": t for t in tickets}
 
