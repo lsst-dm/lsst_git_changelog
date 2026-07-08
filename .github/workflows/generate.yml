@@ -20,15 +20,15 @@ jobs:
               with:
                 python-version: '3.13'
             
-            - name: Cache changelog data
-              uses: actions/cache@v4
-              with:
-                path: |
-                  cache/git/
-                  cache/jira.sqlite
-                key: changelog-cache-${{ github.run_id }}
-                restore-keys: |
-                  changelog-cache-
+            # - name: Cache changelog data
+            #  uses: actions/cache@v4
+            #  with:
+            #    path: |
+            #      cache/git/
+            #      cache/jira.sqlite
+            #    key: changelog-cache-${{ github.run_id }}
+            #    restore-keys: |
+            #      changelog-cache-
             
             - name: Install dependencies
               run: |
