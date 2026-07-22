@@ -63,33 +63,36 @@ def get_entries(entries_dict):
     result = dict()
     previous_release_tag = None
     previous_major_release_tag = None
-
     for name, entries in entries_dict.items():
         if not entries:
             continue
-
+        latest_rc_tag = None          # tracks the latest RC seen for this key
         for entry in entries:
             current_last_tag = entry.last_tag
-
             if current_last_tag.is_release():
+                # Final release — discard any pending RC for this line
+                latest_rc_tag = None
                 if previous_release_tag is not None:
                     if current_last_tag.is_major_release():
                         lower_bound = previous_major_release_tag \
                                       if previous_major_release_tag is not None else previous_release_tag
                     else:
                         lower_bound = previous_release_tag
-
                     result[current_last_tag] = (lower_bound, current_last_tag)
-
                 previous_release_tag = current_last_tag
-
-                # Update previous major release if this is a major release
                 if current_last_tag.is_major_release():
                     previous_major_release_tag = current_last_tag
+            elif current_last_tag.is_regular():
+                # RC tag — keep advancing to the latest one in the sequence
+                latest_rc_tag = current_last_tag
             elif current_last_tag.is_daily() or current_last_tag.is_weekly():
                 if previous_release_tag is not None:
                     result[current_last_tag] = (previous_release_tag, current_last_tag)
                 previous_release_tag = current_last_tag
+
+        # Key ended on an RC (no final release yet) — emit it
+        if latest_rc_tag is not None and previous_release_tag is not None:
+            result[latest_rc_tag] = (previous_release_tag, latest_rc_tag)
     return result
 
 def get_release_tags(entries_dict):
