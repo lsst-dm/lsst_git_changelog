@@ -1,0 +1,100 @@
+/* Change logo size */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 48px;  /* Default is 24px */
+  width: auto;
+}
+
+.md-header {
+    background-color: #1565C0 !important;  /* Darker blue */
+}
+
+.md-tabs {
+    background-color: #1565C0 !important;  /* Darker blue */
+}
+
+/* Expand the content container to full width */
+.md-grid {
+    max-width: 100%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.md-main__inner {
+    max-width: none;
+}
+
+.md-content__inner {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+}
+
+.md-typeset table {
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 1em;  /* Smaller font */
+    line-height: 1.2;  /* Tighter line height */
+}
+
+/* Minimal padding for very compact look */
+.md-typeset table th,
+.md-typeset table td {
+    padding: 0.1em 0.3em !important;  /* Much smaller padding */
+    white-space: normal !important;
+    word-wrap: break-word;
+    vertical-align: top;  /* Align content to top */
+}
+
+
+/* Make the 2nd column (Description) specifically wider */
+.md-typeset table th:nth-child(2),
+.md-typeset table td:nth-child(2) {
+    width: 60%;
+    min-width: 350px;
+}
+
+/* Alternating row colors - LIGHT BLUE */
+.md-typeset table tbody tr:nth-child(odd) {
+    background-color: rgba(33, 150, 243, 0.12);  /* Light blue for odd rows */
+}
+
+.md-typeset table tbody tr:nth-child(even) {
+    background-color: white;  /* White for even rows */
+}
+
+/* Hover effect for better UX */
+.md-typeset table tbody tr:hover {
+    background-color: rgba(33, 150, 243, 0.25);  /* Darker blue on hover */
+}
+
+/* Header styling - LIGHT BLUE */
+.md-typeset table thead tr {
+    background-color: rgba(33, 150, 243, 0.18);  /* Light blue header */
+}
+
+.md-typeset table thead th {
+    padding: 0.3em 0.4em !important;  /* Slightly more padding for headers */
+}
+
+/* Horizontal scroll for very wide tables */
+.md-typeset__table {
+    overflow-x: auto;
+}
+
+/* Dark mode support - LIGHT BLUE */
+[data-md-color-scheme="slate"] .md-typeset table tbody tr:nth-child(odd) {
+    background-color: rgba(33, 150, 243, 0.15);  /* Light blue for dark mode */
+}
+
+[data-md-color-scheme="slate"] .md-typeset table tbody tr:nth-child(even) {
+    background-color: transparent;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table tbody tr:hover {
+    background-color: rgba(33, 150, 243, 0.3);  /* Darker hover for dark mode */
+}
+
+[data-md-color-scheme="slate"] .md-typeset table thead tr {
+    background-color: rgba(33, 150, 243, 0.2);  /* Light blue header for dark mode */
+}}
